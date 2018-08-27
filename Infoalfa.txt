@@ -1,0 +1,77 @@
+ID della pagina a cui accedere per velocizzare le operazioni di JS;
+
+Navbar:<section> che contiene il blocco della navbar(barra di navigazione);
+
+Contenuto:<section> che contiene tutto quello che sta graficamente sotto alla navbar;
+
+VideoInformation:<section> che contiene tutto il blocco di informazioni sul video:titolo,artista,album,anno etc.;
+
+SongTitle: <a> che contiene il titolo della canzone;
+
+SongArtist: <a> che contiene l'artista della canzone;
+
+SongAlbum: <a> che contiene l'album della canzone;
+
+SongYear: <a> che contiene l'anno della canzone;
+
+SongCode: <a> che contiene il codice Youtube della canzone;
+
+SongDuration: <a> che contiene la durata del video di Youtube della canzone;
+
+SongQuality: <a> che contiene la qualità del video di Youtube della canzone;
+
+VideoPlayer: <section> che contiene tutto il blocco riguardante il player del video;
+
+WikiVideo: <section> che contiene tutto il blocco dei riferimenti al video:descrizione,commenti,Pagina di Wikipedia;
+
+YTDescription: <div> che contiene la descrizione del video di Youtube;
+
+YTComment: <div> che contiene i commenti del video di Youtube;
+
+WPDescription: <div> che contiene la pagina di Wikipedia correlata al video;
+
+VideoPlaylist: <section> che contiene tutto il blocco delle playlist di video;
+
+NVPL1:<span> che contiene il numero di video per la prima playlist;
+NVPL2:<span> che contiene il numero di video per la seconda playlist;
+NVPL3:<span> che contiene il numero di video per la terza playlist;
+NVPL4:<span> che contiene il numero di video per la quarta playlist;
+NVPL5:<span> che contiene il numero di video per la quinta playlist;
+NVPL6:<span> che contiene il numero di video per la sesta playlist;
+NVPL7:<span> che contiene il numero di video per la settima playlist;
+
+YTPL1:<div> che contiene il blocco di video della prima playlist;
+YTPL2:<div> che contiene il blocco di video della seconda playlist;
+YTPL3:<div> che contiene il blocco di video della terza playlist;
+YTPL4:<div> che contiene il blocco di video della quarta playlist;
+YTPL5:<div> che contiene il blocco di video della quinta playlist;
+YTPL6:<div> che contiene il blocco di video della sesta playlist;
+YTPL7:<div> che contiene il blocco di video della settima playlist;
+
+per ogni video nella playlist si crea un oggetto così formato:
+
+<article id="NVideo" class="panel-body">
+    <div class="well text-center">
+        <a href="#" class="btn btn-primary">
+            <img class="img-thumbnail img-responsive" src="https://img.youtube.com/vi/INSERIRE_CODICE_YOUTUBE_VIDEO_QUI/hqdefault.jpg"/>
+        </a>
+        <h4 class="lead text-capitalize">Titolo del Video</h4>
+        <p class="lead text-lowercase"> 
+        Lorem ipsum dolor sit amet, consectetur adipisci elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. 
+        Ut enim ad minim veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur.
+        </p>
+    </div>
+</article>
+
+per ogni commento nella sezione di Youtube si crea un oggetto così formato:
+
+<article id="IDComment" class="media">
+    <div class="media-left media-middle">
+        <img src="favicon.png" class="media-object" style="width:64px">
+    </div>
+    <div class="media-body">
+        <h4 class="media-heading">utente PincoPallino:</h4>
+        <p>DarudeSandStorm XDXDXD</p>
+    </div>
+    <hr/>
+</article>
