@@ -1,6 +1,6 @@
-import AppBar from './AppBar'
-import BottomNavigation from './BottomNavigation'
+import AppBar from './AppBar/AppBar'
+import Main from './Main/Main'
 
 export {
-  AppBar, BottomNavigation
+  AppBar, Main
 }
