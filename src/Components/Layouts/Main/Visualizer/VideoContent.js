@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Paper from '@material-ui/core/Paper'
 import { withStyles } from '@material-ui/core/styles'
@@ -29,7 +29,7 @@ const styles = theme => ({
   },
 })
 
-class VideoContent extends React.Component {
+class VideoContent extends Component {
   state = {
     value: 0,
   }

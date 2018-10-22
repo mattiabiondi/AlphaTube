@@ -1,14 +1,15 @@
-import React from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Paper from '@material-ui/core/Paper'
 import { withStyles } from '@material-ui/core/styles'
-import AppBar from '@material-ui/core/AppBar'
 import Tabs from '@material-ui/core/Tabs'
 import Tab from '@material-ui/core/Tab'
 import Typography from '@material-ui/core/Typography'
+import Popularity from './Popularity.js'
 import SearchIcon from '@material-ui/icons/Search'
 import AlbumIcon from '@material-ui/icons/Album'
 import PersonIcon from '@material-ui/icons/Person'
+import GroupIcon from '@material-ui/icons/Group'
 import AudiotrackIcon from '@material-ui/icons/Audiotrack'
 import QueueMusicIcon from '@material-ui/icons/QueueMusic'
 import RestoreIcon from '@material-ui/icons/Restore'
@@ -36,7 +37,7 @@ const styles = theme => ({
   },
 })
 
-class Recommender extends React.Component {
+class Recommender extends Component {
   state = {
     value: 0,
   }
@@ -61,12 +62,13 @@ class Recommender extends React.Component {
           >
             <Tab icon={<SearchIcon />} label="Search" />
             <Tab icon={<PersonIcon />} label="Artist" />
+            <Tab icon={<GroupIcon />} label="Band" />
             <Tab icon={<AlbumIcon />} label="Album" />
             <Tab icon={<AudiotrackIcon />} label="Genre" />
             <Tab icon={<QueueMusicIcon />} label="Related" />
-            <Tab icon={<RestoreIcon />} label="Recent" />
             <Tab icon={<WhatshotIcon />} label="Popularity" />
             <Tab icon={<SchoolIcon />} label="Fvitali" />
+            <Tab icon={<RestoreIcon />} label="Recent" />
             <Tab icon={<ShuffleIcon />} label="Random" />
           </Tabs>
         {value === 0 && <TabContainer>Item One</TabContainer>}
@@ -75,9 +77,10 @@ class Recommender extends React.Component {
         {value === 3 && <TabContainer>Item Four</TabContainer>}
         {value === 4 && <TabContainer>Item Five</TabContainer>}
         {value === 5 && <TabContainer>Item Six</TabContainer>}
-        {value === 6 && <TabContainer>Item Seven</TabContainer>}
+        {value === 6 && <TabContainer><Popularity /></TabContainer>}
         {value === 7 && <TabContainer>Item Eight</TabContainer>}
         {value === 8 && <TabContainer>Item Nine</TabContainer>}
+        {value === 9 && <TabContainer>Item Ten</TabContainer>}
         </Paper>
     )
   }

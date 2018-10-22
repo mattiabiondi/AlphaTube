@@ -3,12 +3,12 @@ import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
 import Paper from '@material-ui/core/Paper'
 
-
 const styles = theme => ({
-  paper: {
+  root: {
+    flexGrow: 1,
     padding: theme.spacing.unit * 2,
     textAlign: 'center',
-    color: theme.palette.text.secondary,
+    backgroundColor: theme.palette.background.paper,
   },
 })
 
@@ -16,7 +16,7 @@ function Video(props) {
   const { classes } = props;
 
   return (
-    <Paper className={classes.paper}>
+    <Paper className={classes.root}>
       VIDEO
     </Paper>
   )
