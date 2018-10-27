@@ -54,8 +54,6 @@ class Drawer extends Component {
           <div
             tabIndex={0}
             role="button"
-            onClick={this.toggleDrawer('left', false)}
-            onKeyDown={this.toggleDrawer('left', false)}
           >
           {sideList}
           </div>

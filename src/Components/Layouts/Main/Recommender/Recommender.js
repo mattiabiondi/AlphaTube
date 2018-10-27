@@ -17,6 +17,7 @@ import WhatshotIcon from '@material-ui/icons/Whatshot'
 import SchoolIcon from '@material-ui/icons/School'
 import ShuffleIcon from '@material-ui/icons/Shuffle'
 
+
 function TabContainer(props) {
   return (
     <Typography component="div" style={{ padding: 8 * 3 }}>
@@ -43,12 +44,12 @@ class Recommender extends Component {
   }
 
   handleChange = (event, value) => {
-    this.setState({ value });
+    this.setState({ value })
   }
 
   render() {
-    const { classes } = this.props;
-    const { value } = this.state;
+    const { classes } = this.props
+    const { value } = this.state
 
     return (
       <Paper className={classes.root}>
@@ -73,7 +74,7 @@ class Recommender extends Component {
           </Tabs>
         {value === 0 && <TabContainer>Item One</TabContainer>}
         {value === 1 && <TabContainer>Item Two</TabContainer>}
-        {value === 2 && <TabContainer>Item Three</TabContainer>}
+        {value === 2 && <TabContainer></TabContainer>}
         {value === 3 && <TabContainer>Item Four</TabContainer>}
         {value === 4 && <TabContainer>Item Five</TabContainer>}
         {value === 5 && <TabContainer>Item Six</TabContainer>}

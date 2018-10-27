@@ -67,17 +67,17 @@ const styles = theme => ({
       },
     },
   },
-});
+})
 
 function SearchAppBar(props) {
-  const { classes } = props;
+  const { classes } = props
   return (
     <div className={classes.root}>
       <AppBar position="static">
         <Toolbar>
           <Drawer />
 
-          <Typography className={classes.title} variant="h6" color="inherit" noWrap>
+          <Typography className={classes.title} variant="title" color="inherit" noWrap>
             &alpha;Tube
           </Typography>
 
@@ -98,11 +98,11 @@ function SearchAppBar(props) {
         </Toolbar>
       </AppBar>
     </div>
-  );
+  )
 }
 
 SearchAppBar.propTypes = {
   classes: PropTypes.object.isRequired,
-};
+}
 
-export default withStyles(styles)(SearchAppBar);
+export default withStyles(styles)(SearchAppBar)

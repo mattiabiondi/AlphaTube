@@ -4,7 +4,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon'
 import ListItemText from '@material-ui/core/ListItemText'
 import MusicVideoIcon from '@material-ui/icons/MusicVideo'
 import FeedbackIcon from '@material-ui/icons/Feedback'
-import InfoIcon from '@material-ui/icons/Info'
+import Info from './Info'
 
 export const bottomItems = (
   <div>
@@ -20,11 +20,6 @@ export const bottomItems = (
       </ListItemIcon>
       <ListItemText primary="Feedback" />
     </ListItem>
-    <ListItem button>
-      <ListItemIcon>
-        <InfoIcon />
-      </ListItemIcon>
-      <ListItemText primary="Info" />
-    </ListItem>
+    <Info />
   </div>
 )
