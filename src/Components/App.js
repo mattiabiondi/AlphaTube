@@ -19,13 +19,24 @@ const theme = createMuiTheme({
 })
 
 export default class extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+    videos: null
+    };
+  }
+
+  handleResults = (results) => {
+    this.setState({ videos: results });
+  }
+
   render() {
     return (
       <MuiThemeProvider theme={theme}>
         <Fragment> {/* A differenza dei 'div', i 'Fragment' non aggiungono nodi al DOM */}
           <CssBaseline/> {/* Utilizzo del componente di stile precedentemente importato */}
-          <AppBar />
-          <Main />
+          <AppBar handleResults={this.handleResults}/>
+          <Main videos={this.state.videos}/>
         </Fragment>
       </MuiThemeProvider>
     )

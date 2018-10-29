@@ -5,7 +5,6 @@ import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemText from '@material-ui/core/ListItemText'
 import Avatar from '@material-ui/core/Avatar'
-import PersonIcon from '@material-ui/icons/Person'
 import Mattia from './Avatars'
 
 const styles = theme => ({
@@ -23,7 +22,7 @@ function FolderList(props) {
       <List>
         <ListItem>
           <Avatar>
-            <PersonIcon />
+            AA
           </Avatar>
           <ListItemText primary="Andrea Alfiero" secondary="non.lo.so@studio.unibo.it" />
         </ListItem>

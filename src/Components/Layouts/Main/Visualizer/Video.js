@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
 import Paper from '@material-ui/core/Paper'
+import YouTube from 'react-youtube';
 
 const styles = theme => ({
   root: {
@@ -12,14 +13,31 @@ const styles = theme => ({
   },
 })
 
-function Video(props) {
-  const { classes } = props;
+class Video extends Component {
+  render() {
+    const { classes } = this.props
+    const videos = this.props.videos
+    var id = "MZ_fuULswHo"
 
-  return (
-    <Paper className={classes.root}>
-      VIDEO
-    </Paper>
-  )
+    if(videos != null)
+      id = videos[0].id
+
+    const opts = {
+      width: '100%',
+      playerVars: { // https://developers.google.com/youtube/player_parameters
+        autoplay: false
+      }
+    }
+
+    return (
+      <Paper className={classes.root}>
+        <YouTube
+          videoId={id}
+          opts={opts}
+        />
+      </Paper>
+    )
+  }
 }
 
 Video.propTypes = {
