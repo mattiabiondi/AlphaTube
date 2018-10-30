@@ -60,13 +60,15 @@ class Search extends Component {
 
   onInputChange(event) {
       this.setState({ term: event.target.value });
-      this.handleYTsearch(event.target.value)
+      this.handleYouTubeSearch(event.target.value)
   }
 
-  handleYTsearch(term) {
+  handleYouTubeSearch(term) {
     var opts = {
       maxResults: 10,
-      key: API_KEY
+      key: API_KEY,
+      type: "video",
+      videoCategoryId: 10,
     };
 
     YouTubeSearch(term, opts, function(err, results) {

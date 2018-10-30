@@ -25,7 +25,7 @@ class Visualizer extends Component {
       <div className={classes.root}>
         <Grid container spacing={8}>
           <Grid item xs={12}>
-            <Video videos={this.props.videos}/>
+            <Video video={this.props.video}/>
           </Grid>
           <Grid item xs={12} >
             <VideoInfo />

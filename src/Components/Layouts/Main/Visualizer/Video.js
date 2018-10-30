@@ -16,11 +16,11 @@ const styles = theme => ({
 class Video extends Component {
   render() {
     const { classes } = this.props
-    const videos = this.props.videos
-    var id = "MZ_fuULswHo"
+    const video = this.props.video
+    var id = ""
 
-    if(videos != null)
-      id = videos[0].id
+    if(typeof(video) !== 'undefined' && video != null)
+      id = video.id
 
     const opts = {
       width: '100%',

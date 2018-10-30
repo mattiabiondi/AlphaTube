@@ -22,7 +22,7 @@ export default class extends Component {
   constructor(props) {
     super(props);
     this.state = {
-    videos: null
+      videos: null
     };
   }
 

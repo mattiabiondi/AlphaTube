@@ -12,9 +12,13 @@ const styles = theme => ({
 })
 
 class Main extends Component {
-
   render() {
     const { classes } = this.props
+
+    const videos = this.props.videos
+    var video = null
+    if(typeof(videos) !== 'undefined' && videos != null)
+      video = videos[0]
 
     return (
       <div className={classes.root}>
@@ -22,7 +26,7 @@ class Main extends Component {
           spacing={8}
           direction="row">
           <Grid item xs={12} sm={6}>
-            <Visualizer videos={this.props.videos}/>
+            <Visualizer video={video} />
           </Grid>
           <Grid item xs={12} sm={6}>
             <Recommender />
@@ -30,7 +34,7 @@ class Main extends Component {
         </Grid>
       </div>
     )
-  }  
+  }
 }
 
 Main.propTypes = {
