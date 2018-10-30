@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
 import ExpansionPanel from '@material-ui/core/ExpansionPanel'
@@ -17,23 +17,25 @@ const styles = theme => ({
   },
 })
 
-function VideoInfo(props) {
-  const { classes } = props
-  return (
-    <ExpansionPanel>
-      <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-        <Typography className={classes.heading}>
-          Informazioni sul video
-        </Typography>
-      </ExpansionPanelSummary>
-      <ExpansionPanelDetails>
-        <Typography className={classes.content}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex,
-          sit amet blandit leo lobortis eget.
-        </Typography>
-      </ExpansionPanelDetails>
-    </ExpansionPanel>
-  )
+class VideoInfo extends Component {
+  render() {
+    const { classes } = this.props
+
+    return (
+      <ExpansionPanel>
+        <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+          <Typography className={classes.heading}>
+            {this.props.title}
+          </Typography>
+        </ExpansionPanelSummary>
+        <ExpansionPanelDetails>
+          <Typography className={classes.content}>
+            {this.props.description}
+          </Typography>
+        </ExpansionPanelDetails>
+      </ExpansionPanel>
+    )
+  }
 }
 
 VideoInfo.propTypes = {

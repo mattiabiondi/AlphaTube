@@ -21,14 +21,25 @@ class Visualizer extends Component {
   render() {
     const { classes } = this.props
 
+    const video = this.props.video
+    var id = ""
+    var title = ""
+    var description = ""
+
+    if(typeof(video) !== 'undefined' && video != null) {
+      id = video.id
+      title = video.title
+      description = video.description
+    }
+
     return (
       <div className={classes.root}>
         <Grid container spacing={8}>
           <Grid item xs={12}>
-            <Video video={this.props.video}/>
+            <Video id={id}/>
           </Grid>
           <Grid item xs={12} >
-            <VideoInfo />
+            <VideoInfo title={title} description={description}/>
           </Grid>
           <Grid item xs={12} >
             <VideoContent />

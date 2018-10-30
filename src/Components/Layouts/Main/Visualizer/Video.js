@@ -16,11 +16,6 @@ const styles = theme => ({
 class Video extends Component {
   render() {
     const { classes } = this.props
-    const video = this.props.video
-    var id = ""
-
-    if(typeof(video) !== 'undefined' && video != null)
-      id = video.id
 
     const opts = {
       width: '100%',
@@ -32,7 +27,7 @@ class Video extends Component {
     return (
       <Paper className={classes.root}>
         <YouTube
-          videoId={id}
+          videoId={this.props.id}
           opts={opts}
         />
       </Paper>
