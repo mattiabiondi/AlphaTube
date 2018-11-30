@@ -1,4 +1,0 @@
-[0-9A-Za-z_-]{10}[048AEIMQUYcgkosw] //espressione regolare per gli ID del video se non rispetta questa espressione regolare allora non é un ID di YT
-https://img.youtube.com/vi/VIDEO_ID/hqdefault.jpg //URI per le immagini di anteprima dei video di YT
-
-
