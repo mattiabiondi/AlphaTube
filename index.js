@@ -1,11 +1,11 @@
 const express = require('express');
-const server = express();
-const port = 8000;
+const path = require('path');
+const app  = express();
 
-server.get('/', (req, res) => {
-  res.send('ehi');
+app.use(express.static(path.join(__dirname, 'build')));
+
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
 
-server.listen(port);
-
-console.log('Server is listening on port: ' + port);
+app.listen(8000);
