@@ -5,7 +5,6 @@ import { fade } from '@material-ui/core/styles/colorManipulator'
 import { withStyles } from '@material-ui/core/styles'
 import SearchIcon from '@material-ui/icons/Search'
 import YouTubeSearch from 'youtube-search'
-const API_KEY = 'AIzaSyA_L8Z7CnCV2q9yIysVeafwklZRbwya1w8'
 
 const styles = theme => ({
   search: {
@@ -66,7 +65,7 @@ class Search extends Component {
   handleYouTubeSearch(term) {
     var opts = {
       maxResults: 10,
-      key: API_KEY,
+      key: process.env.REACT_APP_YOUTUBE_API_KEY,
       type: "video",
       videoCategoryId: 10,
     };
