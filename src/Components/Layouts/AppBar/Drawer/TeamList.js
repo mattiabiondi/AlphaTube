@@ -5,7 +5,7 @@ import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemText from '@material-ui/core/ListItemText'
 import Avatar from '@material-ui/core/Avatar'
-import Mattia from './Avatars'
+import { Mattia, Julien } from './Avatars'
 
 const styles = theme => ({
   root: {
@@ -24,17 +24,15 @@ function FolderList(props) {
           <Avatar>
             AA
           </Avatar>
-          <ListItemText primary="Andrea Alfiero" secondary="non.lo.so@studio.unibo.it" />
+          <ListItemText primary="Andrea Alfiero" secondary="andrea.alfiero2@studio.unibo.it" />
         </ListItem>
         <ListItem>
           <Mattia />
-        <ListItemText primary="Mattia Biondi" secondary="mattia.biondi3@studio.unibo.it" />
+          <ListItemText primary="Mattia Biondi" secondary="mattia.biondi3@studio.unibo.it" />
         </ListItem>
         <ListItem>
-          <Avatar>
-            JG
-          </Avatar>
-          <ListItemText primary="Julien Gaglioti" secondary="non.lo.so@studio.unibo.it" />
+          <Julien />
+          <ListItemText primary="Julien Gaglioti" secondary="julien.gaglioti@studio.unibo.it" />
         </ListItem>
       </List>
     </div>

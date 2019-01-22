@@ -5,9 +5,21 @@ function Mattia(props) {
   return (
     <Avatar
       alt="Mattia Biondi"
-      src="./avatar.png"
+      src="./mattia.png"
     />
   )
 }
 
-export default Mattia
+function Julien(props) {
+  return (
+    <Avatar
+      alt="Julien Gaglioti"
+      src="./julien.jpg"
+    />
+  )
+}
+
+export {
+  Mattia,
+  Julien
+}
