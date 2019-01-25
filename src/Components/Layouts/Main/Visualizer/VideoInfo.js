@@ -6,10 +6,11 @@ import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary'
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails'
 import Typography from '@material-ui/core/Typography'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
+import Info from './Info'
 
 const styles = theme => ({
   heading: {
-    fontSize: theme.typography.pxToRem(15),
+    fontSize: theme.typography.pxToRem(18),
   },
   content: {
     fontSize: theme.typography.pxToRem(15),
@@ -29,9 +30,7 @@ class VideoInfo extends Component {
           </Typography>
         </ExpansionPanelSummary>
         <ExpansionPanelDetails>
-          <Typography className={classes.content}>
-            {this.props.description}
-          </Typography>
+            <Info song="" artist="" album="" year="" genre="" id={this.props.id}/>
         </ExpansionPanelDetails>
       </ExpansionPanel>
     )
