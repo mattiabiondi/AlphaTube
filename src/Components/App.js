@@ -20,14 +20,14 @@ const theme = createMuiTheme({
 
 export default class extends Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       videos: null
-    };
+    }
   }
 
   handleResults = (results) => {
-    this.setState({ videos: results });
+    this.setState({ videos: results })
   }
 
   render() {

@@ -6,7 +6,7 @@ import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary'
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails'
 import Typography from '@material-ui/core/Typography'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
-import Info from './Info'
+import InfoRenderer from './InfoRenderer'
 
 const styles = theme => ({
   heading: {
@@ -30,7 +30,7 @@ class VideoInfo extends Component {
           </Typography>
         </ExpansionPanelSummary>
         <ExpansionPanelDetails>
-            <Info song="" artist="" album="" year="" genre="" id={this.props.id}/>
+            <InfoRenderer song="" artist="" album="" year="" genre="" id={this.props.id}/>
         </ExpansionPanelDetails>
       </ExpansionPanel>
     )

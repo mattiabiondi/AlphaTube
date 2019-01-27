@@ -1,27 +1,83 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import { withStyles } from '@material-ui/core/styles'
-import FetchComments from 'youtube-comment-api'
+import React, { Component, Fragment} from 'react'
+import axios from 'axios'
+import CommentRenderer from './CommentRenderer'
 
 class Comments extends Component {
+
+  constructor(props) {
+    super(props)
+    this.state = {
+      comments: null
+    }
+  }
+
+  handleResults(results) {
+    this.setState({ comments: results })
+  }
+
+  componentDidMount() {
+     this.getComments()
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.id !== this.props.id) {
+       this.getComments()
+    }
+  }
+
+  getComments() {
+    axios.get('/comments', {
+      params: {
+        id: this.props.id
+      }
+    })
+    .then(function (response) {
+      console.log(response)
+      this.handleResults(response)
+    }.bind(this))
+    .catch(function (error) {
+      console.log(error)
+    })
+    .then(function () {
+      // always executed
+    })
+  }
+
   render() {
-    const { classes } = this.props
+    var comments = null
+    if(this.state.comments)
+      if(this.state.comments.data.comments)
+        comments = this.state.comments.data.comments
 
-    const comments = FetchComments(this.props.id)
+    if(comments) {
+      var list = comments.map(
+        function(i) {
+          return (
+            <CommentRenderer
+              author = {i.author}
+              avatar = {i.authorThumb}
+              text = {i.text}
+              time = {i.time}
+              likes = {i.likes}
+            />
+          )
+        }
+      )
 
-    var prova = null
-    if(typeof(comments) !== 'undefined' && comments != null)
-      if(typeof(comments[0]) !== 'undefined' && comments[0] != null)
-        prova = comments[0].text
+      return (
+        <Fragment>
+          {list}
+        </Fragment>
+      )
+    }
+    else {
+      return (
+        <Fragment>
 
-    return (
-      <div>
-        {prova}
-      </div>
-    )
+        </Fragment>
+      )
+    }
   }
 }
-
-
 
 export default Comments
