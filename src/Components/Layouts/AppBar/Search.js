@@ -52,14 +52,20 @@ const styles = theme => ({
 
 class Search extends Component {
   constructor(props){
-      super(props);
-      this.state = { term: '' };
-      this.onInputChange = this.onInputChange.bind(this);
+      super(props)
+      this.state = { term: '' }
+      this.onChange = this.onChange.bind(this)
+      this.onKeyDown = this.onKeyDown.bind(this)
   }
 
-  onInputChange(event) {
-      this.setState({ term: event.target.value });
-      this.handleYouTubeSearch(event.target.value)
+  onKeyDown(e) {
+        if (e.keyCode === 13 ) {
+            return this.handleYouTubeSearch(this.state.term)
+        }
+  }
+
+  onChange(event) {
+      this.setState({ term: event.target.value })
   }
 
   handleYouTubeSearch(term) {
@@ -68,12 +74,12 @@ class Search extends Component {
       key: process.env.REACT_APP_YOUTUBE_API_KEY,
       type: "video",
       videoCategoryId: 10,
-    };
+    }
 
     YouTubeSearch(term, opts, function(err, results) {
       if(err)
-        return console.log(err);
-      console.dir(results);
+        return console.log(err)
+      console.dir(results)
       this.props.handleResults(results)
     }.bind(this))
   }
@@ -93,7 +99,8 @@ class Search extends Component {
             input: classes.inputInput,
           }}
           value={this.state.term}
-          onChange={this.onInputChange}
+          onChange={this.onChange}
+          onKeyDown={this.onKeyDown}
         />
       </div>
     )
