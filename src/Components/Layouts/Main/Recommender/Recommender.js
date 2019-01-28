@@ -5,7 +5,8 @@ import { withStyles } from '@material-ui/core/styles'
 import Tabs from '@material-ui/core/Tabs'
 import Tab from '@material-ui/core/Tab'
 import Typography from '@material-ui/core/Typography'
-import Popularity from './Popularity.js'
+import Search from './Tabs/SearchTab.js'
+import Popularity from './Tabs/PopularityTab.js'
 import SearchIcon from '@material-ui/icons/Search'
 import AlbumIcon from '@material-ui/icons/Album'
 import PersonIcon from '@material-ui/icons/Person'
@@ -72,7 +73,7 @@ class Recommender extends Component {
             <Tab icon={<RestoreIcon />} label="Recent" />
             <Tab icon={<ShuffleIcon />} label="Random" />
           </Tabs>
-        {value === 0 && <TabContainer>Item One</TabContainer>}
+        {value === 0 && <TabContainer><Search videos={this.props.videos} /></TabContainer>}
         {value === 1 && <TabContainer>Item Two</TabContainer>}
         {value === 2 && <TabContainer></TabContainer>}
         {value === 3 && <TabContainer>Item Four</TabContainer>}

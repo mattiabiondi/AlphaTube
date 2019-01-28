@@ -29,7 +29,7 @@ class Main extends Component {
             <Visualizer video={video} />
           </Grid>
           <Grid item xs={12} sm={6}>
-            <Recommender />
+            <Recommender videos={videos}/>
           </Grid>
         </Grid>
       </div>
