@@ -54,8 +54,8 @@ class Recommender extends Component {
     this.setState({ value })
   }
 
-  handleVideoSelection(videoId) {
-    this.props.handleVideoSelection(videoId)
+  handleVideoSelection(video) {
+    this.props.handleVideoSelection(video)
   }
 
   render() {

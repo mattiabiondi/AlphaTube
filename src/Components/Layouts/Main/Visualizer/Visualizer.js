@@ -43,7 +43,7 @@ class Visualizer extends Component {
     var description = ""
 
     if(this.state.video) {
-      id = this.state.video
+      id = this.state.video.id
       title = this.state.video.title
       description = this.state.video.description
     }

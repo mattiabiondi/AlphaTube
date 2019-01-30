@@ -35,7 +35,7 @@ class VideoRenderer extends Component {
   }
 
   handleVideoSelection(event) {
-    this.props.handleVideoSelection(this.props.id)
+    this.props.handleVideoSelection(this.props.video)
   }
 
   render() {
@@ -51,21 +51,21 @@ class VideoRenderer extends Component {
             <CardActionArea onClick = {this.handleVideoSelection}>
               <CardMedia
                 component="img"
-                alt={this.props.title}
+                alt={this.props.video.title}
                 className={classes.media}
                 height="200"
-                image={this.props.image}
-                title={this.props.imageTitle}
+                image={this.props.video.thumbnails.high.url}
+                title={this.props.video.title}
               />
             </CardActionArea>
           </Grid>
           <Grid item xs={7} sm={7}>
             <CardContent>
               <Typography className={classes.title}>
-                {this.props.title}
+                {this.props.video.title}
               </Typography>
               <Typography className={classes.description}>
-                {this.props.description}
+                {this.props.video.description}
               </Typography>
             </CardContent>
           </Grid>

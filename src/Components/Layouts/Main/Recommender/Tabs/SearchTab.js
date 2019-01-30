@@ -36,11 +36,7 @@ class Search extends Component {
         function(i) {
           return (
             <VideoRenderer
-              id = {i.id}
-              title = {i.title}
-              image = {i.thumbnails.high.url}
-              imageTitle = {i.title}
-              description = {i.description}
+              video = {i}
               handleVideoSelection = {this.handleVideoSelection}
             />
           )

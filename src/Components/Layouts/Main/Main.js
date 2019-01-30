@@ -21,8 +21,8 @@ class Main extends Component {
     this.handleVideoSelection = this.handleVideoSelection.bind(this)
   }
 
-  handleVideoSelection(videoId) {
-    this.setState({ video: videoId })
+  handleVideoSelection(video) {
+    this.setState({ video: video })
   }
 
   render() {
