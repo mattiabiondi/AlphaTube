@@ -40,12 +40,22 @@ const styles = theme => ({
 })
 
 class Recommender extends Component {
+  constructor(props) {
+    super(props)
+
+    this.handleVideoSelection = this.handleVideoSelection.bind(this)
+  }
+
   state = {
     value: 0,
   }
 
   handleChange = (event, value) => {
     this.setState({ value })
+  }
+
+  handleVideoSelection(videoId) {
+    this.props.handleVideoSelection(videoId)
   }
 
   render() {
@@ -73,7 +83,11 @@ class Recommender extends Component {
             <Tab icon={<RestoreIcon />} label="Recent" />
             <Tab icon={<ShuffleIcon />} label="Random" />
           </Tabs>
-        {value === 0 && <TabContainer><Search videos={this.props.videos} /></TabContainer>}
+        {value === 0 && <TabContainer>
+                          <Search
+                            videos = {this.props.videos}
+                            handleVideoSelection = {this.handleVideoSelection}/>
+                        </TabContainer>}
         {value === 1 && <TabContainer>Item Two</TabContainer>}
         {value === 2 && <TabContainer></TabContainer>}
         {value === 3 && <TabContainer>Item Four</TabContainer>}

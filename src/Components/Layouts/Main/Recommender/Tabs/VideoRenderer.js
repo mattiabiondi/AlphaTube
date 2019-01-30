@@ -28,6 +28,16 @@ const styles = theme => ({
 })
 
 class VideoRenderer extends Component {
+  constructor(props){
+      super(props)
+
+      this.handleVideoSelection = this.handleVideoSelection.bind(this)
+  }
+
+  handleVideoSelection(event) {
+    this.props.handleVideoSelection(this.props.id)
+  }
+
   render() {
     const { classes } = this.props
 
@@ -38,7 +48,7 @@ class VideoRenderer extends Component {
           spacing={8}
           direction="row">
           <Grid item xs={5} sm={5}>
-            <CardActionArea>
+            <CardActionArea onClick = {this.handleVideoSelection}>
               <CardMedia
                 component="img"
                 alt={this.props.title}

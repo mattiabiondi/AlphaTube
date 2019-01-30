@@ -12,13 +12,23 @@ const styles = theme => ({
 })
 
 class Main extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      video: null
+    }
+
+    this.handleVideoSelection = this.handleVideoSelection.bind(this)
+  }
+
+  handleVideoSelection(videoId) {
+    this.setState({ video: videoId })
+  }
+
   render() {
     const { classes } = this.props
 
     const videos = this.props.videos
-    var video = null
-    if(typeof(videos) !== 'undefined' && videos != null)
-      video = videos[0]
 
     return (
       <div className={classes.root}>
@@ -26,10 +36,13 @@ class Main extends Component {
           spacing={8}
           direction="row">
           <Grid item xs={12} sm={6}>
-            <Visualizer video={video} />
+            <Visualizer video = {this.state.video} />
           </Grid>
           <Grid item xs={12} sm={6}>
-            <Recommender videos={videos}/>
+            <Recommender
+              videos = {videos}
+              handleVideoSelection = {this.handleVideoSelection}
+            />
           </Grid>
         </Grid>
       </div>

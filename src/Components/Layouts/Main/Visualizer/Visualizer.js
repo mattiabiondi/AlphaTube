@@ -18,18 +18,34 @@ const styles = theme => ({
 })
 
 class Visualizer extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      video: null
+    }
+  }
+
+  componentDidMount() {
+     this.setState({video: this.props.video})
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.video !== this.props.video) {
+     this.setState({video: this.props.video})
+   }
+  }
+
   render() {
     const { classes } = this.props
 
-    const video = this.props.video
     var id = ""
     var title = ""
     var description = ""
 
-    if(typeof(video) !== 'undefined' && video != null) {
-      id = video.id
-      title = video.title
-      description = video.description
+    if(this.state.video) {
+      id = this.state.video
+      title = this.state.video.title
+      description = this.state.video.description
     }
 
     return (

@@ -8,6 +8,7 @@ class Search extends Component {
     this.state = {
       videos: null
     }
+    this.handleVideoSelection = this.handleVideoSelection.bind(this)
   }
 
   componentDidMount() {
@@ -18,6 +19,10 @@ class Search extends Component {
     if (prevProps.videos !== this.props.videos) {
      this.setState({videos: this.props.videos})
    }
+  }
+
+  handleVideoSelection(videoId) {
+    this.props.handleVideoSelection(videoId)
   }
 
   render() {
@@ -31,13 +36,15 @@ class Search extends Component {
         function(i) {
           return (
             <VideoRenderer
+              id = {i.id}
               title = {i.title}
               image = {i.thumbnails.high.url}
               imageTitle = {i.title}
               description = {i.description}
+              handleVideoSelection = {this.handleVideoSelection}
             />
           )
-        }
+        }.bind(this)
       )
 
       return (
