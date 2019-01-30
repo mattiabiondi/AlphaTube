@@ -1,75 +1,72 @@
-import React, {Component} from 'react'
-import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import { withStyles } from '@material-ui/core/styles'
+import Grid from '@material-ui/core/Grid'
 import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
+import CardActionArea from '@material-ui/core/CardActionArea';
 import CardMedia from '@material-ui/core/CardMedia';
-import IconButton from '@material-ui/core/IconButton';
+import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
-import SkipPreviousIcon from '@material-ui/icons/SkipPrevious';
-import PlayArrowIcon from '@material-ui/icons/PlayArrow';
-import SkipNextIcon from '@material-ui/icons/SkipNext';
 
 const styles = theme => ({
   card: {
-    display: 'flex',
     backgroundColor: '#616161',
-    marginBottom: theme.spacing.unit * 2
+    marginBottom: theme.spacing.unit
   },
-  details: {
-    display: 'flex',
-    flexDirection: 'column',
+  media: {
+    // ⚠️ object-fit is not supported by IE 11.
+    objectFit: 'cover',
   },
-  content: {
-    flex: '1 0 auto',
+  title: {
+    fontSize: theme.typography.pxToRem(18),
   },
-  cover: {
-    width: 250,
+  description: {
+    fontSize: theme.typography.pxToRem(15),
+    color: theme.palette.text.secondary,
   },
-  controls: {
-    display: 'flex',
-    alignItems: 'center',
-    paddingLeft: theme.spacing.unit,
-    paddingBottom: theme.spacing.unit,
-  },
-  playIcon: {
-    height: 38,
-    width: 38,
-  },
-});
+})
 
-class Search extends Component {
-
+class VideoRenderer extends Component {
   render() {
-    const { classes, theme } = this.props
+    const { classes } = this.props
 
     return (
       <Card className={classes.card}>
-        <CardMedia
-          className={classes.cover}
-          image={this.props.image}
-          title={this.props.imageTitle}
-        />
-        <div className={classes.details}>
-          <CardContent className={classes.content}>
-            <Typography component="h5" variant="h5">
-              {this.props.title}
-            </Typography>
-            <Typography variant="subtitle1" color="textSecondary">
-              {this.props.text}
-            </Typography>
-          </CardContent>
 
-        </div>
+        <Grid container
+          spacing={8}
+          direction="row">
+          <Grid item xs={12} sm={5}>
+            <CardActionArea>
+              <CardMedia
+                component="img"
+                alt={this.props.title}
+                className={classes.media}
+                height="180"
+                image={this.props.image}
+                title={this.props.imageTitle}
+              />
+            </CardActionArea>
+          </Grid>
+          <Grid item xs={12} sm={7}>
+            <CardContent>
+              <Typography className={classes.title}>
+                {this.props.title}
+              </Typography>
+              <Typography className={classes.description}>
+                {this.props.description}
+              </Typography>
+            </CardContent>
+          </Grid>
+        </Grid>
 
       </Card>
     )
   }
 }
 
-Search.propTypes = {
+VideoRenderer.propTypes = {
   classes: PropTypes.object.isRequired,
-  theme: PropTypes.object.isRequired,
-};
+}
 
-export default withStyles(styles, { withTheme: true })(Search);
+export default withStyles(styles)(VideoRenderer)

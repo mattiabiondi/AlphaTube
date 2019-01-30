@@ -33,8 +33,8 @@ class Search extends Component {
             <VideoRenderer
               title = {i.title}
               image = {i.thumbnails.high.url}
-              imageTitle = "ciao"
-              text = {i.description}
+              imageTitle = {i.title}
+              description = {i.description}
             />
           )
         }
