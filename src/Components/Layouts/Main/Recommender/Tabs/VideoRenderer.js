@@ -11,7 +11,8 @@ import Typography from '@material-ui/core/Typography';
 const styles = theme => ({
   card: {
     backgroundColor: '#616161',
-    marginBottom: theme.spacing.unit
+    marginBottom: theme.spacing.unit,
+    height: 200
   },
   media: {
     // ⚠️ object-fit is not supported by IE 11.
@@ -36,19 +37,19 @@ class VideoRenderer extends Component {
         <Grid container
           spacing={8}
           direction="row">
-          <Grid item xs={12} sm={5}>
+          <Grid item xs={5} sm={5}>
             <CardActionArea>
               <CardMedia
                 component="img"
                 alt={this.props.title}
                 className={classes.media}
-                height="180"
+                height="200"
                 image={this.props.image}
                 title={this.props.imageTitle}
               />
             </CardActionArea>
           </Grid>
-          <Grid item xs={12} sm={7}>
+          <Grid item xs={7} sm={7}>
             <CardContent>
               <Typography className={classes.title}>
                 {this.props.title}
