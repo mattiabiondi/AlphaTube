@@ -1,5 +1,6 @@
 import React, { Component, Fragment} from 'react'
 import CommentRenderer from './CommentRenderer'
+import LoadingBar from './LoadingBar'
 
 class Comments extends Component {
   render() {
@@ -28,7 +29,7 @@ class Comments extends Component {
     else {
       return (
         <Fragment>
-
+          <LoadingBar />
         </Fragment>
       )
     }

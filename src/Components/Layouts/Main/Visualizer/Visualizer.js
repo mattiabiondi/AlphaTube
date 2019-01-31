@@ -25,6 +25,7 @@ class Visualizer extends Component {
       video: null,
       comments: null
     }
+    this.getComments = this.getComments.bind(this)
   }
 
   componentDidMount() {
@@ -35,16 +36,22 @@ class Visualizer extends Component {
 
   componentDidUpdate(prevProps) {
     if (prevProps.video !== this.props.video) {
-      this.setState({video: this.props.video})
+      this.setState(
+        {
+          video: this.props.video,
+          comments: null
+        }
+      )
       this.getComments()
    }
   }
 
   getComments() {
     if(this.props.video) {
+      var id = this.props.video.id
       axios.get('/comments', {
         params: {
-          id: this.props.video.id
+          id: id
         }
       })
       .then(function (response) {
@@ -56,7 +63,14 @@ class Visualizer extends Component {
       })
       .then(function () {
         // always executed
-      })
+        if(this.state.video.id != id) {
+          console.log(this.state.video.id)
+          console.log(id)
+          this.setState({ comments: null })
+          this.getComments()
+
+        }
+      }.bind(this))
     }
   }
 
