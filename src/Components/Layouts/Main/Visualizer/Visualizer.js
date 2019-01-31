@@ -63,7 +63,7 @@ class Visualizer extends Component {
       })
       .then(function () {
         // always executed
-        if(this.state.video.id != id) {
+        if(this.state.video.id !== id) {
           console.log(this.state.video.id)
           console.log(id)
           this.setState({ comments: null })
