@@ -57,7 +57,7 @@ class VideoContent extends Component {
           <Tab icon={<PublicIcon />} label="WIKIPEDIA" />
         </Tabs>
         {value === 0 && <TabContainer> {this.props.description} </TabContainer>}
-        {value === 1 && <TabContainer><Comments id={this.props.id}/></TabContainer>}
+        {value === 1 && <TabContainer><Comments comments = {this.props.comments}/></TabContainer>}
         {value === 2 && <TabContainer>Nunc vitae orci ultricies, auctor nunc in, volutpat nisl. Integer sit amet egestas eros, vitae egestas augue. Duis vel est augue.</TabContainer>}
       </Paper>
     )

@@ -5,6 +5,7 @@ import Grid from '@material-ui/core/Grid'
 import Video from './Video'
 import VideoInfo from './VideoInfo'
 import VideoContent from './VideoContent'
+import axios from 'axios'
 
 const styles = theme => ({
   root: {
@@ -21,18 +22,42 @@ class Visualizer extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      video: null
+      video: null,
+      comments: null
     }
   }
 
   componentDidMount() {
-     this.setState({video: this.props.video})
+     this.setState(
+       {video: this.props.video},
+     )
   }
 
   componentDidUpdate(prevProps) {
     if (prevProps.video !== this.props.video) {
-     this.setState({video: this.props.video})
+      this.setState({video: this.props.video})
+      this.getComments()
    }
+  }
+
+  getComments() {
+    if(this.props.video) {
+      axios.get('/comments', {
+        params: {
+          id: this.props.video.id
+        }
+      })
+      .then(function (response) {
+        console.log(response)
+        this.setState({ comments: response })
+      }.bind(this))
+      .catch(function (error) {
+        console.log(error)
+      })
+      .then(function () {
+        // always executed
+      })
+    }
   }
 
   render() {
@@ -41,12 +66,16 @@ class Visualizer extends Component {
     var id = ""
     var title = ""
     var description = ""
-
     if(this.state.video) {
       id = this.state.video.id
       title = this.state.video.title
       description = this.state.video.description
     }
+
+    var comments = null
+    if(this.state.comments)
+      if(this.state.comments.data.comments)
+        comments = this.state.comments.data.comments
 
     return (
       <div className={classes.root}>
@@ -58,7 +87,11 @@ class Visualizer extends Component {
             <VideoInfo id={id} title={title}/>
           </Grid>
           <Grid item xs={12} >
-            <VideoContent id={id} description={description}/>
+            <VideoContent
+              id = {id}
+              comments = {comments}
+              description = {description}
+            />
           </Grid>
         </Grid>
       </div>
