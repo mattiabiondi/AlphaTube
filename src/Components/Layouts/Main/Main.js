@@ -41,6 +41,7 @@ class Main extends Component {
           <Grid item xs={12} sm={6}>
             <Recommender
               videos = {videos}
+              video = {this.state.video}
               handleVideoSelection = {this.handleVideoSelection}
             />
           </Grid>
