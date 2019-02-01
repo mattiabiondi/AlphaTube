@@ -8,6 +8,7 @@ import Typography from '@material-ui/core/Typography'
 import DescriptionIcon from '@material-ui/icons/Description'
 import CommentIcon from '@material-ui/icons/Comment'
 import PublicIcon from '@material-ui/icons/Public'
+import Description from './Description'
 import Comments from './Comments'
 
 function TabContainer(props) {
@@ -56,7 +57,7 @@ class VideoContent extends Component {
           <Tab icon={<CommentIcon />} label="COMMENTS" />
           <Tab icon={<PublicIcon />} label="WIKIPEDIA" />
         </Tabs>
-        {value === 0 && <TabContainer> {this.props.description} </TabContainer>}
+        {value === 0 && <TabContainer><Description description = {this.props.description}/></TabContainer>}
         {value === 1 && <TabContainer><Comments comments = {this.props.comments}/></TabContainer>}
         {value === 2 && <TabContainer>Nunc vitae orci ultricies, auctor nunc in, volutpat nisl. Integer sit amet egestas eros, vitae egestas augue. Duis vel est augue.</TabContainer>}
       </Paper>

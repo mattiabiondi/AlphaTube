@@ -4,6 +4,9 @@ import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles'
 import { AppBar, Main } from './Layouts' // Importa i componenti definiti nella sotto-cartella 'Layouts'
 
 const theme = createMuiTheme({
+  typography: {
+    useNextVariants: true,
+  },
   palette: {
     type: 'dark',
     primary: {
@@ -11,9 +14,6 @@ const theme = createMuiTheme({
     },
     secondary: {
       main: '#1ec38b',
-    },
-    typography: {
-      useNextVariants: true,
     },
   },
 })

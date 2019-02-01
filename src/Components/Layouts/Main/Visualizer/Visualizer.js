@@ -23,8 +23,10 @@ class Visualizer extends Component {
     super(props)
     this.state = {
       video: null,
+      info: null,
       comments: null
     }
+    this.getVideoInfo = this.getVideoInfo.bind(this)
     this.getComments = this.getComments.bind(this)
   }
 
@@ -39,11 +41,38 @@ class Visualizer extends Component {
       this.setState(
         {
           video: this.props.video,
+          info: null,
           comments: null
         }
       )
+      this.getVideoInfo()
       this.getComments()
    }
+  }
+
+  getVideoInfo() {
+    if(this.props.video) {
+      var id = this.props.video.id
+      axios.get('/info', {
+        params: {
+          id: id
+        }
+      })
+      .then(function (response) {
+        console.log(response)
+        this.setState({ info: response })
+      }.bind(this))
+      .catch(function (error) {
+        console.log(error)
+      })
+      .then(function () {
+        // always executed
+        if(this.state.video.id !== id) {
+          this.setState({ info: null })
+          this.getVideoInfo()
+        }
+      }.bind(this))
+    }
   }
 
   getComments() {
@@ -64,11 +93,8 @@ class Visualizer extends Component {
       .then(function () {
         // always executed
         if(this.state.video.id !== id) {
-          console.log(this.state.video.id)
-          console.log(id)
           this.setState({ comments: null })
           this.getComments()
-
         }
       }.bind(this))
     }
@@ -79,11 +105,14 @@ class Visualizer extends Component {
 
     var id = ""
     var title = ""
-    var description = ""
     if(this.state.video) {
       id = this.state.video.id
       title = this.state.video.title
-      description = this.state.video.description
+    }
+
+    var description = null
+    if(this.state.info) {
+      description = this.state.info.data.description
     }
 
     var comments = null
