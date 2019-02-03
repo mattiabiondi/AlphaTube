@@ -1,6 +1,7 @@
 import React, { Component, Fragment} from 'react'
 import VideoRenderer from './VideoRenderer'
 import YouTubeSearch from 'youtube-search'
+import LoadingBar from '../../LoadingBar'
 
 class Related extends Component {
 
@@ -13,46 +14,46 @@ class Related extends Component {
   }
 
   componentDidMount() {
-     if(this.props.video!== null) { this.setState({videos: this.handleYouTubeSearch()}) }
+    this.handleYouTubeSearch()
   }
 
-  // ancora da fare l'aggiornamento
-  // componentDidUpdate(prevProps) {
-  //   if (prevProps.videos !== this.props.videos) {
-  //    this.setState({videos: this.props.videos})
-  //    this.handleYouTubeSearch()
-  //  }
-  // }
+  componentDidUpdate(prevProps) {
+    if (prevProps.video !== this.props.video) {
+      this.setState({ videos: null })
+      this.handleYouTubeSearch()
+    }
+  }
 
   handleVideoSelection(videoId) {
     this.props.handleVideoSelection(videoId)
   }
 
   handleYouTubeSearch() {
-    var opts = {
-      maxResults: 10,
-      key: process.env.REACT_APP_YOUTUBE_API_KEY,
-      type: "video",
-      videoCategoryId: 10,
-      relatedToVideoId: this.props.video.id
-    }
+    if(this.props.video) {
+      var opts = {
+        maxResults: 10,
+        key: process.env.REACT_APP_YOUTUBE_API_KEY,
+        type: "video",
+        videoCategoryId: 10,
+        relatedToVideoId: this.props.video.id
+      }
 
-    YouTubeSearch(' ', opts, function(err, results) {
-      if(err)
-        return console.log(err)
-      console.dir(results)
-      this.setState({ videos: results })
-    }.bind(this))
+      YouTubeSearch(' ', opts, function(err, results) {
+        if(err)
+          return console.log(err)
+        console.dir(results)
+        this.setState({ videos: results })
+      }.bind(this))
+    }
   }
 
   render() {
-
     var videos = null
     if(this.state.videos){
         videos = this.state.videos
       }
 
-   if(videos) {
+    if(videos) {
       var list = videos.map(
         function(i) {
           return (
@@ -73,7 +74,7 @@ class Related extends Component {
     else {
       return (
         <Fragment>
-
+          <LoadingBar />
         </Fragment>
       )
     }

@@ -31,7 +31,7 @@ class Search extends Component {
         videos = this.state.videos
       }
 
-   if(videos) {
+    if(videos) {
       var list = videos.map(
         function(i) {
           return (

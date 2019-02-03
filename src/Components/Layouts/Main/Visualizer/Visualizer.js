@@ -67,11 +67,12 @@ class Visualizer extends Component {
       })
       .then(function () {
         // always executed
-        if(this.state.video.id !== id) {
-          this.setState({ info: null })
-          this.getVideoInfo()
-        }
-      }.bind(this))
+        //if(this.state.video.id !== id) {
+          //this.setState({ info: null })
+          //this.getVideoInfo()
+        //}
+      //}.bind(this))
+      })
     }
   }
 
@@ -92,11 +93,12 @@ class Visualizer extends Component {
       })
       .then(function () {
         // always executed
-        if(this.state.video.id !== id) {
-          this.setState({ comments: null })
-          this.getComments()
-        }
-      }.bind(this))
+        //if(this.state.video.id !== id) {
+        //  this.setState({ comments: null })
+        //  this.getComments()
+        //}
+      //}.bind(this))
+      })
     }
   }
 

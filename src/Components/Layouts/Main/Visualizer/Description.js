@@ -1,6 +1,6 @@
 import React, { Component, Fragment} from 'react'
 import { withStyles } from '@material-ui/core/styles'
-import LoadingBar from './LoadingBar'
+import LoadingBar from '../LoadingBar'
 import renderHTML from 'react-render-html';
 
 const styles = theme => ({

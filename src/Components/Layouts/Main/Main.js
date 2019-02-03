@@ -28,8 +28,6 @@ class Main extends Component {
   render() {
     const { classes } = this.props
 
-    const videos = this.props.videos
-
     return (
       <div className={classes.root}>
         <Grid container
@@ -40,7 +38,7 @@ class Main extends Component {
           </Grid>
           <Grid item xs={12} sm={6}>
             <Recommender
-              videos = {videos}
+              videos = {this.props.videos}
               video = {this.state.video}
               handleVideoSelection = {this.handleVideoSelection}
             />
