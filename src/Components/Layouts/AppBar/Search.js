@@ -60,7 +60,8 @@ class Search extends Component {
 
   onKeyDown(e) {
         if (e.keyCode === 13 ) {
-            return this.handleYouTubeSearch(this.state.term)
+          this.props.handleResults(null)
+          return this.handleYouTubeSearch(this.state.term)
         }
   }
 

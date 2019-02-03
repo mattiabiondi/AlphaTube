@@ -1,5 +1,6 @@
 import React, { Component, Fragment} from 'react'
 import VideoRenderer from './VideoRenderer'
+import LoadingBar from '../../LoadingBar'
 
 class Search extends Component {
 
@@ -17,8 +18,10 @@ class Search extends Component {
 
   componentDidUpdate(prevProps) {
     if (prevProps.videos !== this.props.videos) {
-     this.setState({videos: this.props.videos})
-   }
+      this.setState({
+        videos: this.props.videos
+      })
+    }
   }
 
   handleVideoSelection(videoId) {
@@ -52,7 +55,7 @@ class Search extends Component {
     else {
       return (
         <Fragment>
-
+          <LoadingBar />
         </Fragment>
       )
     }
