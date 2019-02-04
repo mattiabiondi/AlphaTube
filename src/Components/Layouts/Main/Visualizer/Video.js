@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
 import Paper from '@material-ui/core/Paper'
 import YouTube from 'react-youtube'
+import Fade from '@material-ui/core/Fade'
 
 const styles = theme => ({
   root: {
@@ -11,9 +12,29 @@ const styles = theme => ({
     textAlign: 'center',
     backgroundColor: theme.palette.background.paper,
   },
+  heading: {
+    fontSize: theme.typography.pxToRem(18),
+  },
 })
 
 class Video extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      checked: false
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.id !== this.props.id) {
+      this.setState(
+        {
+          checked: true
+        }
+      )
+   }
+  }
+
   render() {
     const { classes } = this.props
 
@@ -25,12 +46,14 @@ class Video extends Component {
     }
 
     return (
-      <Paper className={classes.root}>
-        <YouTube
-          videoId={this.props.id}
-          opts={opts}
-        />
-      </Paper>
+      <Fade in={this.state.checked}>
+        <Paper className={classes.root}>
+          <YouTube
+            videoId={this.props.id}
+            opts={opts}
+          />
+        </Paper>
+      </Fade>
     )
   }
 }

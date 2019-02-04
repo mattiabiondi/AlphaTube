@@ -18,7 +18,7 @@ import RestoreIcon from '@material-ui/icons/Restore'
 import WhatshotIcon from '@material-ui/icons/Whatshot'
 import SchoolIcon from '@material-ui/icons/School'
 import ShuffleIcon from '@material-ui/icons/Shuffle'
-
+import Fade from '@material-ui/core/Fade'
 
 function TabContainer(props) {
   return (
@@ -43,12 +43,21 @@ const styles = theme => ({
 class Recommender extends Component {
   constructor(props) {
     super(props)
-
+    this.state = {
+      value: 0,
+      checked: false
+    }
     this.handleVideoSelection = this.handleVideoSelection.bind(this)
   }
 
-  state = {
-    value: 0,
+  componentDidUpdate(prevProps) {
+    if (prevProps.videos !== this.props.videos) {
+      this.setState(
+        {
+          checked: true
+        }
+      )
+   }
   }
 
   handleChange = (event, value) => {
@@ -61,48 +70,49 @@ class Recommender extends Component {
 
   render() {
     const { classes } = this.props
-    const { value } = this.state
 
     return (
-      <Paper className={classes.root}>
-          <Tabs
-            value={value}
-            onChange={this.handleChange}
-            indicatorColor="secondary"
-            textColor="secondary"
-            scrollButtons="auto"
-            scrollable
-          >
-            <Tab icon={<SearchIcon />} label="Search" />
-            <Tab icon={<PersonIcon />} label="Artist" />
-            <Tab icon={<GroupIcon />} label="Band" />
-            <Tab icon={<AlbumIcon />} label="Album" />
-            <Tab icon={<AudiotrackIcon />} label="Genre" />
-            <Tab icon={<QueueMusicIcon />} label="Related" />
-            <Tab icon={<WhatshotIcon />} label="Popularity" />
-            <Tab icon={<SchoolIcon />} label="Fvitali" />
-            <Tab icon={<RestoreIcon />} label="Recent" />
-            <Tab icon={<ShuffleIcon />} label="Random" />
-          </Tabs>
-        {value === 0 && <TabContainer>
-                          <Search
-                            videos = {this.props.videos}
-                            handleVideoSelection = {this.handleVideoSelection}/>
-                        </TabContainer>}
-        {value === 1 && <TabContainer>Item Two</TabContainer>}
-        {value === 2 && <TabContainer></TabContainer>}
-        {value === 3 && <TabContainer>Item Four</TabContainer>}
-        {value === 4 && <TabContainer>Item Five</TabContainer>}
-        {value === 5 && <TabContainer>
-                          <Related
-                            video = {this.props.video}
-                            handleVideoSelection = {this.handleVideoSelection}/>
-                        </TabContainer>}
-        {value === 6 && <TabContainer><Popularity /></TabContainer>}
-        {value === 7 && <TabContainer>Item Eight</TabContainer>}
-        {value === 8 && <TabContainer>Item Nine</TabContainer>}
-        {value === 9 && <TabContainer>Item Ten</TabContainer>}
-        </Paper>
+      <Fade in={this.state.checked}>
+        <Paper className={classes.root}>
+            <Tabs
+              value={this.state.value}
+              onChange={this.handleChange}
+              indicatorColor="secondary"
+              textColor="secondary"
+              scrollButtons="auto"
+              scrollable
+            >
+              <Tab icon={<SearchIcon />} label="Search" />
+              <Tab icon={<PersonIcon />} label="Artist" />
+              <Tab icon={<GroupIcon />} label="Band" />
+              <Tab icon={<AlbumIcon />} label="Album" />
+              <Tab icon={<AudiotrackIcon />} label="Genre" />
+              <Tab icon={<QueueMusicIcon />} label="Related" />
+              <Tab icon={<WhatshotIcon />} label="Popularity" />
+              <Tab icon={<SchoolIcon />} label="Fvitali" />
+              <Tab icon={<RestoreIcon />} label="Recent" />
+              <Tab icon={<ShuffleIcon />} label="Random" />
+            </Tabs>
+          {this.state.value === 0 && <TabContainer>
+                            <Search
+                              videos = {this.props.videos}
+                              handleVideoSelection = {this.handleVideoSelection}/>
+                          </TabContainer>}
+          {this.state.value === 1 && <TabContainer>Item Two</TabContainer>}
+          {this.state.value === 2 && <TabContainer></TabContainer>}
+          {this.state.value === 3 && <TabContainer>Item Four</TabContainer>}
+          {this.state.value === 4 && <TabContainer>Item Five</TabContainer>}
+          {this.state.value === 5 && <TabContainer>
+                            <Related
+                              video = {this.props.video}
+                              handleVideoSelection = {this.handleVideoSelection}/>
+                          </TabContainer>}
+          {this.state.value === 6 && <TabContainer><Popularity /></TabContainer>}
+          {this.state.value === 7 && <TabContainer>Item Eight</TabContainer>}
+          {this.state.value === 8 && <TabContainer>Item Nine</TabContainer>}
+          {this.state.value === 9 && <TabContainer>Item Ten</TabContainer>}
+          </Paper>
+        </Fade>
     )
   }
 }

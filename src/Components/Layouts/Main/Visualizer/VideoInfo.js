@@ -7,6 +7,7 @@ import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails'
 import Typography from '@material-ui/core/Typography'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import InfoRenderer from './InfoRenderer'
+import Fade from '@material-ui/core/Fade'
 
 const styles = theme => ({
   heading: {
@@ -19,20 +20,39 @@ const styles = theme => ({
 })
 
 class VideoInfo extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      checked: false
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.id !== this.props.id) {
+      this.setState(
+        {
+          checked: true
+        }
+      )
+   }
+  }
+
   render() {
     const { classes } = this.props
 
     return (
-      <ExpansionPanel>
-        <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-          <Typography className={classes.heading}>
-            {this.props.title}
-          </Typography>
-        </ExpansionPanelSummary>
-        <ExpansionPanelDetails>
-            <InfoRenderer song="" artist="" album="" year="" genre="" id={this.props.id}/>
-        </ExpansionPanelDetails>
-      </ExpansionPanel>
+      <Fade in={this.state.checked}>
+        <ExpansionPanel>
+          <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+            <Typography className={classes.heading}>
+              {this.props.title}
+            </Typography>
+          </ExpansionPanelSummary>
+          <ExpansionPanelDetails>
+              <InfoRenderer song="" artist="" album="" year="" genre="" id={this.props.id}/>
+          </ExpansionPanelDetails>
+        </ExpansionPanel>
+      </Fade>
     )
   }
 }

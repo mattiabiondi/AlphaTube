@@ -10,6 +10,7 @@ import CommentIcon from '@material-ui/icons/Comment'
 import PublicIcon from '@material-ui/icons/Public'
 import Description from './Description'
 import Comments from './Comments'
+import Fade from '@material-ui/core/Fade'
 
 function TabContainer(props) {
   return (
@@ -32,8 +33,22 @@ const styles = theme => ({
 })
 
 class VideoContent extends Component {
-  state = {
-    value: 0,
+  constructor(props) {
+    super(props)
+    this.state = {
+      value: 0,
+      checked: false
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.id !== this.props.id) {
+      this.setState(
+        {
+          checked: true
+        }
+      )
+   }
   }
 
   handleChange = (event, value) => {
@@ -42,25 +57,26 @@ class VideoContent extends Component {
 
   render() {
     const { classes } = this.props
-    const { value } = this.state
 
     return (
-      <Paper className={classes.root}>
-        <Tabs
-          value={this.state.value}
-          onChange={this.handleChange}
-          fullWidth
-          indicatorColor="secondary"
-          textColor="secondary"
-        >
-          <Tab icon={<DescriptionIcon />} label="DESCRIPTION" />
-          <Tab icon={<CommentIcon />} label="COMMENTS" />
-          <Tab icon={<PublicIcon />} label="WIKIPEDIA" />
-        </Tabs>
-        {value === 0 && <TabContainer><Description description = {this.props.description}/></TabContainer>}
-        {value === 1 && <TabContainer><Comments comments = {this.props.comments}/></TabContainer>}
-        {value === 2 && <TabContainer>Nunc vitae orci ultricies, auctor nunc in, volutpat nisl. Integer sit amet egestas eros, vitae egestas augue. Duis vel est augue.</TabContainer>}
-      </Paper>
+      <Fade in={this.state.checked}>
+        <Paper className={classes.root}>
+          <Tabs
+            value={this.state.value}
+            onChange={this.handleChange}
+            fullWidth
+            indicatorColor="secondary"
+            textColor="secondary"
+          >
+            <Tab icon={<DescriptionIcon />} label="DESCRIPTION" />
+            <Tab icon={<CommentIcon />} label="COMMENTS" />
+            <Tab icon={<PublicIcon />} label="WIKIPEDIA" />
+          </Tabs>
+          {this.state.value === 0 && <TabContainer><Description description = {this.props.description}/></TabContainer>}
+          {this.state.value === 1 && <TabContainer><Comments comments = {this.props.comments}/></TabContainer>}
+          {this.state.value === 2 && <TabContainer>Nunc vitae orci ultricies, auctor nunc in, volutpat nisl. Integer sit amet egestas eros, vitae egestas augue. Duis vel est augue.</TabContainer>}
+        </Paper>
+      </Fade>
     )
   }
 }
