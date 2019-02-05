@@ -2,9 +2,9 @@ import React, { Component, Fragment} from 'react'
 import VideoRenderer from './VideoRenderer'
 import LoadingBar from '../../LoadingBar'
 import YouTubeSearch from 'youtube-search'
-import randomWords from 'random-words'
+import axios from 'axios'
 
-class Random extends Component {
+class Fvitali extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -14,15 +14,15 @@ class Random extends Component {
   }
 
   componentDidMount() {
-     this.generateRandomVideos()
+    this.getVideos()
   }
 
   componentDidUpdate(prevProps) {
-    if (prevProps.videos !== this.props.videos) {
+    if (prevProps.video !== this.props.video) {
       this.setState(prevState => ({
         videos: []
       }))
-      this.generateRandomVideos()
+      this.getVideos()
     }
   }
 
@@ -47,10 +47,32 @@ class Random extends Component {
     }.bind(this))
   }
 
-  generateRandomVideos() {
-    for (var i = 0; i < 20; i++) {
-      var term = randomWords()
-      this.handleYouTubeSearch(term)
+  generateVideoList(videos) {
+    videos.map(
+      function(i) {
+        this.handleYouTubeSearch(i.videoID)
+      }.bind(this)
+    )
+  }
+
+  getVideos() {
+    if(this.props.video) {
+      var id = this.props.video.id
+      axios.get('http://site1825.tw.cs.unibo.it/TW/globpop', {
+        params: {
+          id: id
+        }
+      })
+      .then(function (response) {
+        console.dir(response.data.recommended)
+        this.generateVideoList(response.data.recommended)
+      }.bind(this))
+      .catch(function (error) {
+        console.log(error)
+      })
+      .then(function () {
+        // always executed
+      })
     }
   }
 
@@ -62,17 +84,20 @@ class Random extends Component {
     var videos = null
     if(this.state.videos.length > 0){
         videos = this.state.videos
+        console.dir(videos)
       }
 
     if(videos) {
       var list = videos.map(
         function(i) {
-          return (
-            <VideoRenderer
-              video = {i}
-              handleVideoSelection = {this.handleVideoSelection}
-            />
-          )
+          if(i) {
+            return (
+              <VideoRenderer
+                video = {i}
+                handleVideoSelection = {this.handleVideoSelection}
+              />
+            )
+          }
         }.bind(this)
       )
 
@@ -92,4 +117,4 @@ class Random extends Component {
   }
 }
 
-export default Random
+export default Fvitali
