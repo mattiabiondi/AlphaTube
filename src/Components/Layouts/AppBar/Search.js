@@ -71,7 +71,7 @@ class Search extends Component {
 
   handleYouTubeSearch(term) {
     var opts = {
-      maxResults: 10,
+      maxResults: 20,
       key: process.env.REACT_APP_YOUTUBE_API_KEY,
       type: "video",
       videoCategoryId: 10,
