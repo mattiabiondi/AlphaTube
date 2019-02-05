@@ -32,7 +32,7 @@ class Video extends Component {
           checked: true
         }
       )
-   }
+    }
   }
 
   render() {

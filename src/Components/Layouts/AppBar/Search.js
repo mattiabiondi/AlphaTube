@@ -60,6 +60,7 @@ class Search extends Component {
 
   onKeyDown(e) {
         if (e.keyCode === 13 ) {
+          e.target.blur();
           this.props.handleResults(null)
           return this.handleYouTubeSearch(this.state.term)
         }

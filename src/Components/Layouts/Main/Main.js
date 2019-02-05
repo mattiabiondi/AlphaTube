@@ -4,6 +4,7 @@ import { withStyles } from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'
 import Visualizer from './Visualizer/Visualizer'
 import Recommender from './Recommender/Recommender'
+import scrollToComponent from 'react-scroll-to-component'
 
 const styles = theme => ({
   root: {
@@ -19,6 +20,16 @@ class Main extends Component {
     }
 
     this.handleVideoSelection = this.handleVideoSelection.bind(this)
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.videos !== this.props.videos) {
+      scrollToComponent(this.Recommender, {
+        offset: 0,
+        align: 'top',
+        duration: 0,
+      })
+    }
   }
 
   handleVideoSelection(video) {
@@ -38,6 +49,7 @@ class Main extends Component {
           </Grid>
           <Grid item xs={12} sm={6}>
             <Recommender
+              ref = {(section) => { this.Recommender = section }}
               videos = {this.props.videos}
               video = {this.state.video}
               handleVideoSelection = {this.handleVideoSelection}
