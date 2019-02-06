@@ -9,6 +9,7 @@ import Search from './Tabs/SearchTab.js'
 import Popularity from './Tabs/PopularityTab.js'
 import Related from './Tabs/RelatedTab.js'
 import Fvitali from './Tabs/FvitaliTab.js'
+import Recent from './Tabs/RecentTab.js'
 import Random from './Tabs/RandomTab.js'
 import SearchIcon from '@material-ui/icons/Search'
 import AlbumIcon from '@material-ui/icons/Album'
@@ -115,7 +116,11 @@ class Recommender extends Component {
                                           video = {this.props.video}
                                           handleVideoSelection = {this.handleVideoSelection}/>
                                      </TabContainer>}
-          {this.state.value === 8 && <TabContainer>Item Nine</TabContainer>}
+          {this.state.value === 8 && <TabContainer>
+                                        <Recent
+                                          video = {this.props.video}
+                                          handleVideoSelection = {this.handleVideoSelection}/>
+                                     </TabContainer>}
           {this.state.value === 9 && <TabContainer>
                                         <Random
                                           videos = {this.props.videos}

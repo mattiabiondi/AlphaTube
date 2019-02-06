@@ -40,6 +40,7 @@ class Search extends Component {
           return (
             <VideoRenderer
               video = {i}
+              suggestion = {"YouTube's search results."}
               handleVideoSelection = {this.handleVideoSelection}
             />
           )

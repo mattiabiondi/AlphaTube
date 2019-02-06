@@ -32,8 +32,40 @@ class Main extends Component {
     }
   }
 
+  getRecentCookie() {
+    var term = "recent="
+    var decodedCookie = decodeURIComponent(document.cookie)
+    var cookieArray = decodedCookie.split(';')
+    for(var i = 0; i < cookieArray.length; i++) {
+      var cookie = cookieArray[i]
+      while (cookie.charAt(0) === ' ') {
+        cookie = cookie.substring(1)
+      }
+      if (cookie.indexOf(term) === 0) {
+        return cookie.substring(term.length, cookie.length)
+      }
+    }
+    return ""
+  }
+
+  setRecentCookie(video, exdays) {
+    var d = new Date()
+    d.setTime(d.getTime() + (exdays*24*60*60*1000))
+    var expires = "expires="+ d.toUTCString()
+
+    var recentCookie = this.getRecentCookie()
+    var videos = []
+    if(recentCookie !== "") {
+      videos = JSON.parse(recentCookie)
+    }
+    videos.unshift(video.id)
+    recentCookie = JSON.stringify(videos)
+    document.cookie = "recent=" + recentCookie + ";" + expires + ";path=/"
+  }
+
   handleVideoSelection(video) {
     this.setState({ video: video })
+    this.setRecentCookie(video, 90)
   }
 
   render() {

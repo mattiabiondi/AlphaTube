@@ -19,9 +19,9 @@ class Fvitali extends Component {
 
   componentDidUpdate(prevProps) {
     if (prevProps.video !== this.props.video) {
-      this.setState(prevState => ({
+      this.setState({
         videos: []
-      }))
+      })
       this.getVideos()
     }
   }
@@ -94,6 +94,7 @@ class Fvitali extends Component {
             return (
               <VideoRenderer
                 video = {i}
+                suggestion = {"Recommended by FVitali."}
                 handleVideoSelection = {this.handleVideoSelection}
               />
             )

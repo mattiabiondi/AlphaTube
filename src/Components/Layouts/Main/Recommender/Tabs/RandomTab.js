@@ -19,9 +19,9 @@ class Random extends Component {
 
   componentDidUpdate(prevProps) {
     if (prevProps.videos !== this.props.videos) {
-      this.setState(prevState => ({
+      this.setState({
         videos: []
-      }))
+      })
       this.generateRandomVideos()
     }
   }
@@ -70,6 +70,7 @@ class Random extends Component {
           return (
             <VideoRenderer
               video = {i}
+              suggestion = {"Random music video."}
               handleVideoSelection = {this.handleVideoSelection}
             />
           )
