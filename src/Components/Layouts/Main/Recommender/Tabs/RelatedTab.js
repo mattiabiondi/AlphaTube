@@ -59,7 +59,7 @@ class Related extends Component {
           return (
             <VideoRenderer
               video = {i}
-              suggestion = {"Video related to the one playing."}
+              suggestion = {"related video"}
               handleVideoSelection = {this.handleVideoSelection}
             />
           )

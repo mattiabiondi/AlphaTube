@@ -77,7 +77,7 @@ class Recent extends Component {
           return (
             <VideoRenderer
               video = {i}
-              suggestion = {"Recent music video."}
+              suggestion = {"video seen recently"}
               handleVideoSelection = {this.handleVideoSelection}
             />
           )

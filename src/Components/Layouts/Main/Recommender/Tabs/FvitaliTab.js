@@ -26,13 +26,16 @@ class Fvitali extends Component {
     }
   }
 
-  handleResult(video) {
+  handleResult(video, info) {
+    for(var key in info) {
+        if (info.hasOwnProperty(key)) video[key] = info[key]
+    }
     this.setState(prevState => ({
       videos: [...prevState.videos, video]
     }))
   }
 
-  handleYouTubeSearch(term) {
+  handleYouTubeSearch(video) {
     var opts = {
       maxResults: 1,
       key: process.env.REACT_APP_YOUTUBE_API_KEY,
@@ -40,17 +43,17 @@ class Fvitali extends Component {
       videoCategoryId: 10,
     }
 
-    YouTubeSearch(term, opts, function(err, results) {
+    YouTubeSearch(video.videoID, opts, function(err, results) {
       if(err)
         return console.log(err)
-      this.handleResult(results[0])
+      this.handleResult(results[0], video)
     }.bind(this))
   }
 
   generateVideoList(videos) {
     videos.map(
       function(i) {
-        this.handleYouTubeSearch(i.videoID)
+        this.handleYouTubeSearch(i)
       }.bind(this)
     )
   }
@@ -84,8 +87,7 @@ class Fvitali extends Component {
     var videos = null
     if(this.state.videos.length > 0){
         videos = this.state.videos
-        console.dir(videos)
-      }
+    }
 
     if(videos) {
       var list = videos.map(
@@ -94,7 +96,8 @@ class Fvitali extends Component {
             return (
               <VideoRenderer
                 video = {i}
-                suggestion = {"Recommended by FVitali."}
+                suggestion = {i.prevalentReason}
+                timesWatched = {i.timesWatched}
                 handleVideoSelection = {this.handleVideoSelection}
               />
             )

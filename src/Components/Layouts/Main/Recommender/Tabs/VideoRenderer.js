@@ -65,12 +65,11 @@ class VideoRenderer extends Component {
                 {this.props.video.title}
               </Typography>
               <Typography className={classes.description}>
-                {this.props.suggestion}
+                {"Suggestion reason: " + this.props.suggestion}
               </Typography>
             </CardContent>
           </Grid>
         </Grid>
-
       </Card>
     )
   }

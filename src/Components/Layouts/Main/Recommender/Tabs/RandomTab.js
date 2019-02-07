@@ -70,7 +70,7 @@ class Random extends Component {
           return (
             <VideoRenderer
               video = {i}
-              suggestion = {"Random music video."}
+              suggestion = {"random music video"}
               handleVideoSelection = {this.handleVideoSelection}
             />
           )
