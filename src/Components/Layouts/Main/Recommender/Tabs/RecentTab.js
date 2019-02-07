@@ -45,18 +45,18 @@ class Recent extends Component {
     })
   }
 
-  cleanVideos(videos) {
-    var videosCleaned = [...new Set(videos)]
-    return videosCleaned
-  }
-
   getRecentVideos() {
     var videos = localStorage.getItem('recent')
-    videos = JSON.parse(videos)
-    videos = this.cleanVideos(videos)
-    this.setState({
-      videos: videos
-    })
+    if (videos) {
+      videos = JSON.parse(videos)
+      this.setState({
+        videos: videos
+      })
+    } else {
+      this.setState({
+        videos: []
+      })
+    }
   }
 
   handleVideoSelection(videoId) {

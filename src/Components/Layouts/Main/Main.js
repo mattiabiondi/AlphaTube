@@ -32,9 +32,17 @@ class Main extends Component {
     }
   }
 
+  removeDuplicates(videos) {
+    return videos.filter((obj, pos, arr) => {
+        return arr.map(mapObj => mapObj['id']).indexOf(obj['id']) === pos
+    })
+  }
+
   getRecentVideos() {
     var videos = localStorage.getItem('recent')
-    videos = JSON.parse(videos)
+    if (videos) {
+      videos = JSON.parse(videos)
+    }
     return videos
   }
 
@@ -45,6 +53,7 @@ class Main extends Component {
       history = recentVideos
     }
     history.unshift(video)
+    history = this.removeDuplicates(history)
     history = JSON.stringify(history)
     localStorage.setItem('recent', history)
   }
