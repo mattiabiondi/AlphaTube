@@ -18,7 +18,8 @@ class Main extends Component {
     this.state = {
       video: null
     }
-
+    this.setRecentVideos = this.setRecentVideos.bind(this)
+    this.getRecentVideos = this.getRecentVideos.bind(this)
     this.handleVideoSelection = this.handleVideoSelection.bind(this)
   }
 
@@ -60,7 +61,6 @@ class Main extends Component {
 
   handleVideoSelection(video) {
     this.setState({ video: video })
-    this.setRecentVideos(video)
   }
 
   render() {
@@ -72,7 +72,10 @@ class Main extends Component {
           spacing={8}
           direction="row">
           <Grid item xs={12} sm={6}>
-            <Visualizer video = {this.state.video} />
+            <Visualizer
+              video = {this.state.video}
+              setRecentVideos = {this.setRecentVideos}
+            />
           </Grid>
           <Grid item xs={12} sm={6}>
             <Recommender

@@ -59,8 +59,8 @@ class Recent extends Component {
     }
   }
 
-  handleVideoSelection(videoId) {
-    this.props.handleVideoSelection(videoId)
+  handleVideoSelection(video) {
+    this.props.handleVideoSelection(video)
   }
 
   render() {

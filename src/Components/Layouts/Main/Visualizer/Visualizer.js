@@ -28,6 +28,7 @@ class Visualizer extends Component {
     }
     this.getVideoInfo = this.getVideoInfo.bind(this)
     this.getComments = this.getComments.bind(this)
+    this.setRecentVideos = this.setRecentVideos.bind(this)
   }
 
   componentDidMount() {
@@ -102,14 +103,20 @@ class Visualizer extends Component {
     }
   }
 
+  setRecentVideos(video){
+    this.props.setRecentVideos(video)
+  }
+
   render() {
     const { classes } = this.props
 
     var id = ""
     var title = ""
+    var video = null
     if(this.state.video) {
       id = this.state.video.id
       title = this.state.video.title
+      video = this.state.video
     }
 
     var description = null
@@ -126,7 +133,11 @@ class Visualizer extends Component {
       <div className={classes.root}>
         <Grid container spacing={8}>
           <Grid item xs={12}>
-            <Video id={id}/>
+            <Video
+            id={id}
+            video={video}
+            setRecentVideos = {this.setRecentVideos}
+            />
           </Grid>
           <Grid item xs={12} >
             <VideoInfo id={id} title={title}/>

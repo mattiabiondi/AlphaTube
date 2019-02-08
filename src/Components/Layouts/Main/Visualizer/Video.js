@@ -23,12 +23,14 @@ class Video extends Component {
     super(props)
     this.state = {
       seconds: 0,
-      checked: false
+      checked: false,
+      watched:false
     }
     this.tracking = false
     this.startTimer = this.startTimer.bind(this)
     this.stopTimer = this.stopTimer.bind(this)
     this.count = this.count.bind(this)
+    this.setRecentVideos = this.setRecentVideos.bind(this)
   }
 
   componentDidUpdate(prevProps) {
@@ -36,9 +38,41 @@ class Video extends Component {
       this.setState(
         {
           seconds:0,
-          checked: true
+          checked: true,
+          watched:false
         }
       )
+    }
+  }
+
+  setRecentVideos(video){
+    this.props.setRecentVideos(video)
+  }
+
+  startTimer() {
+    if (this.tracking==false&this.state.watched==false){
+      this.tracking = true
+      this.timer = setInterval(this.count, 1000)
+    }
+  }
+
+  stopTimer() {
+    this.tracking = false
+    clearInterval(this.timer)
+  }
+
+  count() {
+    var seconds = this.state.seconds + 1
+    this.setState({
+      seconds: seconds
+    })
+    console.log(this.state.seconds)
+    if(seconds>15){
+      this.setState({
+        watched:true
+      })
+      clearInterval(this.timer)
+      this.setRecentVideos(this.props.video)
     }
   }
 
@@ -67,26 +101,6 @@ class Video extends Component {
         </Paper>
       </Fade>
     )
-  }
-
-  startTimer() {
-    if (this.tracking==false){
-      this.tracking = true
-      this.timer = setInterval(this.count, 1000)
-    }
-  }
-
-  stopTimer() {
-    this.tracking = false
-    clearInterval(this.timer)
-  }
-
-  count() {
-    var sec = this.state.seconds + 1
-    this.setState({
-      seconds: sec
-    })
-    console.log(this.state.seconds)
   }
 
 }
