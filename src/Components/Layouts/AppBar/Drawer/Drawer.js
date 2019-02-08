@@ -35,8 +35,9 @@ class Drawer extends Component {
 
   handleVideoSelection(video) {
     this.props.handleVideoSelection(video)
-    this.toggleDrawer('left', false)
-    this.forceUpdate()
+    this.setState({
+      left: false,
+    })
   }
 
   render() {
