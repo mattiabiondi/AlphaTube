@@ -18,7 +18,7 @@ class Random extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (prevProps.videos !== this.props.videos) {
+    if (prevProps.video !== this.props.video) {
       this.setState({
         videos: []
       })

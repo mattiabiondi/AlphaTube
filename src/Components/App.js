@@ -32,7 +32,12 @@ export default class extends Component {
   }
 
   handleVideoSelection = (video) => {
-    this.setState({ video: video })
+    this.setState(
+      {
+        video: video,
+        videos: null
+      }
+    )
   }
 
   render() {
