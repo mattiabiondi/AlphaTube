@@ -29,12 +29,16 @@ const styles = theme => ({
 class SearchAppBar extends Component {
   constructor(props){
       super(props);
-
       this.handleResults = this.handleResults.bind(this)
+      this.handleVideoSelection = this.handleVideoSelection.bind(this)
   }
 
   handleResults(results) {
     this.props.handleResults(results)
+  }
+
+  handleVideoSelection(video) {
+    this.props.handleVideoSelection(video)
   }
 
   render() {
@@ -44,7 +48,7 @@ class SearchAppBar extends Component {
       <div className={classes.root}>
         <AppBar position="static">
           <Toolbar>
-            <Drawer />
+            <Drawer handleVideoSelection = {this.handleVideoSelection}/>
 
             <Typography className={classes.title} variant="title" color="inherit" noWrap>
               &alpha;Tube

@@ -5,7 +5,6 @@ import Paper from '@material-ui/core/Paper'
 import YouTube from 'react-youtube'
 import Fade from '@material-ui/core/Fade'
 
-
 const styles = theme => ({
   root: {
     flexGrow: 1,
@@ -50,7 +49,7 @@ class Video extends Component {
   }
 
   startTimer() {
-    if (this.tracking==false&this.state.watched==false){
+    if (this.tracking === false & this.state.watched === false){
       this.tracking = true
       this.timer = setInterval(this.count, 1000)
     }
@@ -66,7 +65,6 @@ class Video extends Component {
     this.setState({
       seconds: seconds
     })
-    console.log(this.state.seconds)
     if(seconds>15){
       this.setState({
         watched:true

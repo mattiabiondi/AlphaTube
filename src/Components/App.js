@@ -22,7 +22,8 @@ export default class extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      videos: null
+      videos: null,
+      video: null
     }
   }
 
@@ -30,13 +31,23 @@ export default class extends Component {
     this.setState({ videos: results })
   }
 
+  handleVideoSelection = (video) => {
+    this.setState({ video: video })
+  }
+
   render() {
     return (
       <MuiThemeProvider theme={theme}>
         <Fragment> {/* A differenza dei 'div', i 'Fragment' non aggiungono nodi al DOM */}
           <CssBaseline/> {/* Utilizzo del componente di stile precedentemente importato */}
-          <AppBar handleResults={this.handleResults}/>
-          <Main videos={this.state.videos}/>
+          <AppBar
+            handleResults={this.handleResults}
+            handleVideoSelection = {this.handleVideoSelection}
+          />
+          <Main
+            videos = {this.state.videos}
+            video = {this.state.video}
+          />
         </Fragment>
       </MuiThemeProvider>
     )

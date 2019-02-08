@@ -1,10 +1,10 @@
-import React, { Component, Fragment} from 'react'
-import VideoRenderer from './VideoRenderer'
-import LoadingBar from '../../LoadingBar'
+import React, { Component, Fragment } from 'react'
+import LoadingBar from '../../Main/LoadingBar'
 import YouTubeSearch from 'youtube-search'
+import VideoRenderer from '../../Main/Recommender/Tabs/VideoRenderer'
 import axios from 'axios'
 
-class Fvitali extends Component {
+class StartingList extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -15,15 +15,6 @@ class Fvitali extends Component {
 
   componentDidMount() {
     this.getVideos()
-  }
-
-  componentDidUpdate(prevProps) {
-    if (prevProps.video !== this.props.video) {
-      this.setState({
-        videos: []
-      })
-      this.getVideos()
-    }
   }
 
   handleResult(video, info) {
@@ -58,24 +49,17 @@ class Fvitali extends Component {
   }
 
   getVideos() {
-    if(this.props.video) {
-      var id = this.props.video.id
-      axios.get('http://site1825.tw.cs.unibo.it/TW/globpop', {
-        params: {
-          id: id
-        }
-      })
-      .then(function (response) {
-        console.dir(response.data.recommended)
-        this.generateVideoList(response.data.recommended)
-      }.bind(this))
-      .catch(function (error) {
-        console.log(error)
-      })
-      .then(function () {
-        // always executed
-      })
-    }
+    axios.get('http://site1825.tw.cs.unibo.it/video.json')
+    .then(function (response) {
+      console.dir(response.data)
+      this.generateVideoList(response.data)
+    }.bind(this))
+    .catch(function (error) {
+      console.log(error)
+    })
+    .then(function () {
+      // always executed
+    })
   }
 
   handleVideoSelection(video) {
@@ -120,4 +104,4 @@ class Fvitali extends Component {
   }
 }
 
-export default Fvitali
+export default StartingList

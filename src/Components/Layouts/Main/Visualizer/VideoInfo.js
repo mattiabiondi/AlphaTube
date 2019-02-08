@@ -45,7 +45,7 @@ class VideoInfo extends Component {
         <ExpansionPanel>
           <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
             <Typography className={classes.heading}>
-              {this.props.title}
+              {this.props.artist + " - " + this.props.title}
             </Typography>
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>

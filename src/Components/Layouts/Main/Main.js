@@ -31,6 +31,10 @@ class Main extends Component {
         duration: 0,
       })
     }
+
+    if (prevProps.video !== this.props.video) {
+      this.handleVideoSelection(this.props.video)
+    }
   }
 
   removeDuplicates(videos) {

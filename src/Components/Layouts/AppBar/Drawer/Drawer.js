@@ -5,7 +5,7 @@ import SwipeableDrawer from '@material-ui/core/SwipeableDrawer'
 import IconButton from '@material-ui/core/IconButton'
 import MenuIcon from '@material-ui/icons/Menu'
 import List from '@material-ui/core/List'
-import { bottomItems } from './drawerItems'
+import DrawerItems from './DrawerItems'
 
 const styles = theme => ({
   menuButton: {
@@ -18,6 +18,11 @@ const styles = theme => ({
 })
 
 class Drawer extends Component {
+  constructor(props) {
+    super(props)
+    this.handleVideoSelection = this.handleVideoSelection.bind(this)
+  }
+
   state = {
     left: false,
   }
@@ -28,6 +33,12 @@ class Drawer extends Component {
     })
   }
 
+  handleVideoSelection(video) {
+    this.props.handleVideoSelection(video)
+    this.toggleDrawer('left', false)
+    this.forceUpdate()
+  }
+
   render() {
     const { classes } = this.props
 
@@ -35,7 +46,7 @@ class Drawer extends Component {
 
     const sideList = (
       <div className={classes.list}>
-        <List>{ bottomItems }</List>
+        <List><DrawerItems handleVideoSelection = {this.handleVideoSelection}/></List>
       </div>
     )
 

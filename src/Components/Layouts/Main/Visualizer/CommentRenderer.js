@@ -10,7 +10,6 @@ import Icon from '@material-ui/core/Icon'
 import Typography from '@material-ui/core/Typography'
 import LikeIcon from '@material-ui/icons/ThumbUp'
 
-
 const styles = theme => ({
   card: {
     backgroundColor: '#616161',

@@ -4,7 +4,6 @@ import YouTubeSearch from 'youtube-search'
 import LoadingBar from '../../LoadingBar'
 
 class Related extends Component {
-
   constructor(props) {
     super(props)
     this.state = {

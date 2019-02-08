@@ -54,7 +54,7 @@ class Recommender extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (prevProps.videos !== this.props.videos) {
+    if ((prevProps.videos !== this.props.videos) || (prevProps.video !== this.props.video)) {
       this.setState(
         {
           checked: true
