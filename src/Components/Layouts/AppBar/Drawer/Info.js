@@ -11,6 +11,8 @@ import DialogContentText from '@material-ui/core/DialogContentText'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import TeamList from './TeamList'
 
+// Dialog con le informazioni sul Team
+
 class Info extends React.Component {
   state = {
     open: false,

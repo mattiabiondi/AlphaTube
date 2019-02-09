@@ -18,20 +18,20 @@ class Demo extends React.Component {
   }
 
   state = {
-    open: false,
+    open: false, // Lo stato del Dialog (aperto/chiuso)
   }
 
   handleClickOpen = () => {
-    this.setState({ open: true })
+    this.setState({ open: true }) // Quando si clicca sul button apre il dialog
   }
 
   handleClose = () => {
-    this.setState({ open: false })
+    this.setState({ open: false }) // Chiude il dialog
   }
 
   handleVideoSelection(video) {
-    this.props.handleVideoSelection(video)
-    this.handleClose()
+    this.props.handleVideoSelection(video) // Passa il video alla classe sopra
+    this.handleClose() // Chiude il dialog dopo aver selezionato il video
   }
 
   render() {

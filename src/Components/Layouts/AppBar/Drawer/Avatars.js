@@ -1,6 +1,8 @@
 import React from 'react'
 import Avatar from '@material-ui/core/Avatar'
 
+// File che importa le nostre foto e le esporta sotto forma di Avatar
+
 function Mattia(props) {
   return (
     <Avatar

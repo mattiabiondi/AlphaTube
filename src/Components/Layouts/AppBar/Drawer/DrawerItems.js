@@ -6,6 +6,8 @@ import FeedbackIcon from '@material-ui/icons/Feedback'
 import Demo from './Demo'
 import Info from './Info'
 
+// Lista degli elementi del Drawer
+
 class DrawerItems extends Component {
   constructor(props) {
     super(props)

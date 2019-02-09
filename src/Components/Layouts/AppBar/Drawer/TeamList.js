@@ -7,6 +7,8 @@ import ListItemText from '@material-ui/core/ListItemText'
 import Avatar from '@material-ui/core/Avatar'
 import { Mattia, Julien } from './Avatars'
 
+// Lista dei componenti del Team
+
 const styles = theme => ({
   root: {
     width: '100%',

@@ -35,7 +35,7 @@ class Drawer extends Component {
 
   handleVideoSelection(video) {
     this.props.handleVideoSelection(video)
-    this.setState({
+    this.setState({ // Dopo aver selezionato il video chiude il drawer
       left: false,
     })
   }
@@ -43,7 +43,7 @@ class Drawer extends Component {
   render() {
     const { classes } = this.props
 
-    const iOS = process.browser && /iPad|iPhone|iPod/.test(navigator.userAgent)
+    const iOS = process.browser && /iPad|iPhone|iPod/.test(navigator.userAgent) // Se l'utente usa iOS evita che lo swype per chiudere/aprire il drawer chiuda la pagina
 
     const sideList = (
       <div className={classes.list}>
