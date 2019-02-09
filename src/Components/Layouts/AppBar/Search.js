@@ -81,7 +81,7 @@ class Search extends Component {
     YouTubeSearch(term, opts, function(err, results) {
       if(err)
         return console.log(err)
-      console.dir(results) // Mostra in console i risultati della ricerca (un Array[20])
+      // console.dir(results) // Mostra in console i risultati della ricerca (un Array[20])
       this.props.handleResults(results) // Passa alla funzione della classe superiore i risultati
     }.bind(this))
   }

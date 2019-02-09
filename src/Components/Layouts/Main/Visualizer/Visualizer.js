@@ -140,7 +140,7 @@ class Visualizer extends Component {
             />
           </Grid>
           <Grid item xs={12} >
-            <VideoInfo id={id} title={title}/>
+            <VideoInfo video={video} id={id} title={title}/>
           </Grid>
           <Grid item xs={12} >
             <VideoContent
