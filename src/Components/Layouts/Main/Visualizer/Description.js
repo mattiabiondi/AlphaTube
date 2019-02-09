@@ -17,6 +17,7 @@ class Description extends Component {
       var description = this.props.description
       return (
         <Fragment>
+          {renderHTML('<style>a{color:#1ec38b}a:hover{color:#FFF}</style>')}
           {renderHTML(description)}
         </Fragment>
       )
