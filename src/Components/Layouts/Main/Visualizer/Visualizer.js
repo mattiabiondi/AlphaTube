@@ -60,7 +60,7 @@ class Visualizer extends Component {
         }
       })
       .then(function (response) {
-        console.log(response)
+        // console.log(response)
         this.setState({ info: response })
       }.bind(this))
       .catch(function (error) {
@@ -86,7 +86,7 @@ class Visualizer extends Component {
         }
       })
       .then(function (response) {
-        console.log(response)
+        // console.log(response)
         this.setState({ comments: response })
       }.bind(this))
       .catch(function (error) {

@@ -9,6 +9,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import InfoRenderer from './InfoRenderer'
 import Fade from '@material-ui/core/Fade'
 import getTitle from 'get-artist-title'
+import axios from 'axios'
 
 const styles = theme => ({
   heading: {
@@ -28,8 +29,9 @@ class VideoInfo extends Component {
       artist: '',
       checked: false
     }
-    // this.getArtistAndTitle = this.getArtistAndTitle.bind(this)
-
+    this.getArtistAndTitle = this.getArtistAndTitle.bind(this)
+    this.sparqlURL = this.sparqlURL.bind(this)
+    this.getData = this.getData.bind(this)
   }
 
   componentDidUpdate(prevProps) {
@@ -39,8 +41,8 @@ class VideoInfo extends Component {
           checked: true
         }
       )
+      this.getArtistAndTitle(this.props.title)
     }
-
   }
 
   getArtistAndTitle(title){
@@ -50,17 +52,95 @@ class VideoInfo extends Component {
       if(data[0] != null) {
         song = data[1]
         song=song.split('(')[0]
+        if(song[song.length-1]==" "){
+          song = song.substr(0, song.length-1)
+        }
+        this.setState({
+          song: song,
+          artist: data[0]
+        })
       }
       else {
         song=this.props.title
       }
     }
-    return song
   }
 
+  sparqlURL(song){
+    song=song.replace(/ /g,'_')
+    console.log(song)
+    var query = `SELECT ?abstract ?album ?date ?genre
+    WHERE {
+      dbr:`+song+` dbo:abstract ?abstract.
+      dbr:`+song+` dbo:album ?album.
+      dbr:`+song+` dbo:releaseDate ?date.
+      dbr:`+song+` dbo:genre ?genre.
+      FILTER (langMatches(lang(?abstract),'en'))
+    }`
+      console.log(query)
+      return query
+  }
+
+  getData(queryUrl) {
+    var url= "http://dbpedia.org/sparql?query=" + encodeURIComponent(queryUrl) + "&format=json"
+    axios.get(url)
+    .then(function (response) {
+      console.dir(response)
+    }.bind(this))
+    .catch(function (error) {
+      console.log('error')
+    })
+  }
+
+  // function setContentBrano(){
+  //     var artist = videoNamespace.getCurrentPlayerArtist();
+  //     var title = videoNamespace.getCurrentPlayerSong();
+  //     if (title && artist){
+  //         var res1 = title.replace(/\s/g,"_");
+  //         var res2 = title.replace(/\s/g,"_") + "_(song)" ;
+  //         var res3 = title.replace(/\s/g,"_") + "_(" + artist.replace(/\s/g,"_") + "_song)";
+  //
+  //         $.get(buildQuery(res1,artist)).done((data)=>{
+  //             if (data["results"]["bindings"].length){
+  //                 //in getResults ritorna una coppia song,artist
+  //                 fillWikiArea(getResultsFromQuery(data)[0],getResultsFromQuery(data)[1]);
+  //             }
+  //             else {
+  //                 $.get(buildQuery(res2,artist)).done((data)=>{
+  //                     if (data["results"]["bindings"].length){
+  //                         fillWikiArea(getResultsFromQuery(data)[0],getResultsFromQuery(data)[1]);
+  //                     }
+  //                     else {
+  //                         $.get(buildQuery(res3,artist)).done((data)=>{
+  //                             if (data["results"]["bindings"].length){
+  //                                 fillWikiArea(getResultsFromQuery(data)[0],getResultsFromQuery(data)[1]);
+  //                             }
+  //                             else {
+  //                                 noContentFound();
+  //                             }
+  //                         }).fail(()=>{
+  //                             noContentFound();
+  //                         });
+  //                     }
+  //                 }).fail(()=>{
+  //                     noContentFound();
+  //                 });
+  //             }
+  //         }).fail(()=>{
+  //             noContentFound();
+  //         });
+  //     }
+  //     else {
+  //         noContentFound();
+  //     }
+  // }
+
   render() {
+    if(this.state.song != ''){
+      this.getData(this.sparqlURL(this.state.song))
+    }
+
     const { classes } = this.props
-    var song = this.getArtistAndTitle(this.props.title)
     return (
       <Fade in={this.state.checked}>
         <ExpansionPanel>
@@ -70,7 +150,7 @@ class VideoInfo extends Component {
             </Typography>
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>
-              <InfoRenderer song={song} artist="" album="" year="" genre="" id={this.props.id}/>
+              <InfoRenderer song={this.state.song} artist={this.state.artist} album="" year="" genre="" id={this.props.id}/>
           </ExpansionPanelDetails>
         </ExpansionPanel>
       </Fade>
