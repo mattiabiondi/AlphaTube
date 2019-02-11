@@ -11,7 +11,6 @@ const styles = theme => ({
 
 class Description extends Component {
   render() {
-    const { classes } = this.props
 
     if(this.props.description) {
       var description = this.props.description

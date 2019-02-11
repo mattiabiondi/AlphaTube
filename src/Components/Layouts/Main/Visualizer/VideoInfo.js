@@ -52,7 +52,7 @@ class VideoInfo extends Component {
       if(data[0] != null) {
         song = data[1]
         song=song.split('(')[0]
-        if(song[song.length-1]==" "){
+        if(song[song.length-1]===" "){
           song = song.substr(0, song.length-1)
         }
         this.setState({
@@ -86,7 +86,7 @@ class VideoInfo extends Component {
     axios.get(url)
     .then(function (response) {
       console.dir(response)
-    }.bind(this))
+    })
     .catch(function (error) {
       console.log('error')
     })
@@ -136,7 +136,7 @@ class VideoInfo extends Component {
   // }
 
   render() {
-    if(this.state.song != ''){
+    if(this.state.song !== ''){
       this.getData(this.sparqlURL(this.state.song))
     }
 
