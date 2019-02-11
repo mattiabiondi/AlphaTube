@@ -54,10 +54,17 @@ class Recommender extends Component {
   }
 
   componentDidUpdate(prevProps) {
+    if (prevProps.videos !== this.props.videos) {
+      this.setState(
+        {
+          value: 0, // Dopo aver fatto la search reimposta "Search" come tab selezionata
+        }
+      )
+    }
     if ((prevProps.videos !== this.props.videos) || (prevProps.video !== this.props.video)) {
       this.setState(
         {
-          checked: true
+          checked: true,
         }
       )
    }
