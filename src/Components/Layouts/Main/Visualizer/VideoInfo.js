@@ -40,54 +40,45 @@ class VideoInfo extends Component {
           checked: true
         }
       )
-<<<<<<< HEAD
       // this.getArtistAndTitle(this.props.title)
       this.getTags(this.props.id)
-=======
-      this.getArtistAndTitle(this.props.title)
     }
   }
 
-  getArtistAndTitle(title){
-    let song=''
-    let data = getTitle(title)
-    if(data){
-      if(data[0] != null) {
-        song = data[1]
-        song=song.split('(')[0]
-        if(song[song.length-1]===" "){
-          song = song.substr(0, song.length-1)
-        }
-        this.setState({
-          song: song,
-          artist: data[0]
-        })
-      }
-      else {
-        song=this.props.title
-      }
->>>>>>> 9fc63166ee64bf3b648da95c37140dca9a0ad1f7
-    }
-  }
+  // getArtistAndTitle(title){
+  //   let song=''
+  //   let data = getTitle(title)
+  //   if(data){
+  //     if(data[0] != null) {
+  //       song = data[1]
+  //       song=song.split('(')[0]
+  //       if(song[song.length-1]===" "){
+  //         song = song.substr(0, song.length-1)
+  //       }
+  //       this.setState({
+  //         song: song,
+  //         artist: data[0]
+  //       })
+  //     }
+  //     else {
+  //       song=this.props.title
+  //     }
+  //   }
+  // }
 
   getTags(id) {
     var key=process.env.REACT_APP_YOUTUBE_API_KEY
     var url= "https://www.googleapis.com/youtube/v3/videos?part=snippet&id=" + id + "&key=" + key + "&format=json"
     axios.get(url)
     .then(function (response) {
-<<<<<<< HEAD
       this.setState({
         tags : response.data.items[0].snippet.tags
       })
       console.dir(this.state.tags)
-    }.bind(this))
-=======
-      console.dir(response)
-    })
->>>>>>> 9fc63166ee64bf3b648da95c37140dca9a0ad1f7
-    .catch(function (error) {
-      console.log('error')
-    })
+      }.bind(this))
+      .catch(function (error) {
+        console.log('error')
+      })
   }
 
   // getDBResource() {
@@ -212,16 +203,6 @@ class VideoInfo extends Component {
   // }
 
   render() {
-<<<<<<< HEAD
-    // if(this.state.song != ''){
-    //   this.getData(this.sparqlURL(this.state.song))
-    // }
-=======
-    if(this.state.song !== ''){
-      this.getData(this.sparqlURL(this.state.song))
-    }
-
->>>>>>> 9fc63166ee64bf3b648da95c37140dca9a0ad1f7
     const { classes } = this.props
     return (
       <Fade in={this.state.checked}>
