@@ -66,14 +66,14 @@ class Visualizer extends Component {
       .catch(function (error) {
         console.log(error)
       })
-      .then(function () {
-        // always executed
-        //if(this.state.video.id !== id) {
-          //this.setState({ info: null })
-          //this.getVideoInfo()
-        //}
-      //}.bind(this))
-      })
+      // .then(function () {
+      //   always executed
+      //   if(this.state.video.id !== id) {
+      //     this.setState({ info: null })
+      //     this.getVideoInfo()
+      //   }
+      // }.bind(this))
+      // })
     }
   }
 

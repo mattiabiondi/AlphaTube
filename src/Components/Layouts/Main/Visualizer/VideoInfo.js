@@ -27,11 +27,10 @@ class VideoInfo extends Component {
     this.state = {
       song: '',
       artist: '',
-      checked: false
+      checked: false,
+      tags: null
     }
-    this.getArtistAndTitle = this.getArtistAndTitle.bind(this)
-    this.sparqlURL = this.sparqlURL.bind(this)
-    this.getData = this.getData.bind(this)
+
   }
 
   componentDidUpdate(prevProps) {
@@ -41,58 +40,105 @@ class VideoInfo extends Component {
           checked: true
         }
       )
-      this.getArtistAndTitle(this.props.title)
+      // this.getArtistAndTitle(this.props.title)
+      this.getTags(this.props.id)
     }
   }
 
-  getArtistAndTitle(title){
-    let song=''
-    let data = getTitle(title)
-    if(data){
-      if(data[0] != null) {
-        song = data[1]
-        song=song.split('(')[0]
-        if(song[song.length-1]==" "){
-          song = song.substr(0, song.length-1)
-        }
-        this.setState({
-          song: song,
-          artist: data[0]
-        })
-      }
-      else {
-        song=this.props.title
-      }
-    }
-  }
-
-  sparqlURL(song){
-    song=song.replace(/ /g,'_')
-    console.log(song)
-    var query = `SELECT ?abstract ?album ?date ?genre
-    WHERE {
-      dbr:`+song+` dbo:abstract ?abstract.
-      dbr:`+song+` dbo:album ?album.
-      dbr:`+song+` dbo:releaseDate ?date.
-      dbr:`+song+` dbo:genre ?genre.
-      FILTER (langMatches(lang(?abstract),'en'))
-    }`
-      console.log(query)
-      return query
-  }
-
-  getData(queryUrl) {
-    var url= "http://dbpedia.org/sparql?query=" + encodeURIComponent(queryUrl) + "&format=json"
+  getTags(id) {
+    var key=process.env.REACT_APP_YOUTUBE_API_KEY
+    var url= "https://www.googleapis.com/youtube/v3/videos?part=snippet&id=" + id + "&key=" + key + "&format=json"
     axios.get(url)
     .then(function (response) {
-      console.dir(response)
+      this.setState({
+        tags : response.data.items[0].snippet.tags
+      })
+      console.dir(this.state.tags)
     }.bind(this))
     .catch(function (error) {
       console.log('error')
     })
   }
 
-  // function setContentBrano(){
+  // getDBResource() {
+  //   var tags = this.state.tags
+  //   var resources = null
+  //   for(var i=0; i<(tags.length); i++) {
+  //     if ( resources == null) {
+  //       tags[i]=tags[i].replace(/ /g,'_')
+  //       // console.log("posizione "+i+": "+tags[i])
+  //       var query= `SELECT DISTINCT ?s   WHERE {
+  //
+  //                   ?s rdf:type dbo:MusicalWork.
+  //
+  //                   FILTER regex(str(?s), "` + tags[i] + `", "i").
+  //
+  //                   }`
+  //       var url= "http://dbpedia.org/sparql?query=" + encodeURIComponent(query) + "&format=json"
+  //       axios.get(url)
+  //       .then(function (response) {
+  //         if(response.data.results.bindings[i] !== null) {
+  //           console.dir(response.data.results.bindings)
+  //           resources = response.data.results.bindings
+  //         }
+  //       }.bind(this))
+  //       .catch(function (error) {
+  //         console.log('error')
+  //       })
+  //     }
+  //   }
+  //   // console.dir(resources)
+  //   console.log(' ')
+  // }
+
+  // getArtistAndTitle(title) {
+  //   let song=''
+  //   let data = getTitle(title)
+  //   if(data){
+  //     if(data[0] != null) {
+  //       song = data[1]
+  //       song=song.split('(')[0]
+  //       if(song[song.length-1]==" "){
+  //         song = song.substr(0, song.length-1)
+  //       }
+  //       this.setState({
+  //         song: song,
+  //         artist: data[0]
+  //       })
+  //     }
+  //     else {
+  //       song=this.props.title
+  //     }
+  //   }
+  // }
+  //
+  // sparqlURL(song) {
+  //   song=song.replace(/ /g,'_')
+  //   console.log(song)
+  //   var query = `SELECT ?abstract ?album ?date ?genre
+  //   WHERE {
+  //     dbr:`+song+` dbo:abstract ?abstract.
+  //     dbr:`+song+` dbo:album ?album.
+  //     dbr:`+song+` dbo:releaseDate ?date.
+  //     dbr:`+song+` dbo:genre ?genre.
+  //     FILTER (langMatches(lang(?abstract),'en'))
+  //   }`
+  //     console.log(query)
+  //     return query
+  // }
+  //
+  // getData(queryUrl) {
+  //   var url= "http://dbpedia.org/sparql?query=" + encodeURIComponent(queryUrl) + "&format=json"
+  //   axios.get(url)
+  //   .then(function (response) {
+  //     console.dir(response)
+  //   }.bind(this))
+  //   .catch(function (error) {
+  //     console.log('error')
+  //   })
+  // }
+
+  // function setContentBrano() {
   //     var artist = videoNamespace.getCurrentPlayerArtist();
   //     var title = videoNamespace.getCurrentPlayerSong();
   //     if (title && artist){
@@ -136,10 +182,9 @@ class VideoInfo extends Component {
   // }
 
   render() {
-    if(this.state.song != ''){
-      this.getData(this.sparqlURL(this.state.song))
-    }
-
+    // if(this.state.song != ''){
+    //   this.getData(this.sparqlURL(this.state.song))
+    // }
     const { classes } = this.props
     return (
       <Fade in={this.state.checked}>
