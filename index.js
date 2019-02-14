@@ -1,10 +1,16 @@
 const express = require('express') // Web framework
+const bodyParser = require('body-parser')
 const path = require('path') // Tool per lavorare con file o path
 const app  = express() // Definizione di express
 const fetchComments = require('youtube-comments-task') // Modulo per ottenere commenti da video di YouTube
 const fetchVideoInfo = require('youtube-info') // Modulo per ottenere info da video di YouTube
+const fs = require('file-system')
 
 app.use(express.static(path.join(__dirname, 'build'))) // Fornitura del nome della directory che contiene gli asset statici
+
+//Here we are configuring express to use body-parser as middle-ware.
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.json())
 
 app.get('/', (req, res) => { // Risposta fornita quando si effettua una GET alla root del sito
     res.sendFile(path.join(__dirname, 'build', 'index.html')) // La funzione ritorna un file ("/build/index.html")
@@ -44,6 +50,25 @@ app.get('/comments/', (req, res) => { // Risposta fornita quando si effettua una
       next_page: p.nextPageToken,
     })
   })
+})
+
+app.get('/globpop/', (req, res) => { // Risposta fornita quando si effettua una GET a "/globpop"
+  var id = req.query.id // Parametro della richiesta
+  if (!id) { // Se non c'è l'ID, devo far tornare la popolarità locale assoluta
+    var filePath = path.join(__dirname, 'LAP.json')
+    var readable = fs.createReadStream(filePath)
+    readable.pipe(res)
+  }
+})
+
+app.post('/setlocalpop/', function(req, res) {
+    var data = req.body.data
+    data = JSON.stringify(data)
+    fs.writeFile('LAP.json', data, function(err) {
+      if (err) {
+         res.status(500).jsonp({ error: 'Failed to write file' })
+      }
+    })
 })
 
 app.listen(8000) // La porta su cui l'app è in ascolto

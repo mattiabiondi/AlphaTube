@@ -5,6 +5,7 @@ import Grid from '@material-ui/core/Grid'
 import Visualizer from './Visualizer/Visualizer'
 import Recommender from './Recommender/Recommender'
 import scrollToComponent from 'react-scroll-to-component'
+import axios from 'axios'
 
 const styles = theme => ({
   root: {
@@ -52,6 +53,7 @@ class Main extends Component {
   }
 
   setRecentVideos(video) {
+    this.setLocalPop(video)
     var recentVideos = this.getRecentVideos()
     var history = []
     if(recentVideos) {
@@ -65,6 +67,50 @@ class Main extends Component {
 
   handleVideoSelection(video) {
     this.setState({ video: video })
+  }
+
+  updateLocalPop(localPop, video) {
+    var toAdd = true
+    localPop.recommended.map(
+      function(i) {
+        if(i.videoID === video.id) {
+          toAdd = false
+          i.timesWatched += 1
+        }
+      }
+    )
+
+    if(toAdd) {
+      var vid = {
+        videoID: video.id,
+        timesWatched: 1,
+        reasons: "to do",
+        lastSelected:"to do"
+      }
+      localPop.recommended.push(vid)
+    }
+
+    axios.post('/setLocalPop', {
+      data: localPop,
+    })
+    .then(function (response) {
+      console.log(response);
+    })
+    .catch(function (error) {
+      console.log(error);
+    })
+  }
+
+  setLocalPop(video) {
+    var localPop = null
+    axios.get('/globpop')
+    .then(function (response) {
+      localPop = response.data
+      this.updateLocalPop(localPop, video)
+    }.bind(this))
+    .catch(function (error) {
+      console.log(error)
+    })
   }
 
   render() {

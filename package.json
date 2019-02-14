@@ -6,6 +6,8 @@
     "@material-ui/core": "^3.2.2",
     "@material-ui/icons": "^3.0.1",
     "axios": "^0.18.0",
+    "body-parser": "^1.18.3",
+    "file-system": "^2.2.2",
     "get-artist-title": "^1.1.1",
     "random-words": "^1.1.0",
     "react": "^16.5.2",
