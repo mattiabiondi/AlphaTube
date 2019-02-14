@@ -90,6 +90,8 @@ class Main extends Component {
       localPop.recommended.push(vid)
     }
 
+    console.dir(localPop)
+
     axios.post('/setLocalPop', {
       data: localPop,
     })

@@ -64,7 +64,8 @@ app.get('/globpop/', (req, res) => { // Risposta fornita quando si effettua una 
 app.post('/setlocalpop/', function(req, res) {
     var data = req.body.data
     data = JSON.stringify(data)
-    fs.writeFile('LAP.json', data, function(err) {
+    var filePath = path.join(__dirname, 'LAP.json')
+    fs.writeFile(filePath, data, function(err) {
       if (err) {
          res.status(500).jsonp({ error: 'Failed to write file' })
       }
