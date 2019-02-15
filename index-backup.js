@@ -54,13 +54,11 @@ app.get('/comments/', (req, res) => { // Risposta fornita quando si effettua una
 
 app.get('/globpop/', (req, res) => { // Risposta fornita quando si effettua una GET a "/globpop"
   var id = req.query.id // Parametro della richiesta
-  if (!id) {
-    res.send({
-      error: 'no ID' // Se la GET non ha parametri ritorna un errore
-    })
-    return
+  if (!id) { // Se non c'è l'ID, devo far tornare la popolarità locale assoluta
+    var filePath = path.join(__dirname, 'LAP.json')
+    var readable = fs.createReadStream(filePath)
+    readable.pipe(res)
   }
-  res.send('prova')
 })
 
 app.post('/setlocalpop/', function(req, res) {
