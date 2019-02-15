@@ -71,7 +71,7 @@ class Main extends Component {
 
   updateLocalPop(localPop, video) {
     var toAdd = true
-    localPop.recommended.map(
+    localPop.recommended.forEach(
       function(i) {
         if(i.videoID === video.id) {
           toAdd = false
@@ -92,7 +92,7 @@ class Main extends Component {
 
     console.dir(localPop)
 
-    axios.post('/setLocalPop', {
+    axios.post('/setlocalpop', {
       data: localPop,
     })
     .then(function (response) {
@@ -103,28 +103,13 @@ class Main extends Component {
     })
   }
 
-  // setLocalPop(video) {
-  //   var localPop = null
-  //   axios.get('/globpop')
-  //   .then(function (response) {
-  //     localPop = response.data
-  //     this.updateLocalPop(localPop, video)
-  //   }.bind(this))
-  //   .catch(function (error) {
-  //     console.log(error)
-  //   })
-  // }
-
   setLocalPop(video) {
-    var id = null
-    axios.get('/globpop', {
-      params: {
-        id: id
-      }
-    })
+    var localPop = null
+    axios.get('/globpop')
     .then(function (response) {
-      console.log('provaa')
-    })
+      localPop = response.data
+      this.updateLocalPop(localPop, video)
+    }.bind(this))
     .catch(function (error) {
       console.log(error)
     })
