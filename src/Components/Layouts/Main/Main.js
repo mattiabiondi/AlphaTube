@@ -103,13 +103,28 @@ class Main extends Component {
     })
   }
 
+  // setLocalPop(video) {
+  //   var localPop = null
+  //   axios.get('/globpop')
+  //   .then(function (response) {
+  //     localPop = response.data
+  //     this.updateLocalPop(localPop, video)
+  //   }.bind(this))
+  //   .catch(function (error) {
+  //     console.log(error)
+  //   })
+  // }
+
   setLocalPop(video) {
-    var localPop = null
-    axios.get('/globpop')
+    var id = null
+    axios.get('/globpop', {
+      params: {
+        id: id
+      }
+    })
     .then(function (response) {
-      localPop = response.data
-      this.updateLocalPop(localPop, video)
-    }.bind(this))
+      console.log('provaa')
+    })
     .catch(function (error) {
       console.log(error)
     })
