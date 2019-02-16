@@ -8,7 +8,7 @@ import Typography from '@material-ui/core/Typography'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import InfoRenderer from './InfoRenderer'
 import Fade from '@material-ui/core/Fade'
-import getTitle from 'get-artist-title'
+import parseTitle from 'get-artist-title'
 import axios from 'axios'
 
 const styles = theme => ({
@@ -40,8 +40,7 @@ class VideoInfo extends Component {
           checked: true
         }
       )
-      // this.getArtistAndTitle(this.props.title)
-      this.getTags(this.props.id)
+      this.getData(this.props.id)
     }
   }
 
@@ -66,20 +65,7 @@ class VideoInfo extends Component {
   //   }
   // }
 
-  getTags(id) {
-    var key=process.env.REACT_APP_YOUTUBE_API_KEY
-    var url= "https://www.googleapis.com/youtube/v3/videos?part=snippet&id=" + id + "&key=" + key + "&format=json"
-    axios.get(url)
-    .then(function (response) {
-      this.setState({
-        tags : response.data.items[0].snippet.tags
-      })
-      console.dir(this.state.tags)
-      }.bind(this))
-      .catch(function (error) {
-        console.log('error')
-      })
-  }
+
 
   // getDBResource() {
   //   var tags = this.state.tags
@@ -88,13 +74,13 @@ class VideoInfo extends Component {
   //     if ( resources == null) {
   //       tags[i]=tags[i].replace(/ /g,'_')
   //       // console.log("posizione "+i+": "+tags[i])
-  //       var query= `SELECT DISTINCT ?s   WHERE {
-  //
-  //                   ?s rdf:type dbo:MusicalWork.
-  //
-  //                   FILTER regex(str(?s), "` + tags[i] + `", "i").
-  //
-  //                   }`
+        // var query= `SELECT DISTINCT ?s   WHERE {
+        //
+        //             ?s rdf:type dbo:MusicalArtist.
+        //
+        //             FILTER regex(str(?s), "` + tags[i] + `", "i").
+        //
+        //             }`
   //       var url= "http://dbpedia.org/sparql?query=" + encodeURIComponent(query) + "&format=json"
   //       axios.get(url)
   //       .then(function (response) {
@@ -112,27 +98,64 @@ class VideoInfo extends Component {
   //   console.log(' ')
   // }
 
-  // getArtistAndTitle(title) {
-  //   let song=''
-  //   let data = getTitle(title)
-  //   if(data){
-  //     if(data[0] != null) {
-  //       song = data[1]
-  //       song=song.split('(')[0]
-  //       if(song[song.length-1]==" "){
-  //         song = song.substr(0, song.length-1)
-  //       }
-  //       this.setState({
-  //         song: song,
-  //         artist: data[0]
-  //       })
-  //     }
-  //     else {
-  //       song=this.props.title
-  //     }
-  //   }
-  // }
-  //
+  getData(id) {
+    let song = ''
+    let artist = ''
+    let info = parseTitle(this.props.title)
+    var key=process.env.REACT_APP_YOUTUBE_API_KEY
+    var url= "https://www.googleapis.com/youtube/v3/videos?part=snippet&id=" + id + "&key=" + key + "&format=json"
+
+    axios.get(url)
+    .then(function (response) {
+      this.setState({
+        tags : response.data.items[0].snippet.tags
+      })
+      // Qui parte la flowchart: se il parsing del titolo youtube ha dato risultati va su query1, altrimenti prova coi tag
+      if(info) {
+        song = info[1]
+        song = song.split('(')[0]
+        if(song[song.length-1]==" "){
+          song = song.substr(0, song.length-1)
+        }
+        artist = info[0]
+        this.setState({
+          song: song,
+          artist: artist
+        })
+        this.query1()
+      }
+      else {
+        console.log('parse nullo, lavorare sui tag:')
+        console.dir(this.state.tags)
+      }
+
+      }.bind(this))
+      .catch(function (error) {
+        console.log('error')
+      })
+  }
+
+  query1() {
+    var song = this.state.song
+    song = song.replace(/ /g,'_')
+    var query = `SELECT DISTINCT ?s   WHERE {
+
+                  {?s rdf:type dbo:MusicalWork.}
+
+                  FILTER regex(str(?s), "` + song + `", "i").
+
+                  }`
+    var url= "http://dbpedia.org/sparql?query=" + encodeURIComponent(query) + "&format=json"
+    axios.get(url)
+    .then(function (response) {
+      // console.log(response.data.results.bindings)
+    }.bind(this))
+    .catch(function (error) {
+      console.log('error')
+    })
+
+  }
+
   // sparqlURL(song) {
   //   song=song.replace(/ /g,'_')
   //   console.log(song)
@@ -147,60 +170,21 @@ class VideoInfo extends Component {
   //     console.log(query)
   //     return query
   // }
-  //
-  // getData(queryUrl) {
-  //   var url= "http://dbpedia.org/sparql?query=" + encodeURIComponent(queryUrl) + "&format=json"
+
+
+  // queryDB(query) {
+  //   var url= "http://dbpedia.org/sparql?query=" + encodeURIComponent(query) + "&format=json"
   //   axios.get(url)
   //   .then(function (response) {
+  //     console.log('ciao')
   //     console.dir(response)
+  //     return(response)
   //   }.bind(this))
   //   .catch(function (error) {
   //     console.log('error')
   //   })
   // }
 
-  // function setContentBrano() {
-  //     var artist = videoNamespace.getCurrentPlayerArtist();
-  //     var title = videoNamespace.getCurrentPlayerSong();
-  //     if (title && artist){
-  //         var res1 = title.replace(/\s/g,"_");
-  //         var res2 = title.replace(/\s/g,"_") + "_(song)" ;
-  //         var res3 = title.replace(/\s/g,"_") + "_(" + artist.replace(/\s/g,"_") + "_song)";
-  //
-  //         $.get(buildQuery(res1,artist)).done((data)=>{
-  //             if (data["results"]["bindings"].length){
-  //                 //in getResults ritorna una coppia song,artist
-  //                 fillWikiArea(getResultsFromQuery(data)[0],getResultsFromQuery(data)[1]);
-  //             }
-  //             else {
-  //                 $.get(buildQuery(res2,artist)).done((data)=>{
-  //                     if (data["results"]["bindings"].length){
-  //                         fillWikiArea(getResultsFromQuery(data)[0],getResultsFromQuery(data)[1]);
-  //                     }
-  //                     else {
-  //                         $.get(buildQuery(res3,artist)).done((data)=>{
-  //                             if (data["results"]["bindings"].length){
-  //                                 fillWikiArea(getResultsFromQuery(data)[0],getResultsFromQuery(data)[1]);
-  //                             }
-  //                             else {
-  //                                 noContentFound();
-  //                             }
-  //                         }).fail(()=>{
-  //                             noContentFound();
-  //                         });
-  //                     }
-  //                 }).fail(()=>{
-  //                     noContentFound();
-  //                 });
-  //             }
-  //         }).fail(()=>{
-  //             noContentFound();
-  //         });
-  //     }
-  //     else {
-  //         noContentFound();
-  //     }
-  // }
 
   render() {
     const { classes } = this.props
