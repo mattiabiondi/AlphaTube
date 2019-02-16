@@ -77,7 +77,6 @@ app.post('/setlocalpop/', function(req, res) {
         res.status(200)
       }
     })
-    res.status(200)
 })
 
 app.listen(8000) // La porta su cui l'app è in ascolto
