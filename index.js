@@ -67,7 +67,12 @@ app.post('/setlocalpop/', function(req, res) {
     var filePath = path.join(__dirname, 'LAP.json')
     fs.writeFile(filePath, data, function(err) {
       if (err) {
-         res.status(500).jsonp({ error: 'Failed to write file' })
+         res.status(500).jsonp(
+           {
+             error: 'Failed to write file',
+             debug: err
+           }
+         )
       }
     })
 })
