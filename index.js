@@ -73,6 +73,8 @@ app.post('/setlocalpop/', function(req, res) {
              debug: err
            }
          )
+      } else {
+        res.status(200)
       }
     })
 })
