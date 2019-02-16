@@ -74,7 +74,11 @@ app.post('/setlocalpop/', function(req, res) {
            }
          )
       } else {
-        res.status(200)
+        res.status(200).jsonp(
+          {
+            message: 'OK',
+          }
+        )
       }
     })
 })
