@@ -60,9 +60,9 @@ class Random extends Component {
 
   render() {
     var videos = null
-    if(this.state.videos.length > 0){
-        videos = this.state.videos
-      }
+    if(this.state.videos.length > 0) {
+      videos = this.state.videos
+    }
 
     if(videos) {
       var list = videos.map(
