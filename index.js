@@ -61,7 +61,7 @@ app.get('/globpop/', (req, res) => { // Risposta fornita quando si effettua una 
   }
 })
 
-app.post('/setlocalpop/', function(req, res) {
+app.post('/setlocalabspop/', function(req, res) {
     var data = req.body.data
     data = JSON.stringify(data)
     var filePath = path.join(__dirname, 'LAP.json')

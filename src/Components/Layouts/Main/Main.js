@@ -53,7 +53,7 @@ class Main extends Component {
   }
 
   setRecentVideos(video) {
-    this.setLocalPop(video)
+    this.setLocalAbsPop(video)
     var recentVideos = this.getRecentVideos()
     var history = []
     if(recentVideos) {
@@ -69,9 +69,13 @@ class Main extends Component {
     this.setState({ video: video })
   }
 
-  updateLocalPop(localPop, video) {
+  updateLocalAbsPop(localAbsPop, video) {
+    localAbsPop.site = "site1858.tw.cs.unibo.it"
+    localAbsPop.recommender = "site1858"
+    localAbsPop.lastWatched = new Date()
+
     var toAdd = true
-    localPop.recommended.forEach(
+    localAbsPop.recommended.forEach(
       function(i) {
         if(i.videoID === video.id) {
           toAdd = false
@@ -84,31 +88,31 @@ class Main extends Component {
       var vid = {
         videoID: video.id,
         timesWatched: 1,
-        reasons: "to do",
-        lastSelected:"to do"
+        reasons: "local absolute popularity",
+        lastSelected: new Date()
       }
-      localPop.recommended.push(vid)
+      localAbsPop.recommended.push(vid)
     }
 
-    console.dir(localPop)
+    console.dir(localAbsPop)
 
-    axios.post('/setlocalpop', {
-      data: localPop,
+    axios.post('/setlocalabspop', {
+      data: localAbsPop,
     })
     .then(function (response) {
-      console.log(response);
+      // console.log(response); // risposta del post (200 OK)
     })
     .catch(function (error) {
       console.log(error);
     })
   }
 
-  setLocalPop(video) {
-    var localPop = null
+  setLocalAbsPop(video) {
+    var localAbsPop = null
     axios.get('/globpop')
     .then(function (response) {
-      localPop = response.data
-      this.updateLocalPop(localPop, video)
+      localAbsPop = response.data
+      this.updateLocalAbsPop(localAbsPop, video)
     }.bind(this))
     .catch(function (error) {
       console.log(error)
