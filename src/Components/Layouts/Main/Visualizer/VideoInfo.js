@@ -25,6 +25,7 @@ class VideoInfo extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      abstract: '',
       song: '',
       artist: '',
       album: '',
@@ -87,6 +88,7 @@ class VideoInfo extends Component {
       genre = genre.replace('_',' ')
       //to do: piú generi insieme
       this.setState({
+        abstract:abstract,
         artist: artist,
         album: album,
         date: date,
@@ -133,6 +135,7 @@ class VideoInfo extends Component {
       genre = genre.replace('_',' ')
       //to do: piú generi insieme
       this.setState({
+        abstract: abstract,
         artist: artist,
         album: album,
         date: date,
@@ -312,6 +315,7 @@ class VideoInfo extends Component {
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>
               <InfoRenderer
+              abstract={this.state.abstract}
               song={this.state.song}
               artist={this.state.artist}
               album={this.state.album}
