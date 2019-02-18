@@ -27,6 +27,9 @@ class VideoInfo extends Component {
     this.state = {
       song: '',
       artist: '',
+      album: '',
+      date: '',
+      genre: '',
       checked: false,
       tags: null
     }
@@ -44,59 +47,102 @@ class VideoInfo extends Component {
     }
   }
 
-  // getArtistAndTitle(title){
-  //   let song=''
-  //   let data = getTitle(title)
-  //   if(data){
-  //     if(data[0] != null) {
-  //       song = data[1]
-  //       song=song.split('(')[0]
-  //       if(song[song.length-1]===" "){
-  //         song = song.substr(0, song.length-1)
-  //       }
-  //       this.setState({
-  //         song: song,
-  //         artist: data[0]
-  //       })
-  //     }
-  //     else {
-  //       song=this.props.title
-  //     }
-  //   }
-  // }
+  update1(resource) {
+    //update delle info usato se esiste la risorsa dbpedia della canzone
+    var query = `SELECT DISTINCT ?abstract ?artist ?album ?date ?genre
+                WHERE {
+                  <` + resource + `> dbo:abstract ?abstract.
 
+                  {<` + resource + `> dbo:musicalArtist ?artist.}
+                  UNION
+                  {<` + resource + `> dbo:artist ?artist.}
+                  UNION
+                  {<` + resource + `> dbo:musicalBand ?artist.}
 
+                  {<` + resource + `> dbo:album ?album.}
+                  UNION
+                  {?album dbp:title <` + resource + `>.}
 
-  // getDBResource() {
-  //   var tags = this.state.tags
-  //   var resources = null
-  //   for(var i=0; i<(tags.length); i++) {
-  //     if ( resources == null) {
-  //       tags[i]=tags[i].replace(/ /g,'_')
-  //       // console.log("posizione "+i+": "+tags[i])
-        // var query= `SELECT DISTINCT ?s   WHERE {
-        //
-        //             ?s rdf:type dbo:MusicalArtist.
-        //
-        //             FILTER regex(str(?s), "` + tags[i] + `", "i").
-        //
-        //             }`
-  //       var url= "http://dbpedia.org/sparql?query=" + encodeURIComponent(query) + "&format=json"
-  //       axios.get(url)
-  //       .then(function (response) {
-  //         if(response.data.results.bindings[i] !== null) {
-  //           console.dir(response.data.results.bindings)
-  //           resources = response.data.results.bindings
-  //         }
-  //       }.bind(this))
-  //       .catch(function (error) {
-  //         console.log('error')
-  //       })
-  //     }
-  //   }
-  //   // console.dir(resources)
-  //   console.log(' ')
-  // }
+                  {<` + resource + `> dbo:releaseDate ?date.}
+                  UNION
+                  {<` + resource + `> dbp:released ?date.}
+
+                  <` + resource + `> dbo:genre ?genre.
+                  FILTER (langMatches(lang(?abstract),'en'))
+                }`
+    var url= "http://dbpedia.org/sparql?query=" + encodeURIComponent(query) + "&format=json"
+    axios.get(url)
+    .then(function (response) {
+      console.log(response.data.results)
+      var abstract = response.data.results.bindings[0].abstract.value
+      var artist = response.data.results.bindings[0].artist.value
+      artist = artist.split('/')[4]
+      artist = artist.replace('_',' ')
+      var album = response.data.results.bindings[0].album.value
+      album = album.split('/')[4]
+      album = album.replace('_',' ')
+      var date = response.data.results.bindings[0].date.value
+      var genre = response.data.results.bindings[0].genre.value
+      genre = genre.split('/')[4]
+      genre = genre.replace('_',' ')
+      //to do: piú generi insieme
+      this.setState({
+        artist: artist,
+        album: album,
+        date: date,
+        genre: genre,
+      })
+    }.bind(this))
+    .catch(function (error) {
+      console.log('error')
+    })
+  }
+
+  update2(resource) {
+    //update delle info usato se esiste solo la risorsa album
+    var query = `SELECT DISTINCT ?abstract ?artist ?album ?date ?genre
+                WHERE {
+                  <` + resource + `> dbo:abstract ?abstract.
+                  {<` + resource + `> dbo:musicalArtist ?artist.}
+                  UNION
+                  {<` + resource + `> dbo:artist ?artist.}
+                  UNION
+                  {<` + resource + `> dbo:musicalBand ?artist.}
+
+                  <` + resource + `> dbp:thisAlbum ?album.
+
+                  {<` + resource + `> dbo:releaseDate ?date.}
+                  UNION
+                  {<` + resource + `> dbp:released ?date.}
+
+                  <` + resource + `> dbo:genre ?genre.
+                  FILTER (langMatches(lang(?abstract),'en'))
+                }`
+    var url= "http://dbpedia.org/sparql?query=" + encodeURIComponent(query) + "&format=json"
+    axios.get(url)
+    .then(function (response) {
+      // console.dir(response.data.results)
+      var abstract = response.data.results.bindings[0].abstract.value
+      var artist = response.data.results.bindings[0].artist.value
+      artist = artist.split('/')[4]
+      artist = artist.replace('_',' ')
+      var album = response.data.results.bindings[0].album.value
+      var date = response.data.results.bindings[0].date.value
+      var genre = response.data.results.bindings[0].genre.value
+      genre = genre.split('/')[4]
+      genre = genre.replace('_',' ')
+      //to do: piú generi insieme
+      this.setState({
+        artist: artist,
+        album: album,
+        date: date,
+        genre: genre,
+      })
+    }.bind(this))
+    .catch(function (error) {
+      console.log('error')
+    })
+  }
 
   getData(id) {
     let song = ''
@@ -127,6 +173,10 @@ class VideoInfo extends Component {
       else {
         console.log('parse nullo, lavorare sui tag:')
         console.dir(this.state.tags)
+        this.setState({
+          song: '',
+          artist: ''
+        })
       }
 
       }.bind(this))
@@ -138,17 +188,33 @@ class VideoInfo extends Component {
   query1() {
     var song = this.state.song
     song = song.replace(/ /g,'_')
-    var query = `SELECT DISTINCT ?s   WHERE {
-
-                  {?s rdf:type dbo:MusicalWork.}
-
-                  FILTER regex(str(?s), "` + song + `", "i").
-
+    console.log('q1:'+song)
+    var query = `SELECT DISTINCT ?song   WHERE {
+                  ?song rdf:type dbo:MusicalWork.
+                  FILTER regex(str(?song), "` + song + `", "i").
+                  FILTER NOT EXISTS {
+                  ?song rdf:type dbo:Album
+                  }
                   }`
     var url= "http://dbpedia.org/sparql?query=" + encodeURIComponent(query) + "&format=json"
     axios.get(url)
     .then(function (response) {
-      // console.log(response.data.results.bindings)
+      console.log(response.data.results.bindings)
+      if (response.data.results.bindings.length == 0) {
+        //non esiste la risorsa dbpedia della canzone, passare alla ricerca artista e album
+        this.query3()
+      }
+      if (response.data.results.bindings.length == 1) {
+        //ho trovato la risorsa dbpedia della canzone
+        //TO DO: é ancora possibile che la risorsa trovata sia una canzone di un altro artista con lo stesso titolo
+        // console.log(response.data.results.bindings[0].song.value)
+        this.update1(response.data.results.bindings[0].song.value)
+      }
+      if (response.data.results.bindings.length > 1) {
+        //esistono piú canzoni che condividono il titolo, controllo quale fra queste ha come artista quello giusto
+        this.query2()
+      }
+
     }.bind(this))
     .catch(function (error) {
       console.log('error')
@@ -156,35 +222,83 @@ class VideoInfo extends Component {
 
   }
 
-  // sparqlURL(song) {
-  //   song=song.replace(/ /g,'_')
-  //   console.log(song)
-  //   var query = `SELECT ?abstract ?album ?date ?genre
-  //   WHERE {
-  //     dbr:`+song+` dbo:abstract ?abstract.
-  //     dbr:`+song+` dbo:album ?album.
-  //     dbr:`+song+` dbo:releaseDate ?date.
-  //     dbr:`+song+` dbo:genre ?genre.
-  //     FILTER (langMatches(lang(?abstract),'en'))
-  //   }`
-  //     console.log(query)
-  //     return query
-  // }
+  query2() {
+    var song = this.state.song
+    song = song.replace(/ /g,'_')
+    var artist = this.state.artist
+    artist = artist.replace(/ /g,'_')
+    console.log('q2:'+song+', '+artist)
+    var query = `SELECT DISTINCT ?song  WHERE {
+                {?song dbo:artist ?artist}
+                UNION
+                {?song dbo:musicalArtist ?artist}
+                FILTER regex(str(?song), "` + song + `", "i")
+                FILTER regex(str(?artist), "` + artist + `", "i")
+                FILTER NOT EXISTS {
+                ?song rdf:type dbo:Album
+                }
+                }`
+    var url= "http://dbpedia.org/sparql?query=" + encodeURIComponent(query) + "&format=json"
+    axios.get(url)
+    .then(function (response) {
+      // console.log(response.data.results.bindings)
+      if(response.data.results.bindings.length !== 0){
+        // console.dir(response)
+        this.update1(response.data.results.bindings[0].song.value)
+      }
+      else {
+        this.query3()
+      }
+    }.bind(this))
+    .catch(function (error) {
+      console.log('error')
+    })
+  }
 
+  query3() {
+    var song = this.state.song
+    var artist = this.state.artist
+    artist = artist.replace(/ /g,'_')
+    console.log('q3:'+song+', '+artist)
+    var query = `SELECT DISTINCT ?album
+                WHERE {
 
-  // queryDB(query) {
-  //   var url= "http://dbpedia.org/sparql?query=" + encodeURIComponent(query) + "&format=json"
-  //   axios.get(url)
-  //   .then(function (response) {
-  //     console.log('ciao')
-  //     console.dir(response)
-  //     return(response)
-  //   }.bind(this))
-  //   .catch(function (error) {
-  //     console.log('error')
-  //   })
-  // }
+                {?album dbo:artist <http://dbpedia.org/resource/` + artist + `>.}
+                UNION
+                {?album dbo:artist <http://dbpedia.org/resource/` + artist + `_(band)>.}
+                UNION
+                {?album dbo:artist <http://dbpedia.org/resource/` + artist + `_(singer)>.}
+                ?album dbp:title ?song.
+                FILTER regex(str(?song), "` + song + `", "i")
 
+                FILTER NOT EXISTS {
+                ?album dbp:type ?type.
+                FILTER regex(str(?type), "greatest", "i")
+                }
+                FILTER NOT EXISTS {
+                                ?album dbo:type ?type.
+                FILTER regex(str(?type), "greatest", "i")
+                }
+                }`
+    var url= "http://dbpedia.org/sparql?query=" + encodeURIComponent(query) + "&format=json"
+    axios.get(url)
+    .then(function (response) {
+      // console.dir(response.data.results.bindings)
+      if(response.data.results.bindings.length !== 0){
+        this.update2(response.data.results.bindings[0].album.value)
+      }
+      else {
+        console.log('controllare i tag')
+        this.setState({
+          song: '',
+          artist: ''
+        })
+      }
+    }.bind(this))
+    .catch(function (error) {
+      console.log('error')
+    })
+  }
 
   render() {
     const { classes } = this.props
@@ -197,7 +311,14 @@ class VideoInfo extends Component {
             </Typography>
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>
-              <InfoRenderer song={this.state.song} artist={this.state.artist} album="" year="" genre="" id={this.props.id}/>
+              <InfoRenderer
+              song={this.state.song}
+              artist={this.state.artist}
+              album={this.state.album}
+              year={this.state.date}
+              genre={this.state.genre}
+              id={this.props.id}
+              />
           </ExpansionPanelDetails>
         </ExpansionPanel>
       </Fade>
