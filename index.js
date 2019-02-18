@@ -1,4 +1,5 @@
 const express = require('express') // Web framework
+var cors = require('cors')
 const bodyParser = require('body-parser')
 const path = require('path') // Tool per lavorare con file o path
 const app  = express() // Definizione di express
@@ -11,6 +12,8 @@ app.use(express.static(path.join(__dirname, 'build'))) // Fornitura del nome del
 //Here we are configuring express to use body-parser as middle-ware.
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
+
+app.use(cors())
 
 app.get('/', (req, res) => { // Risposta fornita quando si effettua una GET alla root del sito
     res.sendFile(path.join(__dirname, 'build', 'index.html')) // La funzione ritorna un file ("/build/index.html")
