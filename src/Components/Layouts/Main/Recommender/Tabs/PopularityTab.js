@@ -48,7 +48,8 @@ class Popularity extends Component {
     YouTubeSearch(term, opts, function(err, results) {
       if(err)
         return console.log(err)
-      this.handleResult(results[0])
+      if(results[0]) // Controllo perchè a volte ritorna "undefined"
+        this.handleResult(results[0])
     }.bind(this))
   }
 
@@ -58,6 +59,38 @@ class Popularity extends Component {
         this.handleYouTubeSearch(i.videoID)
       }.bind(this)
     )
+  }
+
+  sortByViews(a, b) { // ordina in base alle views
+    const viewsA = a.timesWatched
+    const viewsB = b.timesWatched
+
+    var comparison = 0
+    if (viewsA > viewsB) {
+      comparison = -1
+    } else if (viewsA < viewsB) {
+      comparison = 1
+    }
+    return comparison
+  }
+
+  removeDuplicates(videos) {
+    return videos.filter((obj, pos, arr) => {
+        return arr.map(mapObj => mapObj['videoID']).indexOf(obj['videoID']) === pos
+    })
+  }
+
+  getGlobalAbsPopularity() {
+    axios.get('/globabspop')
+    .then(function (response) {
+      var videos = response.data.videos.sort(this.sortByViews)
+      videos = this.removeDuplicates(videos)
+      console.dir(videos)
+      this.generateVideos(videos)
+    }.bind(this))
+    .catch(function (error) {
+      console.log(error)
+    })
   }
 
   getLocalAbsPopularity() {
@@ -72,7 +105,11 @@ class Popularity extends Component {
 
   getPopularity() {
     if (this.state.global) {
+      if(this.state.relative) {
 
+      } else {
+        this.getGlobalAbsPopularity()
+      }
     } else {
       if(this.state.relative) {
 

@@ -6,6 +6,7 @@ const app  = express() // Definizione di express
 const fetchComments = require('youtube-comments-task') // Modulo per ottenere commenti da video di YouTube
 const fetchVideoInfo = require('youtube-info') // Modulo per ottenere info da video di YouTube
 const fs = require('file-system')
+const axios = require('axios')
 
 app.use(express.static(path.join(__dirname, 'build'))) // Fornitura del nome della directory che contiene gli asset statici
 
@@ -54,6 +55,38 @@ app.get('/comments/', (req, res) => { // Risposta fornita quando si effettua una
     })
   })
 })
+
+app.get('/globabspop/', (req, res) => {
+  var recommender = ["1829", "1828", "1838", "1839", "1846", "1822", "1847", "1831", "1827", "1848", "1824", "1830", "1836", "1850", "1849", "1851", "1861", "1823", "1863", "1834", "1904", "1906", "1901", "1862", "1859", "1841", "1905", "1864"]
+  var n = 0
+  var videos = []
+  var id = req.query.id
+  if (!id) {
+    recommender.forEach(function(number) {
+      axios.get('http://site' + number + '.tw.cs.unibo.it/globpop')
+      .then(function (response) {
+        if(response.data.recommended) {
+          response.data.recommended.forEach(function(video) {
+            videos.push(video)
+          })
+        }
+      })
+      .catch(function (error) {
+        //console.log(error)
+      })
+      .then(function () {
+        n += 1
+        if(n === recommender.length) {
+          res.send({
+            videos: videos
+          })
+        }
+      })
+    })
+  }
+
+})
+
 
 app.get('/globpop/', (req, res) => { // Risposta fornita quando si effettua una GET a "/globpop"
   var id = req.query.id // Parametro della richiesta
