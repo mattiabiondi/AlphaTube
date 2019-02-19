@@ -37,7 +37,7 @@ class Popularity extends Component {
     }))
   }
 
-  handleYouTubeSearch(term) {
+  handleYouTubeSearch(video) {
     var opts = {
       maxResults: 1,
       key: process.env.REACT_APP_YOUTUBE_API_KEY,
@@ -45,18 +45,20 @@ class Popularity extends Component {
       videoCategoryId: 10,
     }
 
-    YouTubeSearch(term, opts, function(err, results) {
+    YouTubeSearch(video.videoID, opts, function(err, results) {
       if(err)
         return console.log(err)
-      if(results[0]) // Controllo perchè a volte ritorna "undefined"
+      if(results[0]) { // Controllo perchè a volte ritorna "undefined"
+        results[0].prevalentReason = video.prevalentReason
         this.handleResult(results[0])
+      }
     }.bind(this))
   }
 
   generateVideos(data) {
     data.forEach(
-      function(i) {
-        this.handleYouTubeSearch(i.videoID)
+      function(video) {
+        this.handleYouTubeSearch(video)
       }.bind(this)
     )
   }
@@ -85,7 +87,7 @@ class Popularity extends Component {
     .then(function (response) {
       var videos = response.data.videos.sort(this.sortByViews)
       videos = this.removeDuplicates(videos)
-      console.dir(videos)
+      //console.dir(videos)
       this.generateVideos(videos)
     }.bind(this))
     .catch(function (error) {
@@ -141,7 +143,7 @@ class Popularity extends Component {
           return (
             <VideoRenderer
               video = {i}
-              suggestion = {"to do"}
+              suggestion = {i.prevalentReason}
               handleVideoSelection = {this.handleVideoSelection}
             />
           )
