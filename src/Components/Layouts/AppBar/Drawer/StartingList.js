@@ -34,8 +34,10 @@ class StartingList extends Component {
     }
 
     YouTubeSearch(video.videoID, opts, function(err, results) {
-      if(err)
-        return console.log(err)
+      if(err){
+        //console.log(err)
+        return console.log("Il video " + video.videoID + " non è disponibile.")
+      }
       this.handleResult(results[0], video)
     }.bind(this))
   }
@@ -51,7 +53,7 @@ class StartingList extends Component {
   getVideos() {
     axios.get('http://site1825.tw.cs.unibo.it/video.json') // URL a cui fare richiesta per ottenere la lista
     .then(function (response) {
-      console.dir(response.data)
+      //console.dir(response.data)
       this.generateVideoList(response.data)
     }.bind(this))
     .catch(function (error) {

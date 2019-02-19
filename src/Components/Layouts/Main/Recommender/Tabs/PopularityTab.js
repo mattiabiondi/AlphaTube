@@ -82,11 +82,27 @@ class Popularity extends Component {
     })
   }
 
-  getGlobalAbsPopularity() {
-    axios.get('/globabspop')
+  getGlobalRelPopularity() {
+    axios.get('/globalpop', {
+      params: {
+        id: this.props.video.id
+      }
+    })
     .then(function (response) {
       var videos = response.data.videos.sort(this.sortByViews)
-      videos = this.removeDuplicates(videos)
+      videos = this.removeDuplicates(videos) //oltre a rimuovere i duplicati, aggiungere le views ai video
+      this.generateVideos(videos)
+    }.bind(this))
+    .catch(function (error) {
+      console.log(error)
+    })
+  }
+
+  getGlobalAbsPopularity() {
+    axios.get('/globalpop')
+    .then(function (response) {
+      var videos = response.data.videos.sort(this.sortByViews)
+      videos = this.removeDuplicates(videos) //oltre a rimuovere i duplicati, aggiungere le views ai video
       //console.dir(videos)
       this.generateVideos(videos)
     }.bind(this))
@@ -108,7 +124,7 @@ class Popularity extends Component {
   getPopularity() {
     if (this.state.global) {
       if(this.state.relative) {
-
+        this.getGlobalRelPopularity()
       } else {
         this.getGlobalAbsPopularity()
       }

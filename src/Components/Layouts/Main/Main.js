@@ -17,14 +17,14 @@ class Main extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      video: null
+      video: null,
     }
     this.setRecentVideos = this.setRecentVideos.bind(this)
     this.getRecentVideos = this.getRecentVideos.bind(this)
     this.handleVideoSelection = this.handleVideoSelection.bind(this)
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps, prevState) {
     if (prevProps.videos !== this.props.videos) {
       scrollToComponent(this.Recommender, {
         offset: 0,
@@ -88,7 +88,7 @@ class Main extends Component {
       var vid = {
         videoID: video.id,
         timesWatched: 1,
-        reasons: "local absolute popularity",
+        prevalentReason: "Local absolute popularity",
         lastSelected: new Date()
       }
       localAbsPop.recommended.push(vid)

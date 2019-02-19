@@ -62,7 +62,7 @@ class VideoRenderer extends Component {
           <Grid item xs={7} sm={7}>
             <CardContent>
               <Typography className={classes.title}>
-                {this.props.video.artist + " - " + this.props.video.title}
+                {this.props.video.title}
               </Typography>
               <Typography className={classes.description}>
                 {"Genre: " + this.props.video.category}

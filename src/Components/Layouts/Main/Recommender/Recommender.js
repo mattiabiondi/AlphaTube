@@ -118,7 +118,11 @@ class Recommender extends Component {
                                             video = {this.props.video}
                                             handleVideoSelection = {this.handleVideoSelection}/>
                                        </TabContainer>}
-            {this.state.value === 6 && <TabContainer><Popularity /></TabContainer>}
+            {this.state.value === 6 && <TabContainer>
+                                          <Popularity
+                                            video = {this.props.video}
+                                            handleVideoSelection = {this.handleVideoSelection}/>
+                                        </TabContainer>}
             {this.state.value === 7 && <TabContainer>
                                           <Fvitali
                                             video = {this.props.video}
@@ -168,7 +172,11 @@ class Recommender extends Component {
                                             video = {this.props.video}
                                             handleVideoSelection = {this.handleVideoSelection}/>
                                        </TabContainer>}
-            {this.state.value === 5 && <TabContainer><Popularity /></TabContainer>}
+            {this.state.value === 5 && <TabContainer>
+                                          <Popularity
+                                            video = {this.props.video}
+                                            handleVideoSelection = {this.handleVideoSelection}/>
+                                        </TabContainer>}
             {this.state.value === 6 && <TabContainer>
                                           <Fvitali
                                             video = {this.props.video}

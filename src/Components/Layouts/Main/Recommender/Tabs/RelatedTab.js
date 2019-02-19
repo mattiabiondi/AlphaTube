@@ -40,7 +40,7 @@ class Related extends Component {
       YouTubeSearch(' ', opts, function(err, results) {
         if(err)
           return console.log(err)
-        console.dir(results)
+        //console.dir(results)
         this.setState({ videos: results })
       }.bind(this))
     }
