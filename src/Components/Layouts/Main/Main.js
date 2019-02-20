@@ -18,10 +18,12 @@ class Main extends Component {
     super(props)
     this.state = {
       video: null,
+      prevVideo: null
     }
     this.setRecentVideos = this.setRecentVideos.bind(this)
     this.getRecentVideos = this.getRecentVideos.bind(this)
     this.handleVideoSelection = this.handleVideoSelection.bind(this)
+    this.updateLocalRelPop = this.updateLocalRelPop.bind(this)
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -35,6 +37,10 @@ class Main extends Component {
 
     if (prevProps.video !== this.props.video) {
       this.handleVideoSelection(this.props.video)
+    }
+
+    if(prevState.video !== this.state.video) {
+      this.setState({ prevVideo: prevState.video })
     }
   }
 
@@ -54,6 +60,7 @@ class Main extends Component {
 
   setRecentVideos(video) {
     this.setLocalAbsPop(video)
+    this.updateLocalRelPop(video) // aggiorniamo la popolarità relativa
     var recentVideos = this.getRecentVideos()
     var history = []
     if(recentVideos) {
@@ -94,7 +101,7 @@ class Main extends Component {
       localAbsPop.recommended.push(vid)
     }
 
-    console.dir(localAbsPop)
+    //console.dir(localAbsPop)
 
     axios.post('/setlocalabspop', {
       data: localAbsPop,
@@ -117,6 +124,23 @@ class Main extends Component {
     .catch(function (error) {
       console.log(error)
     })
+  }
+
+  updateLocalRelPop(video) {
+    if(this.state.prevVideo) { // evitiamo di fare post se siamo al primo video
+      axios.post('/setlocalrelpop', {
+        params: {
+          prevVideo: this.state.prevVideo.id, // id del video precedente
+          video: video.id // id del video attuale
+        }
+      })
+      .then(function (response) {
+        //console.log(response); // risposta del post (200 OK)
+      })
+      .catch(function (error) {
+        console.log(error);
+      })
+    }
   }
 
   render() {

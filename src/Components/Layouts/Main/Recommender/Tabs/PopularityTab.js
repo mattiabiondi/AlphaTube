@@ -76,7 +76,7 @@ class Popularity extends Component {
     return comparison
   }
 
-  removeDuplicates(videos) {
+  removeDuplicates(videos) { // to do
     return videos.filter((obj, pos, arr) => {
         return arr.map(mapObj => mapObj['videoID']).indexOf(obj['videoID']) === pos
     })

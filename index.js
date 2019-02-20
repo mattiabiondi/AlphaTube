@@ -120,6 +120,27 @@ app.get('/globpop/', (req, res) => { // Risposta fornita quando si effettua una 
     var filePath = path.join(__dirname, 'LAP.json')
     var readable = fs.createReadStream(filePath)
     readable.pipe(res)
+  } else {
+    var filePath = path.join(__dirname, 'LRP.json')
+    fs.readFile(filePath, 'utf8', (err, data) => {
+      if (err) throw err
+      var localRelPop = JSON.parse(data)
+      localRelPop.site = "site1858.tw.cs.unibo.it"
+      localRelPop.recommender = id
+      localRelPop.lastWatched = new Date()
+
+      var temp = []
+      localRelPop.recommended.forEach(
+        function(video) {
+          if(video.videoID === id) {
+            temp = video.recommended
+          }
+        }
+      )
+      localRelPop.recommended = temp
+
+      res.send(localRelPop)
+    })
   }
 })
 
@@ -142,6 +163,76 @@ app.post('/setlocalabspop/', function(req, res) {
           }
         )
       }
+    })
+})
+
+app.post('/setlocalrelpop/', function(req, res) {
+    var prevVideo = req.body.params.prevVideo // id del video precedente
+    var video = req.body.params.video // id del video attuale
+
+    var filePath = path.join(__dirname, 'LRP.json') // path del file LRP
+    fs.readFile(filePath, 'utf8', (err, data) => { // leggo il file LRP
+      if (err) throw err
+      var localRelPop = JSON.parse(data) // lo converto a JSON
+      var toAdd1 = true // boolean che controlla che il video precedente sia stato visto o meno. Nel caso non sia stato visto, bisogna aggiungerlo
+      localRelPop.recommended.forEach( // per ogni elemento di recommended (AKA i video visti prima del video attuale)
+        function(i) {
+          if(i.id === prevVideo) { // controllo che il video precedente sia già presente nell'array
+            toAdd1 = false // se esiste, non devo aggiungerlo
+            var toAdd2 = true // boolean che controlla che il video attuale sia già stato visto dopo il video precedente
+            i.videosWatched.forEach( // per ogni elemento di videosWatched (AKA visti visti dopo il precedente)
+              function(obj) {
+                if(obj.videoID === video) { // controllo che il video attuale sia già stato visto dopo il precedenete
+                  toAdd2 = false // se esiste, non devo aggiungerlo ma solo aumentare di 1 le views
+                  obj.timesWatched += 1 // aumento di 1 le views
+                }
+              }
+            )
+            if(toAdd2) { // se questo è true, è perchè il video attuale non è mai stato visto dopo il video precedente
+              var vid = { // creo un oggetto "vid" con 1 singola view
+                videoID: video,
+                timesWatched: 1,
+                prevalentReason: "Local relative popularity",
+                lastSelected: new Date()
+              }
+            }
+            i.videosWatched.push(vid) // aggiungo questo oggetto "vid" all'array di video visti dopo il precedente
+          }
+        }
+      )
+      if(toAdd1) { // se questo è true, il video precedente non è mai stato visto prima di qualunque altro video
+        var vid1 = { // creo un oggetto per identificare il video precedente
+          id: prevVideo,
+          videosWatched: []
+        }
+        var vid2 = { // creo un oggetto per il video attuale
+          videoID: video,
+          timesWatched: 1,
+          prevalentReason: "Local relative popularity",
+          lastSelected: new Date()
+        }
+        vid1.videosWatched.push(vid2) // aggiungo il video attuale all'array di video visti dopo il precedente, creando la relazione
+        localRelPop.recommended.push(vid1) // aggiungo il video precedente all'array di video visti prima di qualcosa
+      }
+
+      localRelPop = JSON.stringify(localRelPop) // converto l'oggetto in JSON
+
+      fs.writeFile(filePath, localRelPop, function(err) { // scrivo il file
+        if (err) {
+           res.status(500).jsonp(
+             {
+               error: 'Failed to write file',
+               debug: err
+             }
+           )
+        } else {
+          res.status(200).jsonp(
+            {
+              message: 'OK',
+            }
+          )
+        }
+      })
     })
 })
 

@@ -66,7 +66,7 @@ class Fvitali extends Component {
         }
       })
       .then(function (response) {
-        console.dir(response.data.recommended)
+        //console.dir(response.data.recommended)
         this.generateVideoList(response.data.recommended)
       }.bind(this))
       .catch(function (error) {
