@@ -111,6 +111,20 @@ class Popularity extends Component {
     })
   }
 
+  getLocalRelPopularity() {
+    axios.get('/globpop', {
+      params: {
+        id: this.props.video.id
+      }
+    })
+    .then(function (response) {
+      this.generateVideos(response.data.recommended)
+    }.bind(this))
+    .catch(function (error) {
+      console.log(error)
+    })
+  }
+
   getLocalAbsPopularity() {
     axios.get('/globpop')
     .then(function (response) {
@@ -130,7 +144,7 @@ class Popularity extends Component {
       }
     } else {
       if(this.state.relative) {
-
+        this.getLocalRelPopularity()
       } else {
         this.getLocalAbsPopularity()
       }
