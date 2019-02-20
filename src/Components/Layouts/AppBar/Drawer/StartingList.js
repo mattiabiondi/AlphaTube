@@ -34,7 +34,7 @@ class StartingList extends Component {
     }
 
     YouTubeSearch(video.videoID, opts, function(err, results) {
-      if(err){
+      if(err) {
         //console.log(err)
         return console.log("Il video " + video.videoID + " non è disponibile.")
       }
