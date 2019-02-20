@@ -132,8 +132,8 @@ app.get('/globpop/', (req, res) => { // Risposta fornita quando si effettua una 
       var temp = []
       localRelPop.recommended.forEach(
         function(video) {
-          if(video.videoID === id) {
-            temp = video.recommended
+          if(video.id === id) {
+            temp = video.videosWatched
           }
         }
       )
