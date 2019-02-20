@@ -24,6 +24,12 @@ const styles = theme => ({
   description: {
     fontSize: theme.typography.pxToRem(15),
     color: theme.palette.text.secondary,
+    display: 'inline-block',
+  },
+  description2: {
+    fontSize: theme.typography.pxToRem(15),
+    color: '#FFFFFF',
+    display: 'inline-block',
   },
 })
 
@@ -65,10 +71,17 @@ class VideoRenderer extends Component {
                 {this.props.video.title}
               </Typography>
               <Typography className={classes.description}>
-                {"Genre: " + this.props.video.category}
+                {"Genre: \u00A0 "}
               </Typography>
+              <Typography className={classes.description2}>
+                {this.props.video.category}
+              </Typography>
+              <br/>
               <Typography className={classes.description}>
-                {"Suggestion reason: " + this.props.suggestion}
+                {"Suggestion reason: \u00A0 "}
+              </Typography>
+              <Typography className={classes.description2}>
+                {this.props.suggestion}
               </Typography>
             </CardContent>
           </Grid>

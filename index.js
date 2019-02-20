@@ -57,7 +57,10 @@ app.get('/comments/', (req, res) => { // Risposta fornita quando si effettua una
 })
 
 app.get('/globalpop/', (req, res) => {
-  var recommender = ["1829", "1828", "1838", "1839", "1846", /*"1822",*/ "1847", "1831", "1827", "1848", /*"1824",*/ /*"1830",*/ /*"1836",*/ "1850", /*"1849",*/ "1851", "1861", "1823", "1863", "1834", "1904", "1906", "1901", "1862", /*"1859",*/ /*"1841",*/ "1905", "1864"]
+  // Tutti i siti del progetto
+  var recommender = ["1829", "1828", "1838", "1839", "1846", "1822", "1847", "1831", "1827", "1848", "1824", "1830", "1836", "1850", "1849", "1851", "1861", "1823", "1863", "1834", "1904", "1906", "1901", "1862", "1859", "1841", "1905", "1864", "1840"]
+  // Solo siti funzionanti
+  //var recommender = ["1829", "1828", "1838", "1839", "1846", /*"1822",*/ "1847", "1831", "1827", /*"1848",*/ /*"1824",*/ /*"1830",*/ /*"1836",*/ "1850", "1849", "1851", "1861", "1823", "1863", "1834", "1904", "1906", "1901", "1862", "1859", /*"1841",*/ "1905", "1864", "1840"]
   var n = 0
   var videos = []
   var id = req.query.id
@@ -72,7 +75,7 @@ app.get('/globalpop/', (req, res) => {
         }
       })
       .catch(function (error) {
-        console.log(number)
+        console.log("Il sito " + number + " ha dato errore " + error.response.status)
       })
       .then(function () {
         n += 1
@@ -98,7 +101,7 @@ app.get('/globalpop/', (req, res) => {
         }
       })
       .catch(function (error) {
-        //console.log(error)
+        console.log("Il sito " + number + " ha dato errore " + error.response.status)
       })
       .then(function () {
         n += 1
@@ -169,6 +172,7 @@ app.post('/setlocalabspop/', function(req, res) {
 app.post('/setlocalrelpop/', function(req, res) {
     var prevVideo = req.body.params.prevVideo // id del video precedente
     var video = req.body.params.video // id del video attuale
+    var reason = req.body.params.reason
 
     var filePath = path.join(__dirname, 'LRP.json') // path del file LRP
     fs.readFile(filePath, 'utf8', (err, data) => { // leggo il file LRP
@@ -192,7 +196,7 @@ app.post('/setlocalrelpop/', function(req, res) {
               var vid = { // creo un oggetto "vid" con 1 singola view
                 videoID: video,
                 timesWatched: 1,
-                prevalentReason: "Local relative popularity",
+                prevalentReason: reason,
                 lastSelected: new Date()
               }
             }
@@ -208,7 +212,7 @@ app.post('/setlocalrelpop/', function(req, res) {
         var vid2 = { // creo un oggetto per il video attuale
           videoID: video,
           timesWatched: 1,
-          prevalentReason: "Local relative popularity",
+          prevalentReason: reason,
           lastSelected: new Date()
         }
         vid1.videosWatched.push(vid2) // aggiungo il video attuale all'array di video visti dopo il precedente, creando la relazione

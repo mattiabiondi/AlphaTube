@@ -24,8 +24,8 @@ class Search extends Component {
     }
   }
 
-  handleVideoSelection(videoId) {
-    this.props.handleVideoSelection(videoId)
+  handleVideoSelection(video) {
+    this.props.handleVideoSelection(video, this.props.tabName)
   }
 
   render() {
@@ -40,7 +40,7 @@ class Search extends Component {
           return (
             <VideoRenderer
               video = {i}
-              suggestion = {"search result"}
+              suggestion = {this.props.tabName}
               handleVideoSelection = {this.handleVideoSelection}
             />
           )

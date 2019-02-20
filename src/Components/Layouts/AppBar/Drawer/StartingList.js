@@ -81,7 +81,7 @@ class StartingList extends Component {
             return (
               <VideoRenderer
                 video = {i}
-                suggestion = {i.prevalentReason}
+                suggestion = "Starting list"
                 timesWatched = {i.timesWatched}
                 handleVideoSelection = {this.handleVideoSelection}
               />

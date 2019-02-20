@@ -74,8 +74,8 @@ class Recommender extends Component {
     this.setState({ value })
   }
 
-  handleVideoSelection(video) {
-    this.props.handleVideoSelection(video)
+  handleVideoSelection(video, reason) {
+    this.props.handleVideoSelection(video, reason)
   }
 
   render() {
@@ -107,7 +107,8 @@ class Recommender extends Component {
             {this.state.value === 0 && <TabContainer>
                                           <Search
                                             videos = {this.props.videos}
-                                            handleVideoSelection = {this.handleVideoSelection}/>
+                                            handleVideoSelection = {this.handleVideoSelection}
+                                            tabName = "Search" />
                                        </TabContainer>}
             {this.state.value === 1 && <TabContainer>Item Two</TabContainer>}
             {this.state.value === 2 && <TabContainer></TabContainer>}
@@ -116,27 +117,32 @@ class Recommender extends Component {
             {this.state.value === 5 && <TabContainer>
                                           <Related
                                             video = {this.props.video}
-                                            handleVideoSelection = {this.handleVideoSelection}/>
+                                            handleVideoSelection = {this.handleVideoSelection}
+                                            tabName = "Related" />
                                        </TabContainer>}
             {this.state.value === 6 && <TabContainer>
                                           <Popularity
                                             video = {this.props.video}
-                                            handleVideoSelection = {this.handleVideoSelection}/>
+                                            handleVideoSelection = {this.handleVideoSelection}
+                                            tabName = "Popularity" />
                                         </TabContainer>}
             {this.state.value === 7 && <TabContainer>
                                           <Fvitali
                                             video = {this.props.video}
-                                            handleVideoSelection = {this.handleVideoSelection}/>
+                                            handleVideoSelection = {this.handleVideoSelection}
+                                            tabName = "FVitali" />
                                        </TabContainer>}
             {this.state.value === 8 && <TabContainer>
                                           <Recent
                                             video = {this.props.video}
-                                            handleVideoSelection = {this.handleVideoSelection}/>
+                                            handleVideoSelection = {this.handleVideoSelection}
+                                            tabName = "Recent" />
                                        </TabContainer>}
             {this.state.value === 9 && <TabContainer>
                                           <Random
                                             videos = {this.props.video}
-                                            handleVideoSelection = {this.handleVideoSelection}/>
+                                            handleVideoSelection = {this.handleVideoSelection}
+                                            tabName = "Random" />
                                        </TabContainer>}
             </Paper>
           </Fade>

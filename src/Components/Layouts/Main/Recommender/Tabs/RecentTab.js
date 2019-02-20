@@ -60,7 +60,7 @@ class Recent extends Component {
   }
 
   handleVideoSelection(video) {
-    this.props.handleVideoSelection(video)
+    this.props.handleVideoSelection(video, this.props.tabName)
   }
 
   render() {
@@ -77,7 +77,7 @@ class Recent extends Component {
           return (
             <VideoRenderer
               video = {i}
-              suggestion = {"video seen recently"}
+              suggestion = {this.props.tabName}
               handleVideoSelection = {this.handleVideoSelection}
             />
           )

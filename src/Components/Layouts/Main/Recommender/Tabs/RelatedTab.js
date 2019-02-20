@@ -24,7 +24,7 @@ class Related extends Component {
   }
 
   handleVideoSelection(video) {
-    this.props.handleVideoSelection(video)
+    this.props.handleVideoSelection(video, this.props.tabName)
   }
 
   handleYouTubeSearch() {
@@ -58,7 +58,7 @@ class Related extends Component {
           return (
             <VideoRenderer
               video = {i}
-              suggestion = {"related video"}
+              suggestion = {this.props.tabName}
               handleVideoSelection = {this.handleVideoSelection}
             />
           )

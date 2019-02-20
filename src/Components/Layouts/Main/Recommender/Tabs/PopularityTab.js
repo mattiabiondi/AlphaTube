@@ -158,7 +158,7 @@ class Popularity extends Component {
   }
 
   handleVideoSelection(video) {
-    this.props.handleVideoSelection(video)
+    this.props.handleVideoSelection(video, this.props.tabName)
   }
 
   render() {

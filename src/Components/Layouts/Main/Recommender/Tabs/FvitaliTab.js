@@ -75,11 +75,23 @@ class Fvitali extends Component {
       .then(function () {
         // always executed
       })
+    } else {
+      axios.get('http://site1825.tw.cs.unibo.it/TW/globpop')
+      .then(function (response) {
+        //console.dir(response.data.recommended)
+        this.generateVideoList(response.data.recommended)
+      }.bind(this))
+      .catch(function (error) {
+        console.log(error)
+      })
+      .then(function () {
+        // always executed
+      })
     }
   }
 
   handleVideoSelection(video) {
-    this.props.handleVideoSelection(video)
+    this.props.handleVideoSelection(video, this.props.tabName)
   }
 
   render() {

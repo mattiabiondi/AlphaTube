@@ -55,7 +55,7 @@ class Random extends Component {
   }
 
   handleVideoSelection(video) {
-    this.props.handleVideoSelection(video)
+    this.props.handleVideoSelection(video, this.props.tabName)
   }
 
   render() {
@@ -70,7 +70,7 @@ class Random extends Component {
           return (
             <VideoRenderer
               video = {i}
-              suggestion = {"random music video"}
+              suggestion = {this.props.tabName}
               handleVideoSelection = {this.handleVideoSelection}
             />
           )

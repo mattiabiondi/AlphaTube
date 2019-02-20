@@ -36,7 +36,7 @@ class Main extends Component {
     }
 
     if (prevProps.video !== this.props.video) {
-      this.handleVideoSelection(this.props.video)
+      this.handleVideoSelection(this.props.video, "Starting list")
     }
 
     if(prevState.video !== this.state.video) {
@@ -72,8 +72,10 @@ class Main extends Component {
     localStorage.setItem('recent', history)
   }
 
-  handleVideoSelection(video) {
-    this.setState({ video: video })
+  handleVideoSelection(video, reason) {
+    var vid = video
+    vid.reason = reason
+    this.setState({ video: vid })
   }
 
   updateLocalAbsPop(localAbsPop, video) {
@@ -95,7 +97,7 @@ class Main extends Component {
       var vid = {
         videoID: video.id,
         timesWatched: 1,
-        prevalentReason: "Local absolute popularity",
+        prevalentReason: video.reason,
         lastSelected: new Date()
       }
       localAbsPop.recommended.push(vid)
@@ -131,7 +133,8 @@ class Main extends Component {
       axios.post('/setlocalrelpop', {
         params: {
           prevVideo: this.state.prevVideo.id, // id del video precedente
-          video: video.id // id del video attuale
+          video: video.id, // id del video attuale
+          reason: video.reason
         }
       })
       .then(function (response) {
