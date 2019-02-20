@@ -121,8 +121,11 @@ app.get('/globpop/', (req, res) => { // Risposta fornita quando si effettua una 
   var id = req.query.id // Parametro della richiesta
   if (!id) { // Se non c'è l'ID, devo far tornare la popolarità locale assoluta
     var filePath = path.join(__dirname, 'LAP.json')
-    var readable = fs.createReadStream(filePath)
-    readable.pipe(res)
+    fs.readFile(filePath, 'utf8', (err, data) => {
+      if (err) throw err
+      var localAbsPop = JSON.parse(data)
+      res.send(localAbsPop)
+    })
   } else {
     var filePath = path.join(__dirname, 'LRP.json')
     fs.readFile(filePath, 'utf8', (err, data) => {
