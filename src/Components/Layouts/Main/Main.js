@@ -24,6 +24,7 @@ class Main extends Component {
     this.getRecentVideos = this.getRecentVideos.bind(this)
     this.handleVideoSelection = this.handleVideoSelection.bind(this)
     this.updateLocalRelPop = this.updateLocalRelPop.bind(this)
+    this.push = this.push.bind(this)
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -41,6 +42,16 @@ class Main extends Component {
 
     if(prevState.video !== this.state.video) {
       this.setState({ prevVideo: prevState.video })
+    }
+
+    window.onpopstate = (e) => {
+      this.handleVideoSelection(e.state, e.state.reason)
+    }
+  }
+
+  push() {
+    if(this.state.video) {
+      window.history.pushState(this.state.video, "", "")
     }
   }
 
@@ -166,6 +177,7 @@ class Main extends Component {
               videos = {this.props.videos}
               video = {this.state.video}
               handleVideoSelection = {this.handleVideoSelection}
+              push = {this.push}
             />
           </Grid>
         </Grid>
