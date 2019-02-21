@@ -34,7 +34,7 @@ class VideoInfo extends Component {
       checked: false,
       tags: null
     }
-
+    this.handleResource = this.handleResource.bind(this)
   }
 
   componentDidUpdate(prevProps) {
@@ -46,6 +46,10 @@ class VideoInfo extends Component {
       )
       this.getData(this.props.id)
     }
+  }
+
+  handleResource(resource) {
+    this.props.handleResource(resource)
   }
 
   update1(resource) {
@@ -74,7 +78,7 @@ class VideoInfo extends Component {
     var url= "http://dbpedia.org/sparql?query=" + encodeURIComponent(query) + "&format=json"
     axios.get(url)
     .then(function (response) {
-      console.log(response.data.results)
+      // console.log(response.data.results)
       var abstract = response.data.results.bindings[0].abstract.value
       var artist = response.data.results.bindings[0].artist.value
       artist = artist.split('/')[4]
@@ -185,6 +189,7 @@ class VideoInfo extends Component {
           genre: '',
           tags: null
         })
+        this.handleResource('')
       }
 
       }.bind(this))
@@ -252,6 +257,7 @@ class VideoInfo extends Component {
       if(response.data.results.bindings.length !== 0){
         // console.dir(response)
         this.update1(response.data.results.bindings[0].song.value)
+        this.handleResource(response.data.results.bindings[0].song.value)
       }
       else {
         this.query3()
@@ -293,6 +299,7 @@ class VideoInfo extends Component {
       // console.dir(response.data.results.bindings)
       if(response.data.results.bindings.length !== 0){
         this.update2(response.data.results.bindings[0].album.value)
+        this.handleResource(response.data.results.bindings[0].album.value)
       }
       else {
         console.log('controllare i tag')
@@ -305,6 +312,7 @@ class VideoInfo extends Component {
           genre: '',
           tags: null
         })
+        this.handleResource('')
       }
     }.bind(this))
     .catch(function (error) {

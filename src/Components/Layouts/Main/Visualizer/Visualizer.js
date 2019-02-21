@@ -29,12 +29,17 @@ class Visualizer extends Component {
     this.getVideoInfo = this.getVideoInfo.bind(this)
     this.getComments = this.getComments.bind(this)
     this.setRecentVideos = this.setRecentVideos.bind(this)
+    this.handleResource = this.handleResource.bind(this)
   }
 
   componentDidMount() {
      this.setState(
        {video: this.props.video},
      )
+  }
+
+  handleResource(resource) {
+    this.props.handleResource(resource)
   }
 
   componentDidUpdate(prevProps) {
@@ -140,7 +145,11 @@ class Visualizer extends Component {
             />
           </Grid>
           <Grid item xs={12} >
-            <VideoInfo video={video} id={id} title={title}/>
+            <VideoInfo
+            video={video}
+            id={id}
+            title={title}
+            handleResource = {this.handleResource}/>
           </Grid>
           <Grid item xs={12} >
             <VideoContent

@@ -8,6 +8,7 @@ import Typography from '@material-ui/core/Typography'
 import Search from './Tabs/SearchTab.js'
 import Popularity from './Tabs/PopularityTab.js'
 import Related from './Tabs/RelatedTab.js'
+import Artist from './Tabs/ArtistTab.js'
 import Fvitali from './Tabs/FvitaliTab.js'
 import Recent from './Tabs/RecentTab.js'
 import Random from './Tabs/RandomTab.js'
@@ -67,7 +68,7 @@ class Recommender extends Component {
           checked: true,
         }
       )
-   }
+    }
   }
 
   handleChange = (event, value) => {
@@ -81,7 +82,6 @@ class Recommender extends Component {
 
   render() {
     const { classes } = this.props
-
     if(this.props.videos) {
       return (
         <Fade in={this.state.checked}>
@@ -111,8 +111,13 @@ class Recommender extends Component {
                                             handleVideoSelection = {this.handleVideoSelection}
                                             tabName = "Search" />
                                        </TabContainer>}
-            {this.state.value === 1 && <TabContainer>Item Two</TabContainer>}
-            {this.state.value === 2 && <TabContainer></TabContainer>}
+            {this.state.value === 1 && <TabContainer>
+                                          <Artist
+                                            resource = {this.props.resource}
+                                            handleVideoSelection = {this.handleVideoSelection}
+                                            tabName = "Artist" />
+                                        </TabContainer>}
+            {this.state.value === 2 && <TabContainer>Item Three</TabContainer>}
             {this.state.value === 3 && <TabContainer>Item Four</TabContainer>}
             {this.state.value === 4 && <TabContainer>Item Five</TabContainer>}
             {this.state.value === 5 && <TabContainer>
@@ -171,7 +176,11 @@ class Recommender extends Component {
                 <Tab icon={<ShuffleIcon />} label="Random" />
               </Tabs>
             {this.state.value === 0 && <TabContainer>Item Two</TabContainer>}
-            {this.state.value === 1 && <TabContainer></TabContainer>}
+            {this.state.value === 1 && <TabContainer>
+                                          <Artist
+                                            resource = {this.props.resource}
+                                            handleVideoSelection = {this.handleVideoSelection}/>
+                                        </TabContainer>}
             {this.state.value === 2 && <TabContainer>Item Four</TabContainer>}
             {this.state.value === 3 && <TabContainer>Item Five</TabContainer>}
             {this.state.value === 4 && <TabContainer>

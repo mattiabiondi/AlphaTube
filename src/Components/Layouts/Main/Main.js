@@ -18,13 +18,15 @@ class Main extends Component {
     super(props)
     this.state = {
       video: null,
-      prevVideo: null
+      prevVideo: null,
+      resource: null,
     }
     this.setRecentVideos = this.setRecentVideos.bind(this)
     this.getRecentVideos = this.getRecentVideos.bind(this)
     this.handleVideoSelection = this.handleVideoSelection.bind(this)
     this.updateLocalRelPop = this.updateLocalRelPop.bind(this)
     this.push = this.push.bind(this)
+    this.handleResource = this.handleResource.bind(this)
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -87,6 +89,10 @@ class Main extends Component {
     var vid = video
     vid.reason = reason
     this.setState({ video: vid })
+  }
+
+  handleResource(resource) {
+    this.setState({ resource: resource })
   }
 
   updateLocalAbsPop(localAbsPop, video) {
@@ -169,6 +175,7 @@ class Main extends Component {
             <Visualizer
               video = {this.state.video}
               setRecentVideos = {this.setRecentVideos}
+              handleResource = {this.handleResource}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -178,6 +185,7 @@ class Main extends Component {
               video = {this.state.video}
               handleVideoSelection = {this.handleVideoSelection}
               push = {this.push}
+              resource = {this.state.resource}
             />
           </Grid>
         </Grid>
