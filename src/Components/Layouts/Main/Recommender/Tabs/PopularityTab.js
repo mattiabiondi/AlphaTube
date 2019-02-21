@@ -76,10 +76,22 @@ class Popularity extends Component {
     return comparison
   }
 
-  removeDuplicates(videos) { // to do
-    return videos.filter((obj, pos, arr) => {
-        return arr.map(mapObj => mapObj['videoID']).indexOf(obj['videoID']) === pos
+  removeDuplicates(videos) {
+    var temp = []
+    videos.forEach(function(video) {
+      var toAdd = true
+      temp.forEach(function(i) {
+        if(i.videoID == video.videoID) {
+          toAdd = false
+          i.timesWatched += 1
+        }
+      })
+      if(toAdd) {
+        temp.push(video)
+      }
     })
+    console.dir(temp)
+    return temp
   }
 
   getGlobalRelPopularity() {
@@ -89,8 +101,9 @@ class Popularity extends Component {
       }
     })
     .then(function (response) {
-      var videos = response.data.videos.sort(this.sortByViews)
-      videos = this.removeDuplicates(videos) //oltre a rimuovere i duplicati, aggiungere le views ai video
+      var videos = response.data.videos
+      videos = this.removeDuplicates(videos)
+      videos = videos.sort(this.sortByViews)
       this.generateVideos(videos)
     }.bind(this))
     .catch(function (error) {
@@ -101,8 +114,9 @@ class Popularity extends Component {
   getGlobalAbsPopularity() {
     axios.get('/globalpop')
     .then(function (response) {
-      var videos = response.data.videos.sort(this.sortByViews)
-      videos = this.removeDuplicates(videos) //oltre a rimuovere i duplicati, aggiungere le views ai video
+      var videos = response.data.videos
+      videos = this.removeDuplicates(videos)
+      videos = videos.sort(this.sortByViews)
       //console.dir(videos)
       this.generateVideos(videos)
     }.bind(this))
