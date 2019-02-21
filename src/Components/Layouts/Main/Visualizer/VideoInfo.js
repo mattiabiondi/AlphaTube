@@ -41,7 +41,7 @@ class VideoInfo extends Component {
     if (prevProps.id !== this.props.id) {
       this.setState(
         {
-          checked: true
+          checked: true,
         }
       )
       this.getData(this.props.id)
@@ -171,14 +171,19 @@ class VideoInfo extends Component {
           song: song,
           artist: artist
         })
-        this.query1()
+        this.query2()
       }
       else {
-        console.log('parse nullo, lavorare sui tag:')
+        console.log('parse nullo, lavorare sui tag o titolo video')
         console.dir(this.state.tags)
         this.setState({
+          abstract: '',
           song: '',
-          artist: ''
+          artist: '',
+          album: '',
+          date: '',
+          genre: '',
+          tags: null
         })
       }
 
@@ -188,7 +193,7 @@ class VideoInfo extends Component {
       })
   }
 
-  query1() {
+  query1() { //problematica: alla fine non la utilizzo
     var song = this.state.song
     song = song.replace(/ /g,'_')
     console.log('q1:'+song)
@@ -222,7 +227,6 @@ class VideoInfo extends Component {
     .catch(function (error) {
       console.log('error')
     })
-
   }
 
   query2() {
@@ -293,8 +297,13 @@ class VideoInfo extends Component {
       else {
         console.log('controllare i tag')
         this.setState({
+          abstract: '',
           song: '',
-          artist: ''
+          artist: '',
+          album: '',
+          date: '',
+          genre: '',
+          tags: null
         })
       }
     }.bind(this))
