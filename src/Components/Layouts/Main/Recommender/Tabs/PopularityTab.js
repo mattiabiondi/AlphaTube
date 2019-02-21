@@ -50,6 +50,7 @@ class Popularity extends Component {
         return console.log(err)
       if(results[0]) { // Controllo perchè a volte ritorna "undefined"
         results[0].prevalentReason = video.prevalentReason
+        results[0].timesWatched = video.timesWatched
         this.handleResult(results[0])
       }
     }.bind(this))
@@ -90,7 +91,7 @@ class Popularity extends Component {
         temp.push(video)
       }
     })
-    console.dir(temp)
+    //console.dir(temp)
     return temp
   }
 
@@ -188,6 +189,7 @@ class Popularity extends Component {
             <VideoRenderer
               video = {i}
               suggestion = {i.prevalentReason}
+              views = {i.timesWatched}
               handleVideoSelection = {this.handleVideoSelection}
             />
           )

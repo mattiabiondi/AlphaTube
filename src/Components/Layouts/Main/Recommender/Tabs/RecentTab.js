@@ -57,6 +57,7 @@ class Recent extends Component {
         videos: []
       })
     }
+    //console.dir(videos)
   }
 
   handleVideoSelection(video) {
@@ -78,6 +79,7 @@ class Recent extends Component {
             <VideoRenderer
               video = {i}
               suggestion = {this.props.tabName}
+              views = {i.timesWatched}
               handleVideoSelection = {this.handleVideoSelection}
             />
           )

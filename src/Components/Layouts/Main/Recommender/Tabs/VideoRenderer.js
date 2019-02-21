@@ -46,7 +46,6 @@ class VideoRenderer extends Component {
 
   render() {
     const { classes } = this.props
-
     return (
       <Card className={classes.card}>
 
@@ -82,6 +81,13 @@ class VideoRenderer extends Component {
               </Typography>
               <Typography className={classes.description2}>
                 {this.props.suggestion}
+              </Typography>
+              <br/>
+              <Typography className={classes.description}>
+                {"Views: \u00A0 "}
+              </Typography>
+              <Typography className={classes.description2}>
+                {this.props.views}
               </Typography>
             </CardContent>
           </Grid>
