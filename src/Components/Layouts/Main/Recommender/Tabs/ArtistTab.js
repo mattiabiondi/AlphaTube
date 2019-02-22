@@ -18,11 +18,11 @@ class Artist extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (prevProps.video !== this.props.video) {
+    if (prevProps.resource !== this.props.recource) {
       this.setState({
         videos: []
       })
-          this.getVideos()
+      this.getVideos()
     }
   }
 
@@ -83,9 +83,9 @@ class Artist extends Component {
   render() {
     console.log(this.props.resource)
     var videos = null
-    if(this.state.videos){
-        videos = this.state.videos
-      }
+    if(this.state.videos.lenght > 0) {
+      videos = this.state.videos
+    }
 
     if(videos) {
       var list = videos.map(

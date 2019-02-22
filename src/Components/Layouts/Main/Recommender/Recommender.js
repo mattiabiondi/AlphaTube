@@ -6,9 +6,12 @@ import Tabs from '@material-ui/core/Tabs'
 import Tab from '@material-ui/core/Tab'
 import Typography from '@material-ui/core/Typography'
 import Search from './Tabs/SearchTab.js'
-import Popularity from './Tabs/PopularityTab.js'
-import Related from './Tabs/RelatedTab.js'
 import Artist from './Tabs/ArtistTab.js'
+import Band from './Tabs/BandTab.js'
+import Album from './Tabs/AlbumTab.js'
+import Genre from './Tabs/GenreTab.js'
+import Related from './Tabs/RelatedTab.js'
+import Popularity from './Tabs/PopularityTab.js'
 import Fvitali from './Tabs/FvitaliTab.js'
 import Recent from './Tabs/RecentTab.js'
 import Random from './Tabs/RandomTab.js'
@@ -117,9 +120,24 @@ class Recommender extends Component {
                                             handleVideoSelection = {this.handleVideoSelection}
                                             tabName = "Artist" />
                                         </TabContainer>}
-            {this.state.value === 2 && <TabContainer>Item Three</TabContainer>}
-            {this.state.value === 3 && <TabContainer>Item Four</TabContainer>}
-            {this.state.value === 4 && <TabContainer>Item Five</TabContainer>}
+            {this.state.value === 2 && <TabContainer>
+                                          <Band
+
+                                            handleVideoSelection = {this.handleVideoSelection}
+                                            tabName = "Band" />
+                                        </TabContainer>}
+            {this.state.value === 3 && <TabContainer>
+                                          <Album
+
+                                            handleVideoSelection = {this.handleVideoSelection}
+                                            tabName = "Album" />
+                                        </TabContainer>}
+            {this.state.value === 4 && <TabContainer>
+                                          <Genre
+
+                                            handleVideoSelection = {this.handleVideoSelection}
+                                            tabName = "Genre" />
+                                        </TabContainer>}
             {this.state.value === 5 && <TabContainer>
                                           <Related
                                             video = {this.props.video}
