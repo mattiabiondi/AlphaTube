@@ -9,12 +9,6 @@ class InfoRenderer extends Component {
       <List>
         <ListItem>
           <ListItemText
-            primary = {this.props.abstract}
-            secondary = 'Description'
-          />
-        </ListItem>
-        <ListItem>
-          <ListItemText
             primary = {this.props.song}
             secondary = 'Song'
           />

@@ -10,6 +10,7 @@ import CommentIcon from '@material-ui/icons/Comment'
 import PublicIcon from '@material-ui/icons/Public'
 import Description from './Description'
 import Comments from './Comments'
+import Wikipedia from './Wikipedia'
 import Fade from '@material-ui/core/Fade'
 
 function TabContainer(props) {
@@ -74,7 +75,7 @@ class VideoContent extends Component {
           </Tabs>
           {this.state.value === 0 && <TabContainer><Description description = {this.props.description}/></TabContainer>}
           {this.state.value === 1 && <TabContainer><Comments comments = {this.props.comments}/></TabContainer>}
-          {this.state.value === 2 && <TabContainer>Nunc vitae orci ultricies, auctor nunc in, volutpat nisl. Integer sit amet egestas eros, vitae egestas augue. Duis vel est augue.</TabContainer>}
+          {this.state.value === 2 && <TabContainer><Wikipedia wikipedia = {this.props.wikipedia}/></TabContainer>}
         </Paper>
       </Fade>
     )

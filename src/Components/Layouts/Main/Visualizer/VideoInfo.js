@@ -37,7 +37,7 @@ class VideoInfo extends Component {
     this.handleResource = this.handleResource.bind(this)
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps, prevState) {
     if (prevProps.id !== this.props.id) {
       this.setState(
         {
@@ -45,6 +45,10 @@ class VideoInfo extends Component {
         }
       )
       this.getData(this.props.id)
+    }
+
+    if(prevState.abstract !== this.state.abstract) {
+      this.props.handleAbstract(this.state.abstract)
     }
   }
 
@@ -332,7 +336,6 @@ class VideoInfo extends Component {
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>
               <InfoRenderer
-              abstract={this.state.abstract}
               song={this.state.song}
               artist={this.state.artist}
               album={this.state.album}
