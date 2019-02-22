@@ -122,19 +122,19 @@ class Recommender extends Component {
                                         </TabContainer>}
             {this.state.value === 2 && <TabContainer>
                                           <Band
-
+                                            resource = {this.props.resource}
                                             handleVideoSelection = {this.handleVideoSelection}
                                             tabName = "Band" />
                                         </TabContainer>}
             {this.state.value === 3 && <TabContainer>
                                           <Album
-
+                                            resource = {this.props.resource}
                                             handleVideoSelection = {this.handleVideoSelection}
                                             tabName = "Album" />
                                         </TabContainer>}
             {this.state.value === 4 && <TabContainer>
                                           <Genre
-
+                                            resource = {this.props.resource}
                                             handleVideoSelection = {this.handleVideoSelection}
                                             tabName = "Genre" />
                                         </TabContainer>}
