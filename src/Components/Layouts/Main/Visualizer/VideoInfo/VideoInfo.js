@@ -87,7 +87,7 @@ class VideoInfo extends Component {
     var url= "http://dbpedia.org/sparql?query=" + encodeURIComponent(query) + "&format=json"
     axios.get(url)
     .then(function (response) {
-      // console.log(response.data.results)
+      // console.log(response.data.results.bindings)
       resource = resource.split('/')[4]
       var abstract = response.data.results.bindings[0].abstract.value
       var artist = response.data.results.bindings[0].artist.value
@@ -99,17 +99,19 @@ class VideoInfo extends Component {
       var date = response.data.results.bindings[0].date.value
       var genre1 = response.data.results.bindings[0].genre.value
       genre1 = genre1.split('/')[4]
-      var genre2 = '-'
-      var genre3 = '-'
-      var genre4 = '-'
-      if (response.data.results.bindings[1]) genre2 = response.data.results.bindings[1].genre.value
+      var genre2 = ''
+      var genre3 = ''
+      var genre4 = ''
+      if (response.data.results.bindings.length >= 2) genre2 = response.data.results.bindings[1].genre.value
       genre2 = genre2.split('/')[4]
-      if (response.data.results.bindings[2]) genre3 = response.data.results.bindings[2].genre.value
+      if (response.data.results.bindings.length >= 3) genre3 = response.data.results.bindings[2].genre.value
       genre3 = genre3.split('/')[4]
-      if (response.data.results.bindings[3]) genre4 = response.data.results.bindings[3].genre.value
+      if (response.data.results.bindings.length >= 4) genre4 = response.data.results.bindings[3].genre.value
       genre4 = genre4.split('/')[4]
       // genre = genre.replace('_',' ')
-      //to do: piú generi insieme
+      if(genre2 === genre1) genre2 = ''
+      if((genre3 === genre2) || (genre3 === genre1)) genre3 = ''
+      if((genre4 === genre3) || (genre4 === genre2) || (genre4 === genre1)) genre4 = ''
       this.setState({
         song: resource,
         abstract: abstract,
@@ -124,7 +126,7 @@ class VideoInfo extends Component {
       this.props.handleWiki(this.state.song)
     }.bind(this))
     .catch(function (error) {
-      console.log('error')
+      console.log(error)
     })
   }
 
@@ -161,12 +163,19 @@ class VideoInfo extends Component {
       var date = response.data.results.bindings[0].date.value
       var genre1 = response.data.results.bindings[0].genre.value
       genre1 = genre1.split('/')[4]
-      var genre2 = response.data.results.bindings[1].genre.value
+      var genre2 = ''
+      var genre3 = ''
+      var genre4 = ''
+      if (response.data.results.bindings.length >= 2) genre2 = response.data.results.bindings[1].genre.value
       genre2 = genre2.split('/')[4]
-      var genre3 = response.data.results.bindings[2].genre.value
+      if (response.data.results.bindings.length >= 3) genre3 = response.data.results.bindings[2].genre.value
       genre3 = genre3.split('/')[4]
-      var genre4 = response.data.results.bindings[3].genre.value
+      if (response.data.results.bindings.length >= 4) genre4 = response.data.results.bindings[3].genre.value
       genre4 = genre4.split('/')[4]
+      // genre = genre.replace('_',' ')
+      if(genre2 === genre1) genre2 = ''
+      if((genre3 === genre2) || (genre3 === genre1)) genre3 = ''
+      if((genre4 === genre3) || (genre4 === genre2) || (genre4 === genre1)) genre4 = ''
       // genre = genre.replace('_',' ')
       //to do: piú generi insieme
       this.setState({
@@ -181,7 +190,7 @@ class VideoInfo extends Component {
       })
     }.bind(this))
     .catch(function (error) {
-      console.log('error')
+      console.log(error)
     })
   }
 
@@ -231,7 +240,7 @@ class VideoInfo extends Component {
 
       }.bind(this))
       .catch(function (error) {
-        console.log('error')
+        console.log(error)
       })
   }
 
@@ -267,7 +276,7 @@ class VideoInfo extends Component {
 
     }.bind(this))
     .catch(function (error) {
-      console.log('error')
+      console.log(error)
     })
   }
 
@@ -301,7 +310,7 @@ class VideoInfo extends Component {
       }
     }.bind(this))
     .catch(function (error) {
-      console.log('error')
+      console.log(error)
     })
   }
 
@@ -346,8 +355,8 @@ class VideoInfo extends Component {
         console.log('controllare i tag')
         this.setState({
           abstract: '',
-          song: '',
-          artist: '',
+          song: song,
+          artist: artist,
           album: '',
           date: '',
           genre1: '',
@@ -360,7 +369,7 @@ class VideoInfo extends Component {
       }
     }.bind(this))
     .catch(function (error) {
-      console.log('error')
+      console.log(error)
     })
   }
 

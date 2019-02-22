@@ -32,20 +32,27 @@ class Wikipedia extends Component {
   }
 
   queryForAbstract(resource) {
+    resource = resource.replace(/ /g,'_')
     console.log(resource)
     var query = `SELECT ?abstract WHERE {
                 <http://dbpedia.org/resource/` + resource + `> dbo:abstract ?abstract
                 FILTER (langMatches(lang(?abstract),'en'))
                 }`
     var url= "http://dbpedia.org/sparql?query=" + encodeURIComponent(query) + "&format=json"
-    console.log(url)
-    axios.get(url)
-    .then(function (response) {
-      if(response) this.setState ({ response: response.data.results.bindings[0].abstract.value })
-    }.bind(this))
-    .catch(function (error) {
-      console.log('error')
-    })
+    if(resource){
+      axios.get(url)
+      .then(function (response) {
+        if(response.data.results.bindings.length) {
+          this.setState ({ response: response.data.results.bindings[0].abstract.value })
+        }
+        else {
+          this.setState ({ response: '' })
+        }
+      }.bind(this))
+      .catch(function (error) {
+        console.log(error)
+      })
+    }
   }
 
   render() {
