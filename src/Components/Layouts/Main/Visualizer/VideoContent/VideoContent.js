@@ -8,9 +8,9 @@ import Typography from '@material-ui/core/Typography'
 import DescriptionIcon from '@material-ui/icons/Description'
 import CommentIcon from '@material-ui/icons/Comment'
 import PublicIcon from '@material-ui/icons/Public'
-import Description from './Description'
-import Comments from './Comments'
-import Wikipedia from './Wikipedia'
+import Description from './Description/Description'
+import Comments from './Comments/Comments'
+import Wikipedia from './Wikipedia/Wikipedia'
 import Fade from '@material-ui/core/Fade'
 
 function TabContainer(props) {

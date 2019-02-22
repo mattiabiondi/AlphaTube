@@ -2,9 +2,9 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'
-import Video from './Video'
-import VideoInfo from './VideoInfo'
-import VideoContent from './VideoContent'
+import Video from './Video/Video'
+import VideoInfo from './VideoInfo/VideoInfo'
+import VideoContent from './VideoContent/VideoContent'
 import axios from 'axios'
 
 const styles = theme => ({

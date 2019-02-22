@@ -1,6 +1,6 @@
 import React, { Component, Fragment} from 'react'
 import CommentRenderer from './CommentRenderer'
-import LoadingBar from '../LoadingBar'
+import LoadingBar from '../../../LoadingBar'
 
 class Comments extends Component {
   render() {

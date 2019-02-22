@@ -1,6 +1,6 @@
 import React, { Component, Fragment} from 'react'
 import { withStyles } from '@material-ui/core/styles'
-import LoadingBar from '../LoadingBar'
+import LoadingBar from '../../../LoadingBar'
 import renderHTML from 'react-render-html';
 
 const styles = theme => ({
@@ -9,15 +9,15 @@ const styles = theme => ({
   },
 })
 
-class Description extends Component {
+class Wikipedia extends Component {
   render() {
 
-    if(this.props.description) {
-      var description = this.props.description
+    if(this.props.wikipedia) {
+      var abstract = this.props.wikipedia
       return (
         <Fragment>
           {renderHTML('<style>a{color:#1ec38b}a:hover{color:#FFF}</style>')}
-          {renderHTML(description)}
+          {renderHTML(abstract)}
         </Fragment>
       )
     }
@@ -31,4 +31,4 @@ class Description extends Component {
   }
 }
 
-export default withStyles(styles)(Description)
+export default withStyles(styles)(Wikipedia)
