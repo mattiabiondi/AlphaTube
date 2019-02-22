@@ -50,6 +50,13 @@ class VideoContent extends Component {
         }
       )
    }
+   if (prevProps.wikipedia !== this.props.wikipedia) {
+     this.setState(
+       {
+         value: 2
+       }
+     )
+    }
   }
 
   handleChange = (event, value) => {

@@ -8,34 +8,62 @@ class InfoRenderer extends Component {
     return (
       <List>
         <ListItem>
-          <ListItemText
+        <ListItemText
+            onClick={() => { this.props.handleWiki(this.props.song)}}
             primary = {this.props.song}
             secondary = 'Song'
           />
         </ListItem>
         <ListItem>
           <ListItemText
+            onClick={() => { this.props.handleWiki(this.props.artist)}}
             primary = {this.props.artist}
             secondary = 'Artist'
           />
         </ListItem>
         <ListItem>
           <ListItemText
+            onClick={() => { this.props.handleWiki(this.props.album)}}
             primary = {this.props.album}
             secondary = 'Album'
           />
         </ListItem>
         <ListItem>
           <ListItemText
-            primary = {this.props.year}
-            secondary = 'Year'
+            primary = {this.props.date}
+            secondary = 'Date'
           />
         </ListItem>
         <ListItem>
-          <ListItemText
-            primary = {this.props.genre}
-            secondary = 'Genre'
-          />
+        <ListItemText
+          secondary = 'Genres'
+        />
+          <List>
+            <ListItem>
+              <ListItemText
+                onClick={() => { this.props.handleWiki(this.props.genre1)}}
+                primary = {this.props.genre1}
+              />
+            </ListItem>
+            <ListItem>
+              <ListItemText
+                onClick={() => { this.props.handleWiki(this.props.genre2)}}
+                primary = {this.props.genre2}
+              />
+            </ListItem>
+            <ListItem>
+              <ListItemText
+                onClick={() => { this.props.handleWiki(this.props.genre3)}}
+                primary = {this.props.genre3}
+              />
+            </ListItem>
+            <ListItem>
+              <ListItemText
+                onClick={() => { this.props.handleWiki(this.props.genre4)}}
+                primary = {this.props.genre4}
+              />
+            </ListItem>
+          </List>
         </ListItem>
         <ListItem>
           <ListItemText
@@ -46,6 +74,7 @@ class InfoRenderer extends Component {
       </List>
     )
   }
+
 }
 
 export default InfoRenderer

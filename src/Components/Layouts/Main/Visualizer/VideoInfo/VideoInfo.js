@@ -30,11 +30,15 @@ class VideoInfo extends Component {
       artist: '',
       album: '',
       date: '',
-      genre: '',
+      genre1: '',
+      genre2: '',
+      genre3: '',
+      genre4: '',
       checked: false,
       tags: null
     }
     this.handleResource = this.handleResource.bind(this)
+    this.handleWiki = this.handleWiki.bind(this)
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -47,13 +51,14 @@ class VideoInfo extends Component {
       this.getData(this.props.id)
     }
 
-    if(prevState.abstract !== this.state.abstract) {
-      this.props.handleAbstract(this.state.abstract)
-    }
+    // if(prevState.song !== this.state.song) {
+    //   this.props.handleWiki(this.state.song)
+    // }
   }
 
   handleResource(resource) {
     this.props.handleResource(resource)
+    this.props.handleWiki(this.state.song)
   }
 
   update1(resource) {
@@ -83,25 +88,40 @@ class VideoInfo extends Component {
     axios.get(url)
     .then(function (response) {
       // console.log(response.data.results)
+      resource = resource.split('/')[4]
       var abstract = response.data.results.bindings[0].abstract.value
       var artist = response.data.results.bindings[0].artist.value
       artist = artist.split('/')[4]
-      artist = artist.replace('_',' ')
+      // artist = artist.replace('_',' ')
       var album = response.data.results.bindings[0].album.value
       album = album.split('/')[4]
-      album = album.replace('_',' ')
+      // album = album.replace('_',' ')
       var date = response.data.results.bindings[0].date.value
-      var genre = response.data.results.bindings[0].genre.value
-      genre = genre.split('/')[4]
-      genre = genre.replace('_',' ')
+      var genre1 = response.data.results.bindings[0].genre.value
+      genre1 = genre1.split('/')[4]
+      var genre2 = '-'
+      var genre3 = '-'
+      var genre4 = '-'
+      if (response.data.results.bindings[1]) genre2 = response.data.results.bindings[1].genre.value
+      genre2 = genre2.split('/')[4]
+      if (response.data.results.bindings[2]) genre3 = response.data.results.bindings[2].genre.value
+      genre3 = genre3.split('/')[4]
+      if (response.data.results.bindings[3]) genre4 = response.data.results.bindings[3].genre.value
+      genre4 = genre4.split('/')[4]
+      // genre = genre.replace('_',' ')
       //to do: piú generi insieme
       this.setState({
-        abstract:abstract,
+        song: resource,
+        abstract: abstract,
         artist: artist,
         album: album,
         date: date,
-        genre: genre,
+        genre1: genre1,
+        genre2: genre2,
+        genre3: genre3,
+        genre4: genre4,
       })
+      this.props.handleWiki(this.state.song)
     }.bind(this))
     .catch(function (error) {
       console.log('error')
@@ -113,6 +133,7 @@ class VideoInfo extends Component {
     var query = `SELECT DISTINCT ?abstract ?artist ?album ?date ?genre
                 WHERE {
                   <` + resource + `> dbo:abstract ?abstract.
+
                   {<` + resource + `> dbo:musicalArtist ?artist.}
                   UNION
                   {<` + resource + `> dbo:artist ?artist.}
@@ -135,19 +156,28 @@ class VideoInfo extends Component {
       var abstract = response.data.results.bindings[0].abstract.value
       var artist = response.data.results.bindings[0].artist.value
       artist = artist.split('/')[4]
-      artist = artist.replace('_',' ')
+      // artist = artist.replace('_',' ')
       var album = response.data.results.bindings[0].album.value
       var date = response.data.results.bindings[0].date.value
-      var genre = response.data.results.bindings[0].genre.value
-      genre = genre.split('/')[4]
-      genre = genre.replace('_',' ')
+      var genre1 = response.data.results.bindings[0].genre.value
+      genre1 = genre1.split('/')[4]
+      var genre2 = response.data.results.bindings[1].genre.value
+      genre2 = genre2.split('/')[4]
+      var genre3 = response.data.results.bindings[2].genre.value
+      genre3 = genre3.split('/')[4]
+      var genre4 = response.data.results.bindings[3].genre.value
+      genre4 = genre4.split('/')[4]
+      // genre = genre.replace('_',' ')
       //to do: piú generi insieme
       this.setState({
         abstract: abstract,
         artist: artist,
         album: album,
         date: date,
-        genre: genre,
+        genre1: genre1,
+        genre2: genre2,
+        genre3: genre3,
+        genre4: genre4,
       })
     }.bind(this))
     .catch(function (error) {
@@ -190,7 +220,10 @@ class VideoInfo extends Component {
           artist: '',
           album: '',
           date: '',
-          genre: '',
+          genre1: '',
+          genre2: '',
+          genre3: '',
+          genre4: '',
           tags: null
         })
         this.handleResource('')
@@ -272,6 +305,10 @@ class VideoInfo extends Component {
     })
   }
 
+  handleWiki(resource) {
+    this.props.handleWiki(resource)
+  }
+
   query3() {
     var song = this.state.song
     var artist = this.state.artist
@@ -313,7 +350,10 @@ class VideoInfo extends Component {
           artist: '',
           album: '',
           date: '',
-          genre: '',
+          genre1: '',
+          genre2: '',
+          genre3: '',
+          genre4: '',
           tags: null
         })
         this.handleResource('')
@@ -339,9 +379,13 @@ class VideoInfo extends Component {
               song={this.state.song}
               artist={this.state.artist}
               album={this.state.album}
-              year={this.state.date}
-              genre={this.state.genre}
+              date={this.state.date}
+              genre1={this.state.genre1}
+              genre2={this.state.genre2}
+              genre3={this.state.genre3}
+              genre4={this.state.genre4}
               id={this.props.id}
+              handleWiki={this.handleWiki}
               />
           </ExpansionPanelDetails>
         </ExpansionPanel>

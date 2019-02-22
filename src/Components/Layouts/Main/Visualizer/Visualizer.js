@@ -31,7 +31,7 @@ class Visualizer extends Component {
     this.getComments = this.getComments.bind(this)
     this.setRecentVideos = this.setRecentVideos.bind(this)
     this.handleResource = this.handleResource.bind(this)
-    this.handleAbstract = this.handleAbstract.bind(this)
+    this.handleWiki = this.handleWiki.bind(this)
   }
 
   componentDidMount() {
@@ -44,8 +44,8 @@ class Visualizer extends Component {
     this.props.handleResource(resource)
   }
 
-  handleAbstract(abstract) {
-    this.setState({wikipedia: abstract})
+  handleWiki(resource) {
+    this.setState({wikipedia: resource})
   }
 
   componentDidUpdate(prevProps) {
@@ -156,7 +156,7 @@ class Visualizer extends Component {
             id={id}
             title={title}
             handleResource = {this.handleResource}
-            handleAbstract = {this.handleAbstract}/>
+            handleWiki = {this.handleWiki}/>
           </Grid>
           <Grid item xs={12} >
             <VideoContent
