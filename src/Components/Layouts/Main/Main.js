@@ -89,6 +89,8 @@ class Main extends Component {
     var vid = video
     vid.reason = reason
     this.setState({ video: vid })
+    //questo assegnamento fa si che lo stato attuale della cronologia corrisponda al video visualizzato
+    this.state.video=vid
   }
 
   handleResource(resource) {
