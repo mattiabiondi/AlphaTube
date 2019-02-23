@@ -11,6 +11,7 @@ class Band extends Component {
       videos: []
     }
     this.handleVideoSelection = this.handleVideoSelection.bind(this)
+    this.removeDuplicates = this.removeDuplicates.bind(this)
   }
 
   componentDidMount() {
@@ -59,6 +60,16 @@ class Band extends Component {
         console.log(error)
       })
     }
+  }
+
+  removeDuplicates(array) {
+    let uniqueArray = []
+    for(let i = 0;i < array.length; i++){
+        if(uniqueArray.indexOf(array[i]) == -1){
+            uniqueArray.push(array[i])
+        }
+    }
+    return uniqueArray
   }
 
   handleResult(video) {

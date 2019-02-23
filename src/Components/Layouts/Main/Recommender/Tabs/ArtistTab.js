@@ -12,6 +12,7 @@ class Artist extends Component {
     }
     this.handleVideoSelection = this.handleVideoSelection.bind(this)
     this.handleYouTubeSearch = this.handleYouTubeSearch.bind(this)
+    this.removeDuplicates = this.removeDuplicates.bind(this)
   }
 
   componentDidMount() {
@@ -36,23 +37,31 @@ class Artist extends Component {
                   {<` + this.props.resource + `> dbo:musicalArtist ?artist.}
                   ?work dbo:artist ?artist.
                   ?work dbp:title ?song.
-                }LIMIT 20`
+                }`
       var url= "http://dbpedia.org/sparql?query=" + encodeURIComponent(query) + "&format=json"
       axios.get(url)
       .then(function (response) {
-        // console.dir(response.data.results.bindings)
-        response.data.results.bindings.forEach(function(element) {
+        var chosenNumbers = []
+        var videosToShow = 20
+        if(videosToShow>response.data.results.bindings.length) videosToShow=response.data.results.bindings.length
+        for(var i=0;i<(videosToShow*3);i++) {
+          var num = Math.floor((Math.random() * (response.data.results.bindings.length-1)))
+          chosenNumbers.push(num)
+        }
+        chosenNumbers = this.removeDuplicates(chosenNumbers)
+          for(var i=0; i<(chosenNumbers.length); i++) {
+          num = chosenNumbers[i]
           var song = ''
           var artist = ''
-          if (element.song.type === "uri") {
-            song = element.song.value.split('/')[4]
+          if (response.data.results.bindings[num].song.type === "uri") {
+            song = response.data.results.bindings[num].song.value.split('/')[4]
           }
           else {
-            song = element.song.value
+            song = response.data.results.bindings[num].song.value
           }
-          artist = element.artist.value.split('/')[4]
+          artist = response.data.results.bindings[num].artist.value.split('/')[4]
           research.push(song + " " + artist)
-        })
+        }
         console.log(research)
         this.generateVideoList(research)
       }.bind(this))
@@ -60,6 +69,16 @@ class Artist extends Component {
         console.log(error)
       })
     }
+  }
+
+  removeDuplicates(array) {
+    let uniqueArray = []
+    for(let i = 0;i < array.length; i++){
+        if(uniqueArray.indexOf(array[i]) == -1){
+            uniqueArray.push(array[i])
+        }
+    }
+    return uniqueArray
   }
 
   handleResult(video) {
