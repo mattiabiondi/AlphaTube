@@ -82,7 +82,7 @@ class Popularity extends Component {
     videos.forEach(function(video) {
       var toAdd = true
       temp.forEach(function(i) {
-        if(i.videoID == video.videoID) {
+        if(i.videoID === video.videoID) {
           toAdd = false
           i.timesWatched += 1
         }

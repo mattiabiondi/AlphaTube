@@ -38,8 +38,7 @@ class Demo extends React.Component {
 
   push(video) {
     if(video) {
-      this.state.video=video
-      window.history.pushState(this.state.video, "")
+      window.history.pushState(video, "")
     }
   }
 

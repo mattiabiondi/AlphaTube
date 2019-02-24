@@ -53,8 +53,7 @@ class Main extends Component {
 
   push(video) {
     if(video) {
-      this.state.video=video
-      window.history.pushState(this.state.video, "")
+      window.history.pushState(video, "")
     }
   }
 
@@ -90,8 +89,6 @@ class Main extends Component {
     var vid = video
     vid.reason = reason
     this.setState({ video: vid })
-    //questo assegnamento fa si che lo stato attuale della cronologia corrisponda al video visualizzato
-
   }
 
   handleResource(resource) {

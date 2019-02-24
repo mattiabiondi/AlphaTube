@@ -210,7 +210,7 @@ class VideoInfo extends Component {
       if(info) {
         song = info[1]
         song = song.split('(')[0]
-        if(song[song.length-1]==" "){
+        if(song[song.length-1]===" "){
           song = song.substr(0, song.length-1)
         }
         artist = info[0]
@@ -259,11 +259,11 @@ class VideoInfo extends Component {
     axios.get(url)
     .then(function (response) {
       console.log(response.data.results.bindings)
-      if (response.data.results.bindings.length == 0) {
+      if (response.data.results.bindings.length === 0) {
         //non esiste la risorsa dbpedia della canzone, passare alla ricerca artista e album
         this.query3()
       }
-      if (response.data.results.bindings.length == 1) {
+      if (response.data.results.bindings.length === 1) {
         //ho trovato la risorsa dbpedia della canzone
         //TO DO: é ancora possibile che la risorsa trovata sia una canzone di un altro artista con lo stesso titolo
         // console.log(response.data.results.bindings[0].song.value)

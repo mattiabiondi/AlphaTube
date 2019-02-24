@@ -56,7 +56,7 @@ class Band extends Component {
           chosenNumbers.push(num)
         }
         chosenNumbers = this.removeDuplicates(chosenNumbers)
-          for(var i=0; i<(chosenNumbers.length); i++) {
+        for(i=0; i<(chosenNumbers.length); i++) {
           num = chosenNumbers[i]
           var song = ''
           var artist = ''
@@ -83,7 +83,7 @@ class Band extends Component {
   removeDuplicates(array) {
     let uniqueArray = []
     for(let i = 0;i < array.length; i++){
-        if(uniqueArray.indexOf(array[i]) == -1){
+        if(uniqueArray.indexOf(array[i]) === -1){
             uniqueArray.push(array[i])
         }
     }
