@@ -217,8 +217,6 @@ class VideoInfo extends Component {
         this.query2()
       }
       else {
-        console.log('parse nullo, lavorare sui tag o titolo video')
-        console.dir(this.state.tags)
         this.setState({
           abstract: '',
           song: '',
@@ -243,7 +241,6 @@ class VideoInfo extends Component {
   query1() { //problematica: alla fine non la utilizzo
     var song = this.state.song
     song = song.replace(/ /g,'_')
-    console.log('q1:'+song)
     var query = `SELECT DISTINCT ?song   WHERE {
                   ?song rdf:type dbo:MusicalWork.
                   FILTER regex(str(?song), "` + song + `", "i").
@@ -254,7 +251,6 @@ class VideoInfo extends Component {
     var url= "http://dbpedia.org/sparql?query=" + encodeURIComponent(query) + "&format=json"
     axios.get(url)
     .then(function (response) {
-      console.log(response.data.results.bindings)
       if (response.data.results.bindings.length === 0) {
         //non esiste la risorsa dbpedia della canzone, passare alla ricerca artista e album
         this.query3()
@@ -281,7 +277,6 @@ class VideoInfo extends Component {
     song = song.replace(/ /g,'_')
     var artist = this.state.artist
     artist = artist.replace(/ /g,'_')
-    console.log('q2:'+song+', '+artist)
     var query = `SELECT DISTINCT ?song  WHERE {
                 {?song dbo:artist ?artist}
                 UNION
@@ -295,7 +290,6 @@ class VideoInfo extends Component {
     var url= "http://dbpedia.org/sparql?query=" + encodeURIComponent(query) + "&format=json"
     axios.get(url)
     .then(function (response) {
-      // console.log(response.data.results.bindings)
       if(response.data.results.bindings.length !== 0){
         // console.dir(response)
         this.handleResource(response.data.results.bindings[0].song.value)
@@ -318,7 +312,6 @@ class VideoInfo extends Component {
     var song = this.state.song
     var artist = this.state.artist
     artist = artist.replace(/ /g,'_')
-    console.log('q3:'+song+', '+artist)
     var query = `SELECT DISTINCT ?album
                 WHERE {
 
@@ -348,7 +341,6 @@ class VideoInfo extends Component {
         this.update2(response.data.results.bindings[0].album.value)
       }
       else {
-        console.log('controllare i tag')
         this.setState({
           abstract: '',
           song: song,

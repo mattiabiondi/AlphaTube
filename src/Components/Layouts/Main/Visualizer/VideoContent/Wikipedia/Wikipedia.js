@@ -46,7 +46,6 @@ class Wikipedia extends Component {
                 FILTER (langMatches(lang(?abstract),'en'))
                 }`
     var url= "http://dbpedia.org/sparql?query=" + encodeURIComponent(query) + "&format=json"
-    console.log(resource)
     if(resource){
       axios.get(url)
       .then(function (response) {
