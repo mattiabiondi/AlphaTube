@@ -21,6 +21,7 @@ class StartingList extends Component {
     for(var key in info) {
         if (info.hasOwnProperty(key)) video[key] = info[key]
     }
+    video.title = info.artist + " - " + info.title
     this.setState(prevState => ({
       videos: [...prevState.videos, video] // Equivale alla push, aggiunge un elemento all'Array
     }))
