@@ -58,9 +58,21 @@ class Main extends Component {
   }
 
   removeDuplicates(videos) {
-    return videos.filter((obj, pos, arr) => {
-        return arr.map(mapObj => mapObj['id']).indexOf(obj['id']) === pos
+    var temp = []
+    videos.forEach(function(video) {
+      var toAdd = true
+      temp.forEach(function(i) {
+        if(i.id === video.id) {
+          toAdd = false
+          i.timesWatched += 1
+        }
+      })
+      if(toAdd) {
+        temp.push(video)
+      }
     })
+    //console.dir(temp)
+    return temp
   }
 
   getRecentVideos() {
