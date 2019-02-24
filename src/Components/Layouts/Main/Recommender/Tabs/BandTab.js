@@ -12,6 +12,8 @@ class Band extends Component {
     }
     this.handleVideoSelection = this.handleVideoSelection.bind(this)
     this.removeDuplicates = this.removeDuplicates.bind(this)
+    this.handleYouTubeSearch = this.handleYouTubeSearch.bind(this)
+    this.handleResult = this.handleResult.bind(this)
   }
 
   componentDidMount() {
@@ -19,7 +21,7 @@ class Band extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (prevProps.resource !== this.props.recource) {
+    if (prevProps.resource !== this.props.resource) {
       this.setState({
         videos: []
       })
@@ -67,8 +69,10 @@ class Band extends Component {
           artist = response.data.results.bindings[num].artist.value.split('/')[4]
           research.push(song + " " + artist)
         }
-        console.log(research)
-        // this.generateVideoList(research)
+        //console.log(research)
+        research.forEach (function(term) {
+          this.handleYouTubeSearch(term)
+        }.bind(this))
       }.bind(this))
       .catch(function (error) {
         console.log(error)
@@ -102,20 +106,9 @@ class Band extends Component {
       type: "video",
     }
     YouTubeSearch(research, opts, function(err, results) {
-      if(err) {
-        console.log(err)
-      }
-      // console.log("ric: " + research + " ris: " + results[0].title)
-      // this.handleResult(results[0])
+      if(err) return console.log(err)
+      if(results[0]) this.handleResult(results[0])
     }.bind(this))
-  }
-
-  generateVideoList(research) {
-    research.map(
-      function(i) {
-        this.handleYouTubeSearch(i)
-      }.bind(this)
-    )
   }
 
   handleVideoSelection(video) {
@@ -124,7 +117,7 @@ class Band extends Component {
 
   render() {
     var videos = null
-    if(this.state.videos.lenght > 0) {
+    if(this.state.videos.length > 0) {
       videos = this.state.videos
     }
 

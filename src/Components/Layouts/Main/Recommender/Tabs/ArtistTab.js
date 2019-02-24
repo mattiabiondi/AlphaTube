@@ -21,7 +21,7 @@ class Artist extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (prevProps.resource !== this.props.recource) {
+    if (prevProps.resource !== this.props.resource) {
       this.setState({
         videos: []
       })
@@ -63,7 +63,7 @@ class Artist extends Component {
         artist = response.data.results.bindings[num].artist.value.split('/')[4]
         research.push(song + " " + artist)
         }
-        console.log(research)
+        //console.log(research)
         research.forEach (function(term) {
           this.handleYouTubeSearch(term)
         }.bind(this))
@@ -99,10 +99,8 @@ class Artist extends Component {
     }
 
     YouTubeSearch(term, opts, function(err, results) {
-      if(err)
-        return console.log(err)
-      if(results[0])
-        // this.handleResult(results[0])
+      if(err) return console.log(err)
+      if(results[0]) this.handleResult(results[0])
     }.bind(this))
   }
 

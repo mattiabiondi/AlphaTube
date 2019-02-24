@@ -193,38 +193,59 @@ class Recommender extends Component {
                 <Tab icon={<RestoreIcon />} label="Recent" />
                 <Tab icon={<ShuffleIcon />} label="Random" />
               </Tabs>
-            {this.state.value === 0 && <TabContainer>Item Two</TabContainer>}
-            {this.state.value === 1 && <TabContainer>
+            {this.state.value === 0 && <TabContainer>
                                           <Artist
                                             resource = {this.props.resource}
-                                            handleVideoSelection = {this.handleVideoSelection}/>
+                                            handleVideoSelection = {this.handleVideoSelection}
+                                            tabName = "Artist" />
                                         </TabContainer>}
-            {this.state.value === 2 && <TabContainer>Item Four</TabContainer>}
-            {this.state.value === 3 && <TabContainer>Item Five</TabContainer>}
+            {this.state.value === 1 && <TabContainer>
+                                          <Band
+                                            resource = {this.props.resource}
+                                            handleVideoSelection = {this.handleVideoSelection}
+                                            tabName = "Band" />
+                                        </TabContainer>}
+            {this.state.value === 2 && <TabContainer>
+                                          <Album
+                                            resource = {this.props.resource}
+                                            handleVideoSelection = {this.handleVideoSelection}
+                                            tabName = "Album" />
+                                        </TabContainer>}
+            {this.state.value === 3 && <TabContainer>
+                                          <Genre
+                                            resource = {this.props.resource}
+                                            handleVideoSelection = {this.handleVideoSelection}
+                                            tabName = "Genre" />
+                                        </TabContainer>}
             {this.state.value === 4 && <TabContainer>
                                           <Related
                                             video = {this.props.video}
-                                            handleVideoSelection = {this.handleVideoSelection}/>
+                                            handleVideoSelection = {this.handleVideoSelection}
+                                            tabName = "Related" />
                                        </TabContainer>}
             {this.state.value === 5 && <TabContainer>
                                           <Popularity
                                             video = {this.props.video}
-                                            handleVideoSelection = {this.handleVideoSelection}/>
+                                            handleVideoSelection = {this.handleVideoSelection}
+                                            tabName = "Popularity" />
                                         </TabContainer>}
             {this.state.value === 6 && <TabContainer>
                                           <Fvitali
                                             video = {this.props.video}
-                                            handleVideoSelection = {this.handleVideoSelection}/>
+                                            handleVideoSelection = {this.handleVideoSelection}
+                                            tabName = "FVitali" />
                                        </TabContainer>}
             {this.state.value === 7 && <TabContainer>
                                           <Recent
                                             video = {this.props.video}
-                                            handleVideoSelection = {this.handleVideoSelection}/>
+                                            handleVideoSelection = {this.handleVideoSelection}
+                                            tabName = "Recent" />
                                        </TabContainer>}
             {this.state.value === 8 && <TabContainer>
                                           <Random
                                             videos = {this.props.video}
-                                            handleVideoSelection = {this.handleVideoSelection}/>
+                                            handleVideoSelection = {this.handleVideoSelection}
+                                            tabName = "Random" />
                                        </TabContainer>}
             </Paper>
           </Fade>
