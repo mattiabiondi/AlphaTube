@@ -51,9 +51,10 @@ class Main extends Component {
     }
   }
 
-  push() {
-    if(this.state.video) {
-      window.history.pushState(this.state.video, "", "")
+  push(video) {
+    if(video) {
+      this.state.video=video
+      window.history.pushState(this.state.video, "", ""+this.state.video.id)
     }
   }
 
@@ -90,7 +91,7 @@ class Main extends Component {
     vid.reason = reason
     this.setState({ video: vid })
     //questo assegnamento fa si che lo stato attuale della cronologia corrisponda al video visualizzato
-    this.state.video=vid
+
   }
 
   handleResource(resource) {

@@ -80,7 +80,7 @@ class Recommender extends Component {
 
   handleVideoSelection(video, reason) {
     this.props.handleVideoSelection(video, reason)
-    this.props.push()
+    this.props.push(video)
   }
 
   render() {

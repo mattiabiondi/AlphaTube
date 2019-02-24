@@ -15,6 +15,7 @@ class Demo extends React.Component {
   constructor(props) {
     super(props)
     this.handleVideoSelection = this.handleVideoSelection.bind(this)
+    this.push = this.push.bind(this)
   }
 
   state = {
@@ -31,7 +32,15 @@ class Demo extends React.Component {
 
   handleVideoSelection(video) {
     this.props.handleVideoSelection(video) // Passa il video alla classe sopra
+    this.push(video)
     this.handleClose() // Chiude il dialog dopo aver selezionato il video
+  }
+
+  push(video) {
+    if(video) {
+      this.state.video=video
+      window.history.pushState(this.state.video, "", ""+this.state.video.id)
+    }
   }
 
   render() {
