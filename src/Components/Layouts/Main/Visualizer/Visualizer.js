@@ -35,9 +35,10 @@ class Visualizer extends Component {
   }
 
   componentDidMount() {
-     this.setState(
-       {video: this.props.video},
-     )
+     this.setState({
+       video: this.props.video,
+       wikipedia: ''
+     })
   }
 
   handleResource(resource) {
@@ -124,6 +125,9 @@ class Visualizer extends Component {
     var id = ""
     var title = ""
     var video = null
+
+    var wikipedia = this.state.wikipedia
+
     if(this.state.video) {
       id = this.state.video.id
       title = this.state.video.title
@@ -163,7 +167,7 @@ class Visualizer extends Component {
               id = {id}
               comments = {comments}
               description = {description}
-              wikipedia = {this.state.wikipedia}
+              wikipedia = {wikipedia}
             />
           </Grid>
         </Grid>

@@ -20,6 +20,13 @@ class Wikipedia extends Component {
     this.queryForAbstract = this.queryForAbstract.bind(this)
   }
 
+  componentDidMount() {
+     this.setState({
+       video: '',
+       response: ''
+      })
+  }
+
   componentDidUpdate(prevProps) {
     if (prevProps.wikipedia !== this.props.wikipedia) {
       // this.setState(
@@ -32,10 +39,9 @@ class Wikipedia extends Component {
   }
 
   queryForAbstract(resource) {
-    resource = resource.replace(/ /g,'_')
-    console.log(resource)
+    // resource = resource.replace(/ /g,'_')
     var query = `SELECT ?abstract WHERE {
-                <http://dbpedia.org/resource/` + resource + `> dbo:abstract ?abstract
+                <` + resource + `> dbo:abstract ?abstract
                 FILTER (langMatches(lang(?abstract),'en'))
                 }`
     var url= "http://dbpedia.org/sparql?query=" + encodeURIComponent(query) + "&format=json"
