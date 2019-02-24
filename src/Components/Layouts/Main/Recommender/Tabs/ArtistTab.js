@@ -13,6 +13,7 @@ class Artist extends Component {
     this.handleVideoSelection = this.handleVideoSelection.bind(this)
     this.handleYouTubeSearch = this.handleYouTubeSearch.bind(this)
     this.removeDuplicates = this.removeDuplicates.bind(this)
+    this.handleResult = this.handleResult.bind(this)
   }
 
   componentDidMount() {
@@ -49,21 +50,23 @@ class Artist extends Component {
           chosenNumbers.push(num)
         }
         chosenNumbers = this.removeDuplicates(chosenNumbers)
-          for(var i=0; i<(chosenNumbers.length); i++) {
-          num = chosenNumbers[i]
-          var song = ''
-          var artist = ''
-          if (response.data.results.bindings[num].song.type === "uri") {
-            song = response.data.results.bindings[num].song.value.split('/')[4]
-          }
-          else {
-            song = response.data.results.bindings[num].song.value.split('"')[0]
-          }
-          artist = response.data.results.bindings[num].artist.value.split('/')[4]
-          research.push(song + " " + artist)
+        for(var i=0; i<(chosenNumbers.length); i++) {
+        num = chosenNumbers[i]
+        var song = ''
+        var artist = ''
+        if (response.data.results.bindings[num].song.type === "uri") {
+          song = response.data.results.bindings[num].song.value.split('/')[4]
+        }
+        else {
+          song = response.data.results.bindings[num].song.value.split('"')[0]
+        }
+        artist = response.data.results.bindings[num].artist.value.split('/')[4]
+        research.push(song + " " + artist)
         }
         console.log(research)
-        // this.generateVideoList(research)
+        research.forEach (function(term) {
+          this.handleYouTubeSearch(term)
+        }.bind(this))
       }.bind(this))
       .catch(function (error) {
         console.log(error)
@@ -82,36 +85,25 @@ class Artist extends Component {
   }
 
   handleResult(video) {
-    // for(var key in info) {
-    //     if (info.hasOwnProperty(key)) video[key] = info[key]
-    // }
     this.setState(prevState => ({
       videos: [...prevState.videos, video]
     }))
   }
 
-  handleYouTubeSearch(research) {
+  handleYouTubeSearch(term) {
     var opts = {
       maxResults: 1,
       key: process.env.REACT_APP_YOUTUBE_API_KEY,
       type: "video",
+      videoCategoryId: 10,
     }
-    YouTubeSearch(research, opts, function(err, results) {
-      if(err) {
-        console.log(err)
-      }
-      // console.log("ric: " + research + " ris: " + results[0].title)
-      // console.log(results[0])
-      // this.handleResult(results[0])
-    }.bind(this))
-  }
 
-  generateVideoList(research) {
-    research.map(
-      function(i) {
-        this.handleYouTubeSearch(i)
-      }.bind(this)
-    )
+    YouTubeSearch(term, opts, function(err, results) {
+      if(err)
+        return console.log(err)
+      if(results[0])
+        // this.handleResult(results[0])
+    }.bind(this))
   }
 
   handleVideoSelection(video) {
