@@ -54,7 +54,7 @@ class Main extends Component {
   push(video) {
     if(video) {
       this.state.video=video
-      window.history.pushState(this.state.video, "", ""+this.state.video.id)
+      window.history.pushState(this.state.video, "")
     }
   }
 
