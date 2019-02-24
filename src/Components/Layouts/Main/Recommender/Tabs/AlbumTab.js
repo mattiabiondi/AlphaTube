@@ -53,8 +53,8 @@ class Album extends Component {
           artist = element.artist.value.split('/')[4]
           research.push(song + " " + artist)
         })
-        console.log(research)
-        this.generateVideoList(research)
+        // console.log(research)
+        // this.generateVideoList(research)
       }.bind(this))
       .catch(function (error) {
         console.log(error)

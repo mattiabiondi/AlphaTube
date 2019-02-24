@@ -57,13 +57,13 @@ class Artist extends Component {
             song = response.data.results.bindings[num].song.value.split('/')[4]
           }
           else {
-            song = response.data.results.bindings[num].song.value
+            song = response.data.results.bindings[num].song.value.split('"')[0]
           }
           artist = response.data.results.bindings[num].artist.value.split('/')[4]
           research.push(song + " " + artist)
         }
         console.log(research)
-        this.generateVideoList(research)
+        // this.generateVideoList(research)
       }.bind(this))
       .catch(function (error) {
         console.log(error)
@@ -100,6 +100,7 @@ class Artist extends Component {
       if(err) {
         console.log(err)
       }
+      // console.log("ric: " + research + " ris: " + results[0].title)
       // console.log(results[0])
       // this.handleResult(results[0])
     }.bind(this))

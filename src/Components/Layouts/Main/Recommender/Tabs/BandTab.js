@@ -30,31 +30,45 @@ class Band extends Component {
   getVideos() {
     var research = []
     if(this.props.resource) {
-      var query = `SELECT DISTINCT ?artist ?song WHERE {
-                  {<` + this.props.resource + `> dbo:artist ?artist.}
+      var query = `SELECT DISTINCT ?song ?artist WHERE {
+                  {<` + this.props.resource + `> dbo:artist ?videoartist.}
                   UNION
-                  {<` + this.props.resource + `> dbo:musicalArtist ?artist.}
+                  {<` + this.props.resource + `> dbo:musicalArtist ?videoartist.}
+                  FILTER EXISTS {
+                  ?videoartist rdf:type dbo:Band.
+                  }
+                  {?videoartist dbo:associatedMusicalArtist ?artist.}
+                  UNION
+                  {?videoartist dbo:associatedBand ?artist.}
                   ?work dbo:artist ?artist.
                   ?work dbp:title ?song.
-                }LIMIT 20`
+                }`
       var url= "http://dbpedia.org/sparql?query=" + encodeURIComponent(query) + "&format=json"
       axios.get(url)
       .then(function (response) {
-        // console.dir(response.data.results.bindings)
-        response.data.results.bindings.forEach(function(element) {
+        var chosenNumbers = []
+        var videosToShow = 20
+        if(videosToShow>response.data.results.bindings.length) videosToShow=response.data.results.bindings.length
+        for(var i=0;i<(videosToShow*3);i++) {
+          var num = Math.floor((Math.random() * (response.data.results.bindings.length-1)))
+          chosenNumbers.push(num)
+        }
+        chosenNumbers = this.removeDuplicates(chosenNumbers)
+          for(var i=0; i<(chosenNumbers.length); i++) {
+          num = chosenNumbers[i]
           var song = ''
           var artist = ''
-          if (element.song.type === "uri") {
-            song = element.song.value.split('/')[4]
+          if (response.data.results.bindings[num].song.type === "uri") {
+            song = response.data.results.bindings[num].song.value.split('/')[4]
           }
           else {
-            song = element.song.value
+            song = response.data.results.bindings[num].song.value.split('"')[0]
           }
-          artist = element.artist.value.split('/')[4]
+          artist = response.data.results.bindings[num].artist.value.split('/')[4]
           research.push(song + " " + artist)
-        })
+        }
         console.log(research)
-        this.generateVideoList(research)
+        // this.generateVideoList(research)
       }.bind(this))
       .catch(function (error) {
         console.log(error)
@@ -91,7 +105,7 @@ class Band extends Component {
       if(err) {
         console.log(err)
       }
-      console.log(results[0])
+      // console.log("ric: " + research + " ris: " + results[0].title)
       // this.handleResult(results[0])
     }.bind(this))
   }
