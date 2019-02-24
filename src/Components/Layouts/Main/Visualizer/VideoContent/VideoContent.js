@@ -65,7 +65,6 @@ class VideoContent extends Component {
 
   render() {
     const { classes } = this.props
-
     return (
       <Fade in={this.state.checked}>
         <Paper className={classes.root}>

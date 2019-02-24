@@ -11,7 +11,9 @@ class Album extends Component {
       videos: []
     }
     this.handleVideoSelection = this.handleVideoSelection.bind(this)
+    this.handleYouTubeSearch = this.handleYouTubeSearch.bind(this)
     this.removeDuplicates = this.removeDuplicates.bind(this)
+    this.handleResult = this.handleResult.bind(this)
   }
 
   componentDidMount() {
@@ -19,7 +21,7 @@ class Album extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (prevProps.resource !== this.props.recource) {
+    if (prevProps.resource !== this.props.resource) {
       this.setState({
         videos: []
       })
@@ -29,33 +31,46 @@ class Album extends Component {
 
   getVideos() {
     var research = []
-    if(this.props.resource) {
+    if(this.props.resource) { //da riguardare, differenza se risorsa é canzone o album
       var query = `SELECT DISTINCT ?artist ?song WHERE {
                   {<` + this.props.resource + `> dbo:artist ?artist.}
                   UNION
                   {<` + this.props.resource + `> dbo:musicalArtist ?artist.}
-                  ?work dbo:artist ?artist.
-                  ?work dbp:title ?song.
-                }LIMIT 20`
+
+                  <` + this.props.resource + `> dbp:title ?song.
+                  ?album dbp:title <` + this.props.resource + `>.
+                  ?album dbp:title ?song
+                }`
+                console.log(query)
       var url= "http://dbpedia.org/sparql?query=" + encodeURIComponent(query) + "&format=json"
       axios.get(url)
       .then(function (response) {
-        // console.dir(response.data.results.bindings)
-        response.data.results.bindings.forEach(function(element) {
-          var song = ''
-          var artist = ''
-          if (element.song.type === "uri") {
-            song = element.song.value.split('/')[4]
-          }
-          else {
-            song = element.song.value
-          }
-          artist = element.artist.value.split('/')[4]
-          research.push(song + " " + artist)
-        })
-        // console.log(research)
-        // this.generateVideoList(research)
-      })
+        var chosenNumbers = []
+        var videosToShow = 20
+        if(videosToShow>response.data.results.bindings.length) videosToShow=response.data.results.bindings.length
+        for(var i=0;i<(videosToShow*3);i++) {
+          var num = Math.floor((Math.random() * (response.data.results.bindings.length-1)))
+          chosenNumbers.push(num)
+        }
+        chosenNumbers = this.removeDuplicates(chosenNumbers)
+        for(i=0; i<(chosenNumbers.length); i++) {
+        num = chosenNumbers[i]
+        var song = ''
+        var artist = ''
+        if (response.data.results.bindings[num].song.type === "uri") {
+          song = response.data.results.bindings[num].song.value.split('/')[4]
+        }
+        else {
+          song = response.data.results.bindings[num].song.value.split('"')[0]
+        }
+        artist = response.data.results.bindings[num].artist.value.split('/')[4]
+        research.push(song + " " + artist)
+        }
+        //console.log(research)
+        research.forEach (function(term) {
+          this.handleYouTubeSearch(term)
+        }.bind(this))
+      }.bind(this))
       .catch(function (error) {
         console.log(error)
       })
@@ -73,35 +88,23 @@ class Album extends Component {
   }
 
   handleResult(video) {
-    // for(var key in info) {
-    //     if (info.hasOwnProperty(key)) video[key] = info[key]
-    // }
     this.setState(prevState => ({
       videos: [...prevState.videos, video]
     }))
   }
 
-  handleYouTubeSearch(research) {
+  handleYouTubeSearch(term) {
     var opts = {
       maxResults: 1,
       key: process.env.REACT_APP_YOUTUBE_API_KEY,
       type: "video",
+      videoCategoryId: 10,
     }
-    YouTubeSearch(research, opts, function(err, results) {
-      if(err) {
-        console.log(err)
-      }
-      console.log(results[0])
-      // this.handleResult(results[0])
-    }.bind(this))
-  }
 
-  generateVideoList(research) {
-    research.map(
-      function(i) {
-        this.handleYouTubeSearch(i)
-      }.bind(this)
-    )
+    YouTubeSearch(term, opts, function(err, results) {
+      if(err) return console.log(err)
+      if(results[0]) this.handleResult(results[0])
+    }.bind(this))
   }
 
   handleVideoSelection(video) {
@@ -109,8 +112,9 @@ class Album extends Component {
   }
 
   render() {
+    // console.log(this.props.resource)
     var videos = null
-    if(this.state.videos.lenght > 0) {
+    if(this.state.videos.length > 0) {
       videos = this.state.videos
     }
 

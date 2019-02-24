@@ -22,29 +22,31 @@ class Wikipedia extends Component {
 
   componentDidMount() {
      this.setState({
-       video: '',
+       wikipedia: '',
        response: ''
       })
   }
 
   componentDidUpdate(prevProps) {
     if (prevProps.wikipedia !== this.props.wikipedia) {
-      // this.setState(
-      //   {
-      //     wikipedia: this.props.wikipedia
-      //   }
-      // )
+      this.setState(
+        {
+          wikipedia: this.props.wikipedia,
+          response:''
+        }
+      )
       this.queryForAbstract(this.props.wikipedia)
     }
   }
 
   queryForAbstract(resource) {
-    // resource = resource.replace(/ /g,'_')
     var query = `SELECT ?abstract WHERE {
-                <` + resource + `> dbo:abstract ?abstract
+                ?res rdfs:label "` + resource + `"@en.
+                ?res dbo:abstract ?abstract.
                 FILTER (langMatches(lang(?abstract),'en'))
                 }`
     var url= "http://dbpedia.org/sparql?query=" + encodeURIComponent(query) + "&format=json"
+    console.log(resource)
     if(resource){
       axios.get(url)
       .then(function (response) {
@@ -57,7 +59,11 @@ class Wikipedia extends Component {
       }.bind(this))
       .catch(function (error) {
         console.log(error)
+        this.setState ({ response: '' })
       })
+    }
+    else {
+      this.setState ({ response: 'DBPedia resource not found' })
     }
   }
 

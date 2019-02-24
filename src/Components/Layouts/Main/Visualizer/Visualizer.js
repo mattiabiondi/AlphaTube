@@ -45,8 +45,8 @@ class Visualizer extends Component {
     this.props.handleResource(resource)
   }
 
-  handleWiki(resource) {
-    this.setState({wikipedia: resource})
+  handleWiki(label) {
+    this.setState({wikipedia: label})
   }
 
   componentDidUpdate(prevProps) {
@@ -55,7 +55,8 @@ class Visualizer extends Component {
         {
           video: this.props.video,
           info: null,
-          comments: null
+          comments: null,
+          wikipedia:''
         }
       )
       this.getVideoInfo()

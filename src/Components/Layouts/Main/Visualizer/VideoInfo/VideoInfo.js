@@ -58,13 +58,19 @@ class VideoInfo extends Component {
 
   handleResource(resource) {
     this.props.handleResource(resource)
-    this.props.handleWiki(resource)
+  }
+
+  handleWiki(label) {
+    this.props.handleWiki(label)
   }
 
   update1(resource) {
     //update delle info usato se esiste la risorsa dbpedia della canzone
-    var query = `SELECT DISTINCT ?abstract ?artist_label ?album_label ?date ?genre_label
+    var query = `SELECT DISTINCT ?song_label ?abstract ?artist_label ?album_label ?date ?genre_label
                 WHERE {
+                  <` + resource + `> rdfs:label ?song_label.
+                  FILTER (langMatches(lang(?song_label),'en'))
+
                   <` + resource + `> dbo:abstract ?abstract.
                   FILTER (langMatches(lang(?abstract),'en'))
 
@@ -77,7 +83,8 @@ class VideoInfo extends Component {
                   FILTER (langMatches(lang(?artist_label),'en'))
 
                   <` + resource + `> dbo:album ?album.
-                  ?album dbp:thisAlbum ?album_label
+                  ?album rdfs:label ?album_label.
+                  FILTER (langMatches(lang(?album_label),'en'))
 
                   {<` + resource + `> dbo:releaseDate ?date.}
                   UNION
@@ -88,36 +95,25 @@ class VideoInfo extends Component {
                   FILTER (langMatches(lang(?genre_label),'en'))
                 }`
     var url= "http://dbpedia.org/sparql?query=" + encodeURIComponent(query) + "&format=json"
-    console.log(url)
     axios.get(url)
     .then(function (response) {
-      // console.log(response.data.results.bindings)
-      resource = resource.split('/')[4]
+      var song = response.data.results.bindings[0].song_label.value
       var abstract = response.data.results.bindings[0].abstract.value
       var artist = response.data.results.bindings[0].artist_label.value
-      // artist = artist.split('/')[4]
-      // artist = artist.replace('_',' ')
       var album = response.data.results.bindings[0].album_label.value
-      // album = album.split('/')[4]
-      // album = album.replace('_',' ')
       var date = response.data.results.bindings[0].date.value
       var genre1 = response.data.results.bindings[0].genre_label.value
-      // genre1 = genre1.split('/')[4]
       var genre2 = ''
       var genre3 = ''
       var genre4 = ''
       if (response.data.results.bindings.length >= 2) genre2 = response.data.results.bindings[1].genre_label.value
-      // genre2 = genre2.split('/')[4]
       if (response.data.results.bindings.length >= 3) genre3 = response.data.results.bindings[2].genre_label.value
-      // genre3 = genre3.split('/')[4]
       if (response.data.results.bindings.length >= 4) genre4 = response.data.results.bindings[3].genre_label.value
-      // genre4 = genre4.split('/')[4]
-      // genre = genre.replace('_',' ')
       if(genre2 === genre1) genre2 = ''
       if((genre3 === genre2) || (genre3 === genre1)) genre3 = ''
       if((genre4 === genre3) || (genre4 === genre2) || (genre4 === genre1)) genre4 = ''
       this.setState({
-        song: resource,
+        song: song,
         abstract: abstract,
         artist: artist,
         album: album,
@@ -127,6 +123,7 @@ class VideoInfo extends Component {
         genre3: genre3,
         genre4: genre4,
       })
+      this.handleWiki(song)
     }.bind(this))
     .catch(function (error) {
       console.log(error)
@@ -148,7 +145,8 @@ class VideoInfo extends Component {
                   ?artist rdfs:label ?artist_label.
                   FILTER (langMatches(lang(?artist_label),'en'))
 
-                  <` + resource + `> dbp:thisAlbum ?album_label.
+                  <` + resource + `> rdfs:label ?album_label.
+                  FILTER (langMatches(lang(?album_label),'en'))
 
                   {<` + resource + `> dbo:releaseDate ?date.}
                   UNION
@@ -159,33 +157,22 @@ class VideoInfo extends Component {
                   FILTER (langMatches(lang(?genre_label),'en'))
                   }`
     var url= "http://dbpedia.org/sparql?query=" + encodeURIComponent(query) + "&format=json"
-    console.log(url)
     axios.get(url)
     .then(function (response) {
-      // console.dir(response.data.results)
       var abstract = response.data.results.bindings[0].abstract.value
       var artist = response.data.results.bindings[0].artist_label.value
-      // artist = artist.split('/')[4]
-      // artist = artist.replace('_',' ')
       var album = response.data.results.bindings[0].album_label.value
       var date = response.data.results.bindings[0].date.value
       var genre1 = response.data.results.bindings[0].genre_label.value
-      // genre1 = genre1.split('/')[4]
       var genre2 = ''
       var genre3 = ''
       var genre4 = ''
       if (response.data.results.bindings.length >= 2) genre2 = response.data.results.bindings[1].genre_label.value
-      // genre2 = genre2.split('/')[4]
       if (response.data.results.bindings.length >= 3) genre3 = response.data.results.bindings[2].genre_label.value
-      // genre3 = genre3.split('/')[4]
       if (response.data.results.bindings.length >= 4) genre4 = response.data.results.bindings[3].genre_label.value
-      // genre4 = genre4.split('/')[4]
-      // genre = genre.replace('_',' ')
       if(genre2 === genre1) genre2 = ''
       if((genre3 === genre2) || (genre3 === genre1)) genre3 = ''
       if((genre4 === genre3) || (genre4 === genre2) || (genre4 === genre1)) genre4 = ''
-      // genre = genre.replace('_',' ')
-      //to do: piú generi insieme
       this.setState({
         abstract: abstract,
         artist: artist,
@@ -196,6 +183,7 @@ class VideoInfo extends Component {
         genre3: genre3,
         genre4: genre4,
       })
+      this.handleWiki(album)
     }.bind(this))
     .catch(function (error) {
       console.log(error)
@@ -373,7 +361,8 @@ class VideoInfo extends Component {
           genre4: '',
           tags: null
         })
-        this.handleResource('')
+        this.handleResource('http://dbpedia.org/resource/'+song)
+        this.handleWiki('')
       }
     }.bind(this))
     .catch(function (error) {
