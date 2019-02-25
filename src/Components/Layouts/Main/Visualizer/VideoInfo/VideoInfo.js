@@ -97,32 +97,34 @@ class VideoInfo extends Component {
     var url= "http://dbpedia.org/sparql?query=" + encodeURIComponent(query) + "&format=json"
     axios.get(url)
     .then(function (response) {
-      var song = response.data.results.bindings[0].song_label.value
-      var abstract = response.data.results.bindings[0].abstract.value
-      var artist = response.data.results.bindings[0].artist_label.value
-      var album = response.data.results.bindings[0].album_label.value
-      var date = response.data.results.bindings[0].date.value
-      var genre1 = response.data.results.bindings[0].genre_label.value
-      var genre2 = ''
-      var genre3 = ''
-      var genre4 = ''
-      if (response.data.results.bindings.length >= 2) genre2 = response.data.results.bindings[1].genre_label.value
-      if (response.data.results.bindings.length >= 3) genre3 = response.data.results.bindings[2].genre_label.value
-      if (response.data.results.bindings.length >= 4) genre4 = response.data.results.bindings[3].genre_label.value
-      if(genre2 === genre1) genre2 = ''
-      if((genre3 === genre2) || (genre3 === genre1)) genre3 = ''
-      if((genre4 === genre3) || (genre4 === genre2) || (genre4 === genre1)) genre4 = ''
-      this.setState({
-        song: song,
-        abstract: abstract,
-        artist: artist,
-        album: album,
-        date: date,
-        genre1: genre1,
-        genre2: genre2,
-        genre3: genre3,
-        genre4: genre4,
-      })
+      if(response.data.results.bindings.length){
+        var song = response.data.results.bindings[0].song_label.value
+        var abstract = response.data.results.bindings[0].abstract.value
+        var artist = response.data.results.bindings[0].artist_label.value
+        var album = response.data.results.bindings[0].album_label.value
+        var date = response.data.results.bindings[0].date.value
+        var genre1 = response.data.results.bindings[0].genre_label.value
+        var genre2 = ''
+        var genre3 = ''
+        var genre4 = ''
+        if (response.data.results.bindings.length >= 2) genre2 = response.data.results.bindings[1].genre_label.value
+        if (response.data.results.bindings.length >= 3) genre3 = response.data.results.bindings[2].genre_label.value
+        if (response.data.results.bindings.length >= 4) genre4 = response.data.results.bindings[3].genre_label.value
+        if(genre2 === genre1) genre2 = ''
+        if((genre3 === genre2) || (genre3 === genre1)) genre3 = ''
+        if((genre4 === genre3) || (genre4 === genre2) || (genre4 === genre1)) genre4 = ''
+        this.setState({
+          song: song,
+          abstract: abstract,
+          artist: artist,
+          album: album,
+          date: date,
+          genre1: genre1,
+          genre2: genre2,
+          genre3: genre3,
+          genre4: genre4,
+        })
+      }
       // this.handleWiki(song)
     }.bind(this))
     .catch(function (error) {
@@ -159,30 +161,32 @@ class VideoInfo extends Component {
     var url= "http://dbpedia.org/sparql?query=" + encodeURIComponent(query) + "&format=json"
     axios.get(url)
     .then(function (response) {
-      var abstract = response.data.results.bindings[0].abstract.value
-      var artist = response.data.results.bindings[0].artist_label.value
-      var album = response.data.results.bindings[0].album_label.value
-      var date = response.data.results.bindings[0].date.value
-      var genre1 = response.data.results.bindings[0].genre_label.value
-      var genre2 = ''
-      var genre3 = ''
-      var genre4 = ''
-      if (response.data.results.bindings.length >= 2) genre2 = response.data.results.bindings[1].genre_label.value
-      if (response.data.results.bindings.length >= 3) genre3 = response.data.results.bindings[2].genre_label.value
-      if (response.data.results.bindings.length >= 4) genre4 = response.data.results.bindings[3].genre_label.value
-      if(genre2 === genre1) genre2 = ''
-      if((genre3 === genre2) || (genre3 === genre1)) genre3 = ''
-      if((genre4 === genre3) || (genre4 === genre2) || (genre4 === genre1)) genre4 = ''
-      this.setState({
-        abstract: abstract,
-        artist: artist,
-        album: album,
-        date: date,
-        genre1: genre1,
-        genre2: genre2,
-        genre3: genre3,
-        genre4: genre4,
-      })
+      if(response.data.results.bindings.length){
+        var abstract = response.data.results.bindings[0].abstract.value
+        var artist = response.data.results.bindings[0].artist_label.value
+        var album = response.data.results.bindings[0].album_label.value
+        var date = response.data.results.bindings[0].date.value
+        var genre1 = response.data.results.bindings[0].genre_label.value
+        var genre2 = ''
+        var genre3 = ''
+        var genre4 = ''
+        if (response.data.results.bindings.length >= 2) genre2 = response.data.results.bindings[1].genre_label.value
+        if (response.data.results.bindings.length >= 3) genre3 = response.data.results.bindings[2].genre_label.value
+        if (response.data.results.bindings.length >= 4) genre4 = response.data.results.bindings[3].genre_label.value
+        if(genre2 === genre1) genre2 = ''
+        if((genre3 === genre2) || (genre3 === genre1)) genre3 = ''
+        if((genre4 === genre3) || (genre4 === genre2) || (genre4 === genre1)) genre4 = ''
+        this.setState({
+          abstract: abstract,
+          artist: artist,
+          album: album,
+          date: date,
+          genre1: genre1,
+          genre2: genre2,
+          genre3: genre3,
+          genre4: genre4,
+        })
+      }
       // this.handleWiki(album)
     }.bind(this))
     .catch(function (error) {
@@ -217,7 +221,6 @@ class VideoInfo extends Component {
         this.query2()
       }
       else {
-        console.log('parse nullo')
         this.setState({
           abstract: '',
           song: '',
@@ -239,40 +242,6 @@ class VideoInfo extends Component {
       })
   }
 
-  query1() { //problematica: alla fine non la utilizzo
-    var song = this.state.song
-    song = song.replace(/ /g,'_')
-    var query = `SELECT DISTINCT ?song   WHERE {
-                  ?song rdf:type dbo:MusicalWork.
-                  FILTER regex(str(?song), "` + song + `", "i").
-                  FILTER NOT EXISTS {
-                  ?song rdf:type dbo:Album
-                  }
-                  }`
-    var url= "http://dbpedia.org/sparql?query=" + encodeURIComponent(query) + "&format=json"
-    axios.get(url)
-    .then(function (response) {
-      if (response.data.results.bindings.length === 0) {
-        //non esiste la risorsa dbpedia della canzone, passare alla ricerca artista e album
-        this.query3()
-      }
-      if (response.data.results.bindings.length === 1) {
-        //ho trovato la risorsa dbpedia della canzone
-        //TO DO: é ancora possibile che la risorsa trovata sia una canzone di un altro artista con lo stesso titolo
-        // console.log(response.data.results.bindings[0].song.value)
-        this.update1(response.data.results.bindings[0].song.value)
-      }
-      if (response.data.results.bindings.length > 1) {
-        //esistono piú canzoni che condividono il titolo, controllo quale fra queste ha come artista quello giusto
-        this.query2()
-      }
-
-    }.bind(this))
-    .catch(function (error) {
-      console.log(error)
-    })
-  }
-
   query2() {
     var song = this.state.song
     song = song.replace(/ /g,'_')
@@ -289,7 +258,6 @@ class VideoInfo extends Component {
                 }
                 }`
     var url= "http://dbpedia.org/sparql?query=" + encodeURIComponent(query) + "&format=json"
-    console.log('q2')
     axios.get(url)
     .then(function (response) {
       if(response.data.results.bindings.length !== 0){
@@ -304,10 +272,6 @@ class VideoInfo extends Component {
     .catch(function (error) {
       console.log(error)
     })
-  }
-
-  handleWiki(resource) {
-    this.props.handleWiki(resource)
   }
 
   query3() {
@@ -335,7 +299,6 @@ class VideoInfo extends Component {
                 }
                 }`
     var url= "http://dbpedia.org/sparql?query=" + encodeURIComponent(query) + "&format=json"
-    console.log('q3')
     axios.get(url)
     .then(function (response) {
       // console.dir(response.data.results.bindings)
@@ -343,7 +306,7 @@ class VideoInfo extends Component {
         this.handleResource(response.data.results.bindings[0].album.value)
         this.update2(response.data.results.bindings[0].album.value)
       }
-      else {
+      else{
         this.setState({
           abstract: '',
           album: '',
@@ -354,7 +317,8 @@ class VideoInfo extends Component {
           genre4: '',
           tags: null
         })
-        this.handleResource('http://dbpedia.org/resource/'+song)
+        song= song.replace(/ /g,'_')
+        this.handleResource("http://dbpedia.org/resource/"+song)
         // this.handleWiki('')
       }
     }.bind(this))

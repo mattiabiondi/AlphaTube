@@ -48,31 +48,33 @@ class Band extends Component {
       var url= "http://dbpedia.org/sparql?query=" + encodeURIComponent(query) + "&format=json"
       axios.get(url)
       .then(function (response) {
-        var chosenNumbers = []
-        var videosToShow = 20
-        if(videosToShow>response.data.results.bindings.length) videosToShow=response.data.results.bindings.length
-        for(var i=0;i<(videosToShow*3);i++) {
-          var num = Math.floor((Math.random() * (response.data.results.bindings.length-1)))
-          chosenNumbers.push(num)
-        }
-        chosenNumbers = this.removeDuplicates(chosenNumbers)
-        for(i=0; i<(chosenNumbers.length); i++) {
-          num = chosenNumbers[i]
-          var song = ''
-          var artist = ''
-          if (response.data.results.bindings[num].song.type === "uri") {
-            song = response.data.results.bindings[num].song.value.split('/')[4]
+        if(response.data.results.bindings.length) {
+          var chosenNumbers = []
+          var videosToShow = 20
+          if(videosToShow>response.data.results.bindings.length) videosToShow=response.data.results.bindings.length
+          for(var i=0;i<(videosToShow*3);i++) {
+            var num = Math.floor((Math.random() * (response.data.results.bindings.length-1)))
+            chosenNumbers.push(num)
           }
-          else {
-            song = response.data.results.bindings[num].song.value.split('"')[0]
+          chosenNumbers = this.removeDuplicates(chosenNumbers)
+          for(i=0; i<(chosenNumbers.length); i++) {
+            num = chosenNumbers[i]
+            var song = ''
+            var artist = ''
+            if (response.data.results.bindings[num].song.type === "uri") {
+              song = response.data.results.bindings[num].song.value.split('/')[4]
+            }
+            else {
+              song = response.data.results.bindings[num].song.value.split('"')[0]
+            }
+            artist = response.data.results.bindings[num].artist.value.split('/')[4]
+            research.push(song + " " + artist)
           }
-          artist = response.data.results.bindings[num].artist.value.split('/')[4]
-          research.push(song + " " + artist)
+          //console.log(research)
+          research.forEach (function(term) {
+            this.handleYouTubeSearch(term)
+          }.bind(this))
         }
-        //console.log(research)
-        research.forEach (function(term) {
-          this.handleYouTubeSearch(term)
-        }.bind(this))
       }.bind(this))
       .catch(function (error) {
         console.log(error)
