@@ -123,7 +123,7 @@ class VideoInfo extends Component {
         genre3: genre3,
         genre4: genre4,
       })
-      this.handleWiki(song)
+      // this.handleWiki(song)
     }.bind(this))
     .catch(function (error) {
       console.log(error)
@@ -183,7 +183,7 @@ class VideoInfo extends Component {
         genre3: genre3,
         genre4: genre4,
       })
-      this.handleWiki(album)
+      // this.handleWiki(album)
     }.bind(this))
     .catch(function (error) {
       console.log(error)
@@ -217,6 +217,7 @@ class VideoInfo extends Component {
         this.query2()
       }
       else {
+        console.log('parse nullo')
         this.setState({
           abstract: '',
           song: '',
@@ -288,6 +289,7 @@ class VideoInfo extends Component {
                 }
                 }`
     var url= "http://dbpedia.org/sparql?query=" + encodeURIComponent(query) + "&format=json"
+    console.log('q2')
     axios.get(url)
     .then(function (response) {
       if(response.data.results.bindings.length !== 0){
@@ -333,6 +335,7 @@ class VideoInfo extends Component {
                 }
                 }`
     var url= "http://dbpedia.org/sparql?query=" + encodeURIComponent(query) + "&format=json"
+    console.log('q3')
     axios.get(url)
     .then(function (response) {
       // console.dir(response.data.results.bindings)
@@ -343,8 +346,6 @@ class VideoInfo extends Component {
       else {
         this.setState({
           abstract: '',
-          song: song,
-          artist: artist,
           album: '',
           date: '',
           genre1: '',
@@ -354,7 +355,7 @@ class VideoInfo extends Component {
           tags: null
         })
         this.handleResource('http://dbpedia.org/resource/'+song)
-        this.handleWiki('')
+        // this.handleWiki('')
       }
     }.bind(this))
     .catch(function (error) {

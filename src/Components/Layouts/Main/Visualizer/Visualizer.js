@@ -37,7 +37,6 @@ class Visualizer extends Component {
   componentDidMount() {
      this.setState({
        video: this.props.video,
-       wikipedia: ''
      })
   }
 
@@ -55,8 +54,7 @@ class Visualizer extends Component {
         {
           video: this.props.video,
           info: null,
-          comments: null,
-          wikipedia:''
+          comments: null
         }
       )
       this.getVideoInfo()

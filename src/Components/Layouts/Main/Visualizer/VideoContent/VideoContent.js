@@ -46,7 +46,8 @@ class VideoContent extends Component {
     if (prevProps.id !== this.props.id) {
       this.setState(
         {
-          checked: true
+          checked: true,
+          value: 0
         }
       )
    }

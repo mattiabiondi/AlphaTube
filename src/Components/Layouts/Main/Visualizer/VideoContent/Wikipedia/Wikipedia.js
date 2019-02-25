@@ -22,8 +22,7 @@ class Wikipedia extends Component {
 
   componentDidMount() {
      this.setState({
-       wikipedia: '',
-       response: ''
+       wikipedia: ''
       })
   }
 
@@ -31,8 +30,7 @@ class Wikipedia extends Component {
     if (prevProps.wikipedia !== this.props.wikipedia) {
       this.setState(
         {
-          wikipedia: this.props.wikipedia,
-          response:''
+          wikipedia: this.props.wikipedia
         }
       )
       this.queryForAbstract(this.props.wikipedia)
@@ -53,12 +51,12 @@ class Wikipedia extends Component {
           this.setState ({ response: response.data.results.bindings[0].abstract.value })
         }
         else {
-          this.setState ({ response: '' })
+          this.setState ({ response: 'DBPedia resource not found' })
         }
       }.bind(this))
       .catch(function (error) {
         console.log(error)
-        this.setState ({ response: '' })
+        this.setState ({ response: 'DBPedia resource not found' })
       })
     }
     else {
