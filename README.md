@@ -1,2 +1,2 @@
 # AlphaTube
-Sistema di raccomandazioni per YouTube
+Web-related Technologies Project: YouTube recommendation system.
